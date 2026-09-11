@@ -226,10 +226,10 @@ const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbxHNqfVkTu9onyX
 let GAS_API_URL = localStorage.getItem('GAS_API_URL') || DEFAULT_GAS_URL;
 
 const MOCK_DATA = [
-  { ID_INFORMASI: "INFO-001", NAMA_DOKTER: "dr. H. Ahmad Fauzi, Sp.A", POLI: "Poli Anak & Tumbuh Kembang", JENIS_INFORMASI: "DOKTER_IZIN", STATUS_HARI_INI: "HARI_INI", TGL_MULAI: new Date().toISOString().split('T')[0], TGL_SELESAI: new Date().toISOString().split('T')[0], IZIN_SAMPAI_INFO: "TIDAK", SESI: "SEMUA", DETAIL_KEMBALI: [{ TANGGAL: new Date().toISOString().split('T')[0], SESI_KET: "Sesi Pagi (08:00 WIB)" }], KETERANGAN: "Seminar Ilmiah Ikatan Dokter Anak Indonesia", INPUT_OLEH: "Ns. Sarah Rahmadani, S.Kep" },
-  { ID_INFORMASI: "INFO-002", NAMA_DOKTER: "dr. Ratna Wulandari, Sp.PD", POLI: "Poli Penyakit Dalam", JENIS_INFORMASI: "PERUBAHAN_JAM_PRAKTEK", STATUS_HARI_INI: "HARI_INI", TGL_MULAI: new Date().toISOString().split('T')[0], JAM_MULAI: "13:30", JAM_SELESAI: "17:00", KETERANGAN: "Pemeriksaan Poli dialihkan ke sesi siang hari", INPUT_OLEH: "Ns. Budi Santoso" },
-  { ID_INFORMASI: "INFO-003", NAMA_DOKTER: "dr. Hendra Wijaya, Sp.B", POLI: "Poli Bedah Umum", JENIS_INFORMASI: "DOKTER_IZIN", STATUS_HARI_INI: "AKAN_DATANG", TGL_MULAI: "2026-09-15", TGL_SELESAI: "2026-09-17", IZIN_SAMPAI_INFO: "TIDAK", SESI: "SEMUA", DETAIL_KEMBALI: [{ TANGGAL: "2026-09-18", SESI_KET: "Sesi Pagi" }], KETERANGAN: "Jadwal Operasi Khusus & Cuti Berkala", INPUT_OLEH: "Ns. Dian Permata" },
-  { ID_INFORMASI: "INFO-004", NAMA_DOKTER: "drg. Maya Indrawati, Sp.KG", POLI: "Poli Konservasi Gigi", JENIS_INFORMASI: "PERUBAHAN_KUOTA", STATUS_HARI_INI: "AKAN_DATANG", TGL_MULAI: "2026-09-16", KUOTA: "15", KETERANGAN: "Penyesuaian kuota karena kalibrasi alat dental", INPUT_OLEH: "Ns. Rina Melati" }
+  { ID_INFORMASI: "INFO-DEMO-001", NAMA_DOKTER: "DR. HIDAYAT, SP.B", POLI: "POLI BEDAH", JENIS_INFORMASI: "DOKTER_IZIN", STATUS_HARI_INI: "HARI_INI", TGL_MULAI: new Date().toISOString().split('T')[0], TGL_SELESAI: new Date().toISOString().split('T')[0], IZIN_SAMPAI_INFO: "TIDAK", SESI: "SEMUA", DETAIL_KEMBALI: [{ TANGGAL: new Date().toISOString().split('T')[0], SESI_KET: "" }], KETERANGAN: "Contoh data demo (offline)", INPUT_OLEH: "PERAWAT" },
+  { ID_INFORMASI: "INFO-DEMO-002", NAMA_DOKTER: "DR. DEWI MAHARNI, SP.KJ", POLI: "POLI JIWA", JENIS_INFORMASI: "PERUBAHAN_JAM_PRAKTEK", STATUS_HARI_INI: "HARI_INI", TGL_MULAI: new Date().toISOString().split('T')[0], JAM_MULAI: "13:30", JAM_SELESAI: "17:00", KETERANGAN: "Contoh data demo (offline)", INPUT_OLEH: "PERAWAT" },
+  { ID_INFORMASI: "INFO-DEMO-003", NAMA_DOKTER: "DR. SUHARDI, SP.JP, FIHA", POLI: "POLI JANTUNG", JENIS_INFORMASI: "DOKTER_IZIN", STATUS_HARI_INI: "AKAN_DATANG", TGL_MULAI: "2026-09-19", TGL_SELESAI: "2026-09-20", IZIN_SAMPAI_INFO: "TIDAK", SESI: "SEMUA", DETAIL_KEMBALI: [{ TANGGAL: "2026-09-21", SESI_KET: "" }], KETERANGAN: "Contoh data demo (offline)", INPUT_OLEH: "PERAWAT" },
+  { ID_INFORMASI: "INFO-DEMO-004", NAMA_DOKTER: "DR. RETNANINGRUM, SP.M", POLI: "POLI MATA", JENIS_INFORMASI: "PERUBAHAN_KUOTA", STATUS_HARI_INI: "AKAN_DATANG", TGL_MULAI: "2026-09-16", KUOTA: "15", KETERANGAN: "Contoh data demo (offline)", INPUT_OLEH: "PERAWAT" }
 ];
 
 let ALL_DATA = MOCK_DATA;
@@ -241,10 +241,22 @@ document.addEventListener('DOMContentLoaded', () => {
   setupThemeSwitcher();
   setupFilters();
   setupApiModal();
+
+  // Muat data terakhir yang tersimpan di perangkat ini (kalau ada) sebagai
+  // tampilan awal sebelum fetchData() selesai / kalau ternyata offline.
+  try {
+    const cached = localStorage.getItem('CACHE_DASHBOARD_DATA');
+    if (cached) ALL_DATA = JSON.parse(cached);
+  } catch (e) { /* abaikan cache yang rusak */ }
+
   updateStats();
   applyAndRender();
   fetchData();
   setInterval(fetchData, 60000);
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  }
 });
 
 async function fetchData() {
@@ -269,6 +281,7 @@ async function fetchData() {
 
     if (json && Array.isArray(json.data)) {
       ALL_DATA = json.data;
+      try { localStorage.setItem('CACHE_DASHBOARD_DATA', JSON.stringify(json.data)); } catch (e) {}
       updateStats();
       applyAndRender();
       if (txt) txt.textContent = 'LIVE TERHUBUNG';
@@ -279,9 +292,15 @@ async function fetchData() {
     }
   } catch (e) {
     console.warn('Gagal memuat API GAS, beralih ke cache/demo:', e);
-    if (txt) txt.textContent = 'OFFLINE (CACHE/DEMO)';
+    if (txt) txt.textContent = 'OFFLINE (DATA TERAKHIR)';
     if (dot) dot.className = 'w-2 h-2 rounded-full bg-rose-400';
-    if (banner) banner.classList.remove('hidden');
+    if (banner) {
+      document.getElementById('cache-banner-text').textContent =
+        (ALL_DATA && ALL_DATA !== MOCK_DATA)
+          ? 'Tidak ada koneksi — menampilkan data terakhir yang tersimpan di perangkat ini.'
+          : 'Menampilkan data demonstrasi / offline.';
+      banner.classList.remove('hidden');
+    }
     if (!ALL_DATA || ALL_DATA.length === 0) ALL_DATA = MOCK_DATA;
     updateStats();
     applyAndRender();
@@ -473,13 +492,22 @@ function buatCard(item) {
         </div>
       </div>
     </div>
-    <div class="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
+    <div class="pt-3 border-t border-slate-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[11px] font-mono text-slate-400">
       <span class="flex items-center gap-1">
         <span class="material-symbols-outlined text-xs text-slate-500">person_edit</span> Diinput oleh: <span class="text-slate-300 font-semibold">${escapeHtml(item.INPUT_OLEH || 'Admin')}</span>
       </span>
-      <span class="text-slate-500 text-[10px] uppercase tracking-wider hidden sm:inline">Terverifikasi</span>
+      <div class="flex items-center gap-2">
+        <span class="text-slate-500 text-[10px] uppercase tracking-wider hidden sm:inline">Terverifikasi</span>
+        ${item.ID_INFORMASI ? `<button type="button" onclick="bukaEdit('${escapeHtml(item.ID_INFORMASI)}')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold uppercase tracking-wide transition cursor-pointer"><span class="material-symbols-outlined text-[14px]">edit</span> Edit</button>` : ''}
+      </div>
     </div>`;
   return card;
+}
+
+function bukaEdit(id) {
+  if (!id) return;
+  const base = window.location.href.split('?')[0];
+  window.location.href = base + '?page=perawat&edit=' + encodeURIComponent(id);
 }
 
 function applyAndRender() {
