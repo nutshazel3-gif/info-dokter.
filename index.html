@@ -505,9 +505,19 @@ function buatCard(item) {
 }
 
 function bukaEdit(id) {
-  if (!id) return;
-  const base = window.location.href.split('?')[0];
-  window.location.href = base + '?page=perawat&edit=' + encodeURIComponent(id);
+  if (!id) {
+    console.warn('ID_INFORMASI kosong, edit dibatalkan.');
+    return;
+  }
+
+  // Jangan menggunakan window.location.href sebagai dasar URL.
+  // Pada Web App Google Apps Script, URL aktif bisa membawa parameter lain.
+  // Gunakan URL API yang sama dengan koneksi GAS agar pasti kembali ke doGet().
+  const base = String(GAS_API_URL || window.location.href).split('?')[0];
+  const urlEdit = base + '?page=perawat&edit=' + encodeURIComponent(String(id));
+
+  console.log('Membuka mode edit:', urlEdit);
+  window.top.location.href = urlEdit;
 }
 
 function applyAndRender() {
