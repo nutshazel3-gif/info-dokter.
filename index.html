@@ -1,1036 +1,1259 @@
 <!DOCTYPE html>
+<html lang="id">
+<head>
 
-<html lang="id" style=""><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Izin Pelayanan &amp; Layanan Medis - RS. Islam Bontang</title>
-<!-- Google Fonts: Plus Jakarta Sans -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS CDN -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              200: '#bfdbfe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              800: '#1e40af',
-              900: '#1e3a8a',
-            }
-          }
-        }
-      }
-    }
-  </script>
-<style data-purpose="custom-scroll-and-smooth">
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #f8fafc;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: rgba(241, 245, 249, 0.6);
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.4);
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: rgba(100, 116, 139, 0.6);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Papan Informasi Dokter</title>
+
+<style>
+
+:root{
+  --bg:#07111f;
+  --panel:#0d1b2d;
+  --panel2:#10243a;
+  --line:rgba(255,255,255,.08);
+  --text:#f5f7fb;
+  --muted:#8fa3b8;
+  --blue:#38bdf8;
+  --green:#34d399;
+  --orange:#fbbf24;
+  --red:#fb7185;
+  --purple:#a78bfa;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background:
+    radial-gradient(
+      circle at top right,
+      #173454 0,
+      var(--bg) 38%
+    );
+  color:var(--text);
+  min-height:100vh;
+}
+
+.container{
+  width:min(1400px,94%);
+  margin:auto;
+}
+
+header{
+  padding:28px 0 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.logo{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  background:
+    linear-gradient(
+      135deg,
+      #0ea5e9,
+      #6366f1
+    );
+  box-shadow:
+    0 12px 35px rgba(14,165,233,.25);
+}
+
+.logo svg{
+  width:28px;
+  height:28px;
+}
+
+.title h1{
+  margin:0;
+  font-size:25px;
+}
+
+.title p{
+  margin:4px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.clock{
+  text-align:right;
+}
+
+.clock .time{
+  font-size:22px;
+  font-weight:800;
+}
+
+.clock .date{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.toolbar{
+  display:flex;
+  gap:12px;
+  margin:15px 0 25px;
+  flex-wrap:wrap;
+}
+
+.search{
+  flex:1;
+  min-width:240px;
+  position:relative;
+}
+
+.search input,
+.filter select{
+  width:100%;
+  height:48px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(13,27,45,.9);
+  color:var(--text);
+  padding:0 16px;
+  outline:none;
+}
+
+.search input:focus,
+.filter select:focus{
+  border-color:rgba(56,189,248,.6);
+}
+
+.filter{
+  width:220px;
+}
+
+.refresh{
+  height:48px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:white;
+  border-radius:14px;
+  padding:0 18px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.refresh:hover{
+  background:var(--panel2);
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:28px;
+}
+
+.summary-card{
+  padding:20px;
+  border:1px solid var(--line);
+  background:rgba(13,27,45,.8);
+  border-radius:18px;
+}
+
+.summary-label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.summary-number{
+  margin-top:6px;
+  font-size:28px;
+  font-weight:900;
+}
+
+.section{
+  margin-bottom:32px;
+}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:13px;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:17px;
+  font-weight:800;
+}
+
+.dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+}
+
+.dot.red{
+  background:var(--red);
+  box-shadow:0 0 14px var(--red);
+}
+
+.dot.orange{
+  background:var(--orange);
+  box-shadow:0 0 14px var(--orange);
+}
+
+.dot.purple{
+  background:var(--purple);
+  box-shadow:0 0 14px var(--purple);
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fill,minmax(300px,1fr));
+  gap:15px;
+}
+
+.card{
+  position:relative;
+  padding:19px;
+  border-radius:19px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(16,36,58,.95),
+      rgba(8,19,33,.95)
+    );
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+
+.card:hover{
+  transform:translateY(-4px) scale(1.01);
+  border-color:
+    rgba(56,189,248,.35);
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.25);
+}
+
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+}
+
+.doctor{
+  font-size:17px;
+  font-weight:850;
+}
+
+.special{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.badge{
+  display:inline-flex;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.badge.today{
+  color:#052e1b;
+  background:var(--green);
+}
+
+.badge.future{
+  color:#3b2700;
+  background:var(--orange);
+}
+
+.info{
+  margin-top:18px;
+}
+
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.045);
+  font-size:12px;
+}
+
+.info-row:last-child{
+  border-bottom:0;
+}
+
+.info-label{
+  color:var(--muted);
+}
+
+.info-value{
+  text-align:right;
+  font-weight:700;
+}
+
+.note{
+  margin-top:13px;
+  padding:11px;
+  border-radius:11px;
+  background:rgba(255,255,255,.035);
+  color:#cbd5e1;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.edit{
+  position:absolute;
+  right:15px;
+  bottom:15px;
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.05);
+  color:white;
+  cursor:pointer;
+}
+
+.edit:hover{
+  background:
+    rgba(56,189,248,.15);
+  border-color:
+    rgba(56,189,248,.4);
+}
+
+.edit svg{
+  width:17px;
+  height:17px;
+}
+
+.empty{
+  border:1px dashed var(--line);
+  border-radius:16px;
+  padding:30px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.loading{
+  padding:35px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.error{
+  padding:16px;
+  border-radius:14px;
+  background:rgba(251,113,133,.1);
+  border:1px solid rgba(251,113,133,.25);
+  color:#fecdd3;
+}
+
+footer{
+  padding:35px 0;
+  text-align:center;
+  color:#64748b;
+  font-size:11px;
+}
+
+@media(max-width:700px){
+
+  .summary{
+    grid-template-columns:1fr;
+  }
+
+  .clock{
+    text-align:left;
+  }
+
+  header{
+    align-items:flex-start;
+  }
+
+  .filter{
+    width:100%;
+  }
+
+}
+
+</style>
+
 </head>
-<body class="min-h-screen h-screen w-full flex flex-col justify-between overflow-hidden text-slate-800 selection:bg-blue-600 selection:text-white antialiased bg-slate-50/80">
-<!-- BEGIN: MainHeroLandscape -->
-<main class="w-full flex-1 flex flex-col justify-center px-6 lg:px-12 py-4 overflow-hidden" id="hero">
-<div class="w-full h-full flex flex-col justify-between gap-4">
-<div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch flex-1 min-h-0">
-<!-- Left Column: Title, Tabs, & Quick Stats -->
-<div class="lg:col-span-4 xl:col-span-4 flex flex-col justify-between h-full py-1" data-purpose="hero-left-column">
-<div class="space-y-4">
-<div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold">
-<span class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></span>
-<span>Live Monitor Pelayanan Rawat Jalan</span>
-</div>
-<h1 class="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl font-extrabold text-slate-950 tracking-tight leading-[1.18]">
-            Izin Pelayanan &amp; <span class="text-blue-600 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">layanan medis</span> dalam satu layar
-          </h1>
-<!-- Interactive Tabs -->
-<div class="pt-1 flex flex-col sm:flex-row lg:flex-col gap-2.5" id="tab-container">
-<button class="tab-btn w-full inline-flex items-center justify-between px-4 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white font-semibold text-xs tracking-wide shadow-md shadow-blue-500/20 border border-blue-400/30 transition-all duration-200 active:scale-[0.98] group" id="tab-dokter-izin" onclick="switchCategory('dokter-izin')" type="button">
-<div class="flex items-center space-x-3.5">
-<div class="tab-icon-wrapper w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0 transition-colors">
-<span class="material-symbols-outlined text-[20px] text-white">badge</span>
-</div>
-<div class="text-left">
-<div class="tab-title font-bold text-sm text-white">Dokter Izin</div>
-<div class="tab-sub text-[11px] text-blue-100 font-normal">Jadwal ketidakhadiran dokter</div>
-</div>
-</div>
-<span class="tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-white/25 text-white">4 Total</span>
-</button>
-<button class="tab-btn w-full inline-flex items-center justify-between px-4 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-semibold text-xs tracking-wide border border-slate-200/90 hover:border-slate-300 transition-all duration-200 shadow-xs hover:shadow-sm active:scale-[0.98] group" id="tab-perubahan-kuota" onclick="switchCategory('perubahan-kuota')" type="button">
-<div class="flex items-center space-x-3.5">
-<div class="tab-icon-wrapper w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
-<span class="material-symbols-outlined text-[20px] text-slate-600">stacked_bar_chart</span>
-</div>
-<div class="text-left">
-<div class="tab-title font-bold text-sm text-slate-800">Perubahan Kuota</div>
-<div class="tab-sub text-[11px] text-slate-400 font-normal">Penyesuaian kapasitas poli</div>
-</div>
-</div>
-<span class="tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">4 Poli</span>
-</button>
-<button class="tab-btn w-full inline-flex items-center justify-between px-4 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-semibold text-xs tracking-wide border border-slate-200/90 hover:border-slate-300 transition-all duration-200 shadow-xs hover:shadow-sm active:scale-[0.98] group" id="tab-perubahan-jam" onclick="switchCategory('perubahan-jam')" type="button">
-<div class="flex items-center space-x-3.5">
-<div class="tab-icon-wrapper w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
-<span class="material-symbols-outlined text-[20px] text-slate-600">schedule</span>
-</div>
-<div class="text-left">
-<div class="tab-title font-bold text-sm text-slate-800">Perubahan Jam Praktik</div>
-<div class="tab-sub text-[11px] text-slate-400 font-normal">Pergeseran sesi konsultasi</div>
-</div>
-</div>
-<span class="tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">3 Dokter</span>
-</button>
-</div>
-</div>
-<!-- Metric Footer of Left Column -->
-<div class="pt-3 mt-3 grid grid-cols-3 gap-3 border-t border-slate-200/80">
-<div class="bg-white/80 border border-slate-200/70 rounded-xl p-3">
-<span class="block text-xl font-extrabold text-slate-900 tracking-tight" id="stat-count">2 Dokter</span>
-<span class="text-xs text-slate-500 font-medium" id="stat-desc">Izin Hari Ini</span>
-</div>
-<div class="bg-white/80 border border-slate-200/70 rounded-xl p-3">
-<span class="block text-xl font-extrabold text-slate-900 tracking-tight" id="stat-upcoming">2 Dokter</span>
-<span class="text-xs text-slate-500 font-medium" id="stat-upcoming-desc">Akan Datang</span>
-</div>
-<div class="bg-white/80 border border-slate-200/70 rounded-xl p-3">
-<span class="block text-xl font-extrabold text-blue-600 tracking-tight">100%</span>
-<span class="text-xs text-slate-500 font-medium">Tersinkronisasi</span>
-</div>
-</div>
-</div>
-<!-- Right Column: Interactive Card Display Grid -->
-<div class="lg:col-span-8 xl:col-span-8 flex flex-col justify-start h-full min-h-0 space-y-3" data-purpose="hero-right-column">
-<!-- Header Bar of Cards with Segmented Status Switcher -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1 flex-shrink-0">
-<div class="flex items-center space-x-2.5">
-<span class="relative flex h-2.5 w-2.5">
-<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-600"></span>
-</span>
-<span class="text-xs font-bold tracking-wider text-slate-800 uppercase" id="active-category-title">DOKTER IZIN</span>
-<span class="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-extrabold" id="active-category-badge">4 Total</span>
-</div>
-<!-- Segmented Filter Pills -->
-<div class="flex items-center space-x-1.5 bg-slate-200/70 p-1 rounded-xl border border-slate-200">
-<button class="status-pill px-3 py-1 text-xs font-bold rounded-lg transition-all duration-150 bg-white text-slate-900 shadow-xs border border-slate-200/60" id="pill-all" onclick="filterStatus('all')">
-              Semua Jadwal
-            </button>
-<button class="status-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-150 text-slate-600 hover:text-slate-900" id="pill-today" onclick="filterStatus('today')">
-<span class="inline-flex items-center space-x-1">
-<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
-<span>Berlaku Hari Ini</span>
-<span class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-blue-50 text-blue-700 font-bold" id="badge-pill-today">2</span>
-</span>
-</button>
-<button class="status-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-150 text-slate-600 hover:text-slate-900" id="pill-upcoming" onclick="filterStatus('upcoming')">
-<span class="inline-flex items-center space-x-1">
-<span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
-<span>Akan Datang</span>
-<span class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-50 text-indigo-700 font-bold" id="badge-pill-upcoming">2</span>
-</span>
-</button>
-</div>
-</div>
-<!-- Cards Container (Scrollable or Full Fit) -->
-<div class="flex-1 overflow-y-auto custom-scrollbar pr-1 pb-2 space-y-6">
-<!-- ============================================== -->
-<!-- TAB 1: DOKTER IZIN CONTENT -->
-<!-- ============================================== -->
-<div class="space-y-6 transition-all duration-300" id="content-dokter-izin">
-<!-- Section: Berlaku Hari Ini -->
-<div class="status-section space-y-3" id="section-dokter-izin-today">
-<div class="flex items-center space-x-2 px-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-200">
-<span class="w-1.5 h-1.5 rounded-full bg-rose-600 mr-1.5 animate-pulse"></span>Berlaku Hari Ini
-                </span>
-<div class="h-px flex-1 bg-slate-200/80"></div>
-<span class="text-[11px] text-slate-400 font-medium">2 Dokter Aktif Izin</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-<!-- Card 1: DR. HIDAYAT -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-300"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Bedah</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors">DR. HIDAYAT, SP.B</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 text-slate-500 group-hover:text-blue-600 transition-colors">
-<span class="material-symbols-outlined text-2xl">medical_services</span>
-</div>
-</div>
-<!-- Standardized Box 1: Periode Izin -->
-<div class="space-y-1">
-<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Periode Izin</div>
-<div class="min-h-[46px] flex items-center space-x-2.5 text-sm font-semibold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200/80">
-<span class="material-symbols-outlined text-lg text-rose-500 flex-shrink-0">event_busy</span>
-<span class="truncate">4 September 2026 – 12 September 2026</span>
-</div>
-</div>
-<!-- Standardized Box 2: Mulai Praktik Kembali -->
-<div class="min-h-[56px] bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/80 rounded-xl p-3 flex items-center space-x-3.5 shadow-xs">
-<div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-<span class="material-symbols-outlined text-lg">calendar_month</span>
-</div>
-<div>
-<div class="text-[10px] font-bold text-blue-800 uppercase tracking-wide">Mulai Praktik Kembali:</div>
-<div class="text-sm font-extrabold text-blue-950 mt-0.5">14 September 2026</div>
-</div>
-</div>
-<!-- Standardized Box 3: Keterangan -->
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Mengikuti Pelatihan Bedah Laparoskopi Lanjutan di Jakarta.</span>
-</div>
-</div>
-</div>
-<!-- Card Footer -->
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<div class="space-y-0.5">
-<div class="text-slate-400 text-[11px]">Diinput oleh: <span class="font-bold text-slate-700">PERAWAT</span></div>
-<div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
-<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-<span>TERVERIFIKASI</span>
-</div>
-</div>
-<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition shadow-xs" type="button">
-<span class="material-symbols-outlined text-xs">edit</span>
-<span>Edit</span>
-</button>
-</div>
-</div>
-<!-- Card 2: DR. DEWI MAHARNI -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-300"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Jiwa</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors">DR. DEWI MAHARNI, SP.KJ</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 text-slate-500 group-hover:text-blue-600 transition-colors">
-<span class="material-symbols-outlined text-2xl">psychology</span>
-</div>
-</div>
-<!-- Standardized Box 1: Periode Izin -->
-<div class="space-y-1">
-<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Periode Izin</div>
-<div class="min-h-[46px] flex items-center space-x-2.5 text-sm font-semibold text-slate-800 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200/80">
-<span class="material-symbols-outlined text-lg text-rose-500 flex-shrink-0">event_busy</span>
-<span class="truncate">9 September 2026 – 17 September 2026</span>
-</div>
-</div>
-<!-- Standardized Box 2: Mulai Praktik Kembali -->
-<div class="min-h-[56px] bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/80 rounded-xl p-3 flex items-center space-x-3.5 shadow-xs">
-<div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-<span class="material-symbols-outlined text-lg">calendar_month</span>
-</div>
-<div>
-<div class="text-[10px] font-bold text-blue-800 uppercase tracking-wide">Mulai Praktik Kembali:</div>
-<div class="text-sm font-extrabold text-blue-950 mt-0.5">18 September 2026</div>
-</div>
-</div>
-<!-- Standardized Box 3: Keterangan -->
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Pelaksanaan cuti tahunan resmi dan delegasi tugas dokter pendamping.</span>
-</div>
-</div>
-</div>
-<!-- Card Footer -->
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<div class="space-y-0.5">
-<div class="text-slate-400 text-[11px]">Diinput oleh: <span class="font-bold text-slate-700">PERAWAT</span></div>
-<div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
-<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-<span>TERVERIFIKASI</span>
-</div>
-</div>
-<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition shadow-xs" type="button">
-<span class="material-symbols-outlined text-xs">edit</span>
-<span>Edit</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Section: Akan Datang (Upcoming) -->
-<div class="status-section space-y-3" id="section-dokter-izin-upcoming">
-<div class="flex items-center space-x-2 px-1 pt-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
-<span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
-                </span>
-<div class="h-px flex-1 bg-indigo-100"></div>
-<span class="text-[11px] text-indigo-600 font-semibold">2 Dokter Terjadwal</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-<!-- Upcoming Card 1: DR. ARIF BUDIMAN -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-indigo-200/80 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Anak</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-indigo-700 transition-colors">DR. ARIF BUDIMAN, SP.A</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-indigo-600">
-<span class="material-symbols-outlined text-2xl">child_care</span>
-</div>
-</div>
-<!-- Standardized Box 1: Periode Izin -->
-<div class="space-y-1">
-<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Periode Izin Mendatang</div>
-<div class="min-h-[46px] flex items-center space-x-2.5 text-sm font-semibold text-slate-800 bg-indigo-50/40 px-3.5 py-2.5 rounded-xl border border-indigo-100">
-<span class="material-symbols-outlined text-lg text-indigo-600 flex-shrink-0">event</span>
-<span class="truncate">15 September 2026 – 20 September 2026</span>
-</div>
-</div>
-<!-- Standardized Box 2: Mulai Praktik Kembali -->
-<div class="min-h-[56px] bg-gradient-to-r from-indigo-50/90 to-blue-50/70 border border-indigo-200/80 rounded-xl p-3 flex items-center space-x-3.5 shadow-xs">
-<div class="w-9 h-9 rounded-lg bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-<span class="material-symbols-outlined text-lg">event_upcoming</span>
-</div>
-<div>
-<div class="text-[10px] font-bold text-indigo-900 uppercase tracking-wide">Mulai Praktik Kembali:</div>
-<div class="text-sm font-extrabold text-indigo-950 mt-0.5">22 September 2026</div>
-</div>
-</div>
-<!-- Standardized Box 3: Keterangan -->
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Cuti Ibadah / Partisipasi Pembicara Seminar Nasional Pediatri.</span>
-</div>
-</div>
-</div>
-<!-- Card Footer -->
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<div class="space-y-0.5">
-<div class="text-slate-400 text-[11px]">Status: <span class="font-bold text-indigo-700">TERJADWAL SISTEM</span></div>
-<div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
-<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-<span>TERVERIFIKASI</span>
-</div>
-</div>
-<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition shadow-xs" type="button">
-<span class="material-symbols-outlined text-xs">edit</span>
-<span>Edit</span>
-</button>
-</div>
-</div>
-<!-- Upcoming Card 2: DR. SISKA AMELIA -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-indigo-200/80 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Mata</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-indigo-700 transition-colors">DR. SISKA AMELIA, SP.M</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-indigo-600">
-<span class="material-symbols-outlined text-2xl">visibility</span>
-</div>
-</div>
-<!-- Standardized Box 1: Periode Izin -->
-<div class="space-y-1">
-<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Periode Izin Mendatang</div>
-<div class="min-h-[46px] flex items-center space-x-2.5 text-sm font-semibold text-slate-800 bg-indigo-50/40 px-3.5 py-2.5 rounded-xl border border-indigo-100">
-<span class="material-symbols-outlined text-lg text-indigo-600 flex-shrink-0">event</span>
-<span class="truncate">18 September 2026 – 21 September 2026</span>
-</div>
-</div>
-<!-- Standardized Box 2: Mulai Praktik Kembali -->
-<div class="min-h-[56px] bg-gradient-to-r from-indigo-50/90 to-blue-50/70 border border-indigo-200/80 rounded-xl p-3 flex items-center space-x-3.5 shadow-xs">
-<div class="w-9 h-9 rounded-lg bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
-<span class="material-symbols-outlined text-lg">event_upcoming</span>
-</div>
-<div>
-<div class="text-[10px] font-bold text-indigo-900 uppercase tracking-wide">Mulai Praktik Kembali:</div>
-<div class="text-sm font-extrabold text-indigo-950 mt-0.5">23 September 2026</div>
-</div>
-</div>
-<!-- Standardized Box 3: Keterangan -->
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Penugasan khusus simposium oftalmologi regional dan tindak lanjut delegasi klinis.</span>
-</div>
-</div>
-</div>
-<!-- Card Footer -->
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<div class="space-y-0.5">
-<div class="text-slate-400 text-[11px]">Status: <span class="font-bold text-indigo-700">TERJADWAL SISTEM</span></div>
-<div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
-<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-<span>TERVERIFIKASI</span>
-</div>
-</div>
-<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition shadow-xs" type="button">
-<span class="material-symbols-outlined text-xs">edit</span>
-<span>Edit</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- ============================================== -->
-<!-- TAB 2: PERUBAHAN KUOTA CONTENT -->
-<!-- ============================================== -->
-<div class="hidden space-y-6 transition-all duration-300" id="content-perubahan-kuota">
-<!-- Section: Berlaku Hari Ini -->
-<div class="status-section space-y-3" id="section-perubahan-kuota-today">
-<div class="flex items-center space-x-2 px-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-200">
-<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Berlaku Hari Ini
-                </span>
-<div class="h-px flex-1 bg-slate-200/80"></div>
-<span class="text-[11px] text-slate-400 font-medium">3 Poli Diperbarui</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-<!-- Quota Card 1 -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 via-orange-400 to-amber-300"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Perubahan Kuota
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Anak</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors">DR. MUHAMMAD ARIS, SP.A</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0 text-amber-600">
-<span class="material-symbols-outlined text-2xl">child_care</span>
-</div>
-</div>
-<!-- Old vs New Kuota Comparison -->
-<div class="min-h-[56px] bg-gradient-to-r from-amber-50/70 to-orange-50/60 border border-amber-200/80 rounded-xl p-3 flex items-center justify-between">
-<div class="text-center flex-1">
-<span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
-<span class="text-lg font-black text-slate-500 line-through">25</span>
-</div>
-<div class="w-7 h-7 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs">
-<span class="material-symbols-outlined text-sm">arrow_forward</span>
-</div>
-<div class="text-center flex-1">
-<span class="text-[10px] font-bold uppercase text-amber-800 block">Baru</span>
-<span class="text-2xl font-black text-amber-600">35</span>
-</div>
-</div>
-<div class="min-h-[46px] flex items-center justify-between bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/70">
-<span class="text-slate-500 text-xs font-medium">Efektif:</span>
-<span class="font-bold text-slate-800 text-sm">Hari ini, 08:00 WIB</span>
-</div>
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Catatan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Penambahan slot registrasi khusus antrean umum dan faskes 1.</span>
-</div>
-</div>
-</div>
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<span class="inline-flex items-center text-blue-700 font-bold space-x-1">
-<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-<span>TERVALIDASI</span>
-</span>
-<button class="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs" type="button">
-<span class="material-symbols-outlined text-xs">tune</span>
-<span>Sesuaikan</span>
-</button>
-</div>
-</div>
-<!-- Quota Card 2 -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 via-orange-400 to-amber-300"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Perubahan Kuota
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Penyakit Dalam</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors">DR. HENDRA GUNAWAN, SP.PD</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0 text-amber-600">
-<span class="material-symbols-outlined text-2xl">vital_signs</span>
-</div>
-</div>
-<!-- Old vs New Kuota Comparison -->
-<div class="min-h-[56px] bg-gradient-to-r from-amber-50/70 to-orange-50/60 border border-amber-200/80 rounded-xl p-3 flex items-center justify-between">
-<div class="text-center flex-1">
-<span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
-<span class="text-lg font-black text-slate-500 line-through">40</span>
-</div>
-<div class="w-7 h-7 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs">
-<span class="material-symbols-outlined text-sm">arrow_forward</span>
-</div>
-<div class="text-center flex-1">
-<span class="text-[10px] font-bold uppercase text-amber-800 block">Baru</span>
-<span class="text-2xl font-black text-amber-600">30</span>
-</div>
-</div>
-<div class="min-h-[46px] flex items-center justify-between bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/70">
-<span class="text-slate-500 text-xs font-medium">Efektif:</span>
-<span class="font-bold text-slate-800 text-sm">Hari ini, 09:30 WIB</span>
-</div>
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Catatan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Pembatasan waktu karena tindakan endoskopi terjadwal.</span>
-</div>
-</div>
-</div>
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<span class="inline-flex items-center text-blue-700 font-bold space-x-1">
-<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-<span>TERVALIDASI</span>
-</span>
-<button class="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs" type="button">
-<span class="material-symbols-outlined text-xs">tune</span>
-<span>Sesuaikan</span>
-</button>
-</div>
-</div>
-<!-- Quota Card 3 -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 via-orange-400 to-amber-300"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Perubahan Kuota
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Jantung</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-blue-700 transition-colors">DR. FARHAN MAULANA, SP.JP</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0 text-amber-600">
-<span class="material-symbols-outlined text-2xl">ecg_heart</span>
-</div>
-</div>
-<!-- Old vs New Kuota Comparison -->
-<div class="min-h-[56px] bg-gradient-to-r from-amber-50/70 to-orange-50/60 border border-amber-200/80 rounded-xl p-3 flex items-center justify-between">
-<div class="text-center flex-1">
-<span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
-<span class="text-lg font-black text-slate-500 line-through">20</span>
-</div>
-<div class="w-7 h-7 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs">
-<span class="material-symbols-outlined text-sm">arrow_forward</span>
-</div>
-<div class="text-center flex-1">
-<span class="text-[10px] font-bold uppercase text-amber-800 block">Baru</span>
-<span class="text-2xl font-black text-amber-600">28</span>
-</div>
-</div>
-<div class="min-h-[46px] flex items-center justify-between bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/70">
-<span class="text-slate-500 text-xs font-medium">Efektif:</span>
-<span class="font-bold text-slate-800 text-sm">Hari ini, 10:00 WIB</span>
-</div>
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Catatan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Penambahan ruang rekam EKG mempercepat alur konsultasi.</span>
-</div>
-</div>
-</div>
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<span class="inline-flex items-center text-blue-700 font-bold space-x-1">
-<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-<span>TERVALIDASI</span>
-</span>
-<button class="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs" type="button">
-<span class="material-symbols-outlined text-xs">tune</span>
-<span>Sesuaikan</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Section: Akan Datang (Upcoming Kuota) -->
-<div class="status-section space-y-3" id="section-perubahan-kuota-upcoming">
-<div class="flex items-center space-x-2 px-1 pt-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
-<span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
-                </span>
-<div class="h-px flex-1 bg-indigo-100"></div>
-<span class="text-[11px] text-indigo-600 font-semibold">1 Penyesuaian Terjadwal</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-<!-- Upcoming Quota Card 1: Poli Gigi & Mulut -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-indigo-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Gigi &amp; Mulut</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-indigo-700 transition-colors">DRG. RATNA INDAH, SP.KG</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-indigo-600">
-<span class="material-symbols-outlined text-2xl">dentistry</span>
-</div>
-</div>
-<!-- Old vs New Kuota Comparison -->
-<div class="min-h-[56px] bg-gradient-to-r from-indigo-50/80 to-blue-50/70 border border-indigo-200/80 rounded-xl p-3 flex items-center justify-between">
-<div class="text-center flex-1">
-<span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
-<span class="text-lg font-black text-slate-500 line-through">25</span>
-</div>
-<div class="w-7 h-7 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-xs">
-<span class="material-symbols-outlined text-sm">arrow_forward</span>
-</div>
-<div class="text-center flex-1">
-<span class="text-[10px] font-bold uppercase text-indigo-900 block">Kapasitas Baru</span>
-<span class="text-2xl font-black text-indigo-700">15</span>
-</div>
-</div>
-<div class="min-h-[46px] flex items-center justify-between bg-indigo-50/40 px-3.5 py-2 rounded-xl border border-indigo-100">
-<span class="text-indigo-800 text-xs font-medium">Mulai Berlaku:</span>
-<span class="font-bold text-indigo-950 text-sm">15 September 2026</span>
-</div>
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-400 block">Catatan Penyesuaian:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Pemeliharaan dan kalibrasi unit dental chair 2 secara berkala.</span>
-</div>
-</div>
-</div>
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<span class="inline-flex items-center text-indigo-700 font-bold space-x-1">
-<span class="material-symbols-outlined text-xs text-indigo-600">event_available</span>
-<span>TERJADWAL SISTEM</span>
-</span>
-<button class="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs" type="button">
-<span class="material-symbols-outlined text-xs">tune</span>
-<span>Sesuaikan</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- ============================================== -->
-<!-- TAB 3: PERUBAHAN JAM PRAKTIK CONTENT -->
-<!-- ============================================== -->
-<div class="hidden space-y-6 transition-all duration-300" id="content-perubahan-jam">
-<!-- Section: Berlaku Hari Ini -->
-<div class="status-section space-y-3" id="section-perubahan-jam-today">
-<div class="flex items-center space-x-2 px-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-violet-100 text-violet-900 border border-violet-200">
-<span class="w-1.5 h-1.5 rounded-full bg-violet-600 mr-1.5"></span>Berlaku Hari Ini
-                </span>
-<div class="h-px flex-1 bg-slate-200/80"></div>
-<span class="text-[11px] text-slate-400 font-medium">2 Dokter Bergeser</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-<!-- Schedule Card 1 -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 via-indigo-500 to-purple-400"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-50 text-violet-800 border border-violet-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-violet-600 mr-1.5"></span>Perubahan Jam
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Obgyn</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-indigo-700 transition-colors">DR. SITI SARAH, SP.OG</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center flex-shrink-0 text-violet-600">
-<span class="material-symbols-outlined text-2xl">pregnant_woman</span>
-</div>
-</div>
-<!-- Time Shift Comparison Block -->
-<div class="min-h-[56px] bg-gradient-to-r from-violet-50/80 to-indigo-50/60 border border-violet-200/80 rounded-xl p-3 flex items-center justify-between">
-<div>
-<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Jam Semula</div>
-<div class="text-sm font-extrabold text-slate-500 line-through">09:00 – 13:00 WIB</div>
-</div>
-<div class="w-8 h-8 rounded-full bg-violet-600 text-white flex items-center justify-center shadow-xs">
-<span class="material-symbols-outlined text-base">schedule</span>
-</div>
-<div class="text-right">
-<div class="text-[10px] font-bold uppercase tracking-wider text-violet-800">Jam Baru</div>
-<div class="text-base font-black text-violet-700">14:00 – 18:00 WIB</div>
-</div>
-</div>
-<div class="min-h-[46px] flex items-center justify-between bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/70">
-<span class="text-slate-500 text-xs font-medium">Tanggal Berlaku:</span>
-<span class="font-bold text-slate-800 text-sm">Hari ini</span>
-</div>
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">info</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Pergeseran jadwal akibat visitasi operasi caesar emergency pada pagi hari.</span>
-</div>
-</div>
-</div>
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<div class="inline-flex items-center text-violet-700 font-bold space-x-1">
-<span class="material-symbols-outlined text-xs text-violet-600">check_circle</span>
-<span>SUDAH DIKONFIRMASI</span>
-</div>
-<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition shadow-xs" type="button">
-<span class="material-symbols-outlined text-xs">edit</span>
-<span>Edit</span>
-</button>
-</div>
-</div>
-<!-- Schedule Card 2 -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 via-indigo-500 to-purple-400"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-50 text-violet-800 border border-violet-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-violet-600 mr-1.5"></span>Perubahan Jam
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Bedah Tulang</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-indigo-700 transition-colors">DR. BUDI SANTOSO, SP.OT</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center flex-shrink-0 text-violet-600">
-<span class="material-symbols-outlined text-2xl">orthopedics</span>
-</div>
-</div>
-<!-- Time Shift Comparison Block -->
-<div class="min-h-[56px] bg-gradient-to-r from-violet-50/80 to-indigo-50/60 border border-violet-200/80 rounded-xl p-3 flex items-center justify-between">
-<div>
-<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Jam Semula</div>
-<div class="text-sm font-extrabold text-slate-500 line-through">11:00 – 15:00 WIB</div>
-</div>
-<div class="w-8 h-8 rounded-full bg-violet-600 text-white flex items-center justify-center shadow-xs">
-<span class="material-symbols-outlined text-base">schedule</span>
-</div>
-<div class="text-right">
-<div class="text-[10px] font-bold uppercase tracking-wider text-violet-800">Jam Baru</div>
-<div class="text-base font-black text-violet-700">08:30 – 12:30 WIB</div>
-</div>
-</div>
-<div class="min-h-[46px] flex items-center justify-between bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/70">
-<span class="text-slate-500 text-xs font-medium">Tanggal Berlaku:</span>
-<span class="font-bold text-slate-800 text-sm">Hari ini</span>
-</div>
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">info</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Jadwal dimulai lebih awal untuk mengantisipasi rapat komite medik siang hari.</span>
-</div>
-</div>
-</div>
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<div class="inline-flex items-center text-violet-700 font-bold space-x-1">
-<span class="material-symbols-outlined text-xs text-violet-600">check_circle</span>
-<span>SUDAH DIKONFIRMASI</span>
-</div>
-<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition shadow-xs" type="button">
-<span class="material-symbols-outlined text-xs">edit</span>
-<span>Edit</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Section: Akan Datang (Upcoming Jam Praktik) -->
-<div class="status-section space-y-3" id="section-perubahan-jam-upcoming">
-<div class="flex items-center space-x-2 px-1 pt-1">
-<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
-<span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
-                </span>
-<div class="h-px flex-1 bg-indigo-100"></div>
-<span class="text-[11px] text-indigo-600 font-semibold">1 Dokter Terjadwal</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-<!-- Upcoming Schedule Card 1 -->
-<div class="h-full flex flex-col justify-between bg-white rounded-2xl border border-indigo-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-6 relative overflow-hidden group">
-<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
-<div class="space-y-4">
-<div class="flex items-start justify-between gap-3 pt-1">
-<div class="space-y-1.5">
-<div class="flex items-center space-x-2">
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
-                        </span>
-<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Jantung &amp; Pembuluh Darah</span>
-</div>
-<h3 class="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-indigo-700 transition-colors">DR. FARHAN MAULANA, SP.JP</h3>
-</div>
-<div class="w-11 h-11 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-indigo-600">
-<span class="material-symbols-outlined text-2xl">ecg_heart</span>
-</div>
-</div>
-<!-- Time Shift Comparison Block -->
-<div class="min-h-[56px] bg-gradient-to-r from-indigo-50/80 to-blue-50/70 border border-indigo-200/80 rounded-xl p-3 flex items-center justify-between">
-<div>
-<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Jam Semula</div>
-<div class="text-sm font-extrabold text-slate-500 line-through">09:00 – 12:00 WIB</div>
-</div>
-<div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-xs">
-<span class="material-symbols-outlined text-base">schedule</span>
-</div>
-<div class="text-right">
-<div class="text-[10px] font-bold uppercase tracking-wider text-indigo-900">Mulai 16 Sept 2026</div>
-<div class="text-base font-black text-indigo-700">14:00 – 17:30 WIB</div>
-</div>
-</div>
-<div class="min-h-[46px] flex items-center justify-between bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200/70">
-<span class="text-slate-500 text-xs font-medium">Mulai Berlaku:</span>
-<span class="font-bold text-indigo-700 text-sm">16 September 2026</span>
-</div>
-<div class="min-h-[66px] bg-slate-50/80 border border-slate-100 rounded-xl p-3 flex items-start space-x-2.5 text-slate-600">
-<span class="material-symbols-outlined text-base text-slate-400 mt-0.5 flex-shrink-0">info</span>
-<div class="space-y-0.5">
-<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-<span class="text-sm text-slate-600 leading-relaxed block">Penyesuaian sesi konsultasi sore sehubungan jadwal kateterisasi jantung (Cath Lab) pagi.</span>
-</div>
-</div>
-</div>
-<div class="pt-3.5 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-<div class="inline-flex items-center text-indigo-700 font-bold space-x-1">
-<span class="material-symbols-outlined text-xs text-indigo-600">check_circle</span>
-<span>SUDAH DIJADWALKAN</span>
-</div>
-<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition shadow-xs" type="button">
-<span class="material-symbols-outlined text-xs">edit</span>
-<span>Edit</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- END: MainHeroLandscape -->
-<!-- BEGIN: MinimalFooter -->
-<footer class="w-full border-t border-slate-200/80 bg-white/95 backdrop-blur py-3 px-6 lg:px-12 flex-shrink-0">
-<div class="w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
-<div>© 2026 <span class="font-semibold text-slate-700">Rumah Sakit Islam Bontang</span>. Seluruh hak cipta dilindungi undang-undang.</div>
-<div class="flex items-center space-x-5">
-<span class="flex items-center space-x-1.5">
-<span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-<span class="font-medium text-slate-600">Sistem Terintegrasi SIMRS</span>
-</span>
-<span class="text-slate-300">|</span>
-<span class="text-slate-400">Versi 3.4.2</span>
-</div>
-</div>
+
+<body>
+
+<div class="container">
+
+<header>
+
+  <div class="brand">
+
+    <div class="logo">
+      <svg viewBox="0 0 24 24"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2">
+        <path d="M12 3v18"/>
+        <path d="M3 12h18"/>
+        <path d="M7 7h10v10H7z"/>
+      </svg>
+    </div>
+
+    <div class="title">
+      <h1>Papan Informasi Dokter</h1>
+      <p>Informasi pelayanan dokter rawat jalan</p>
+    </div>
+
+  </div>
+
+  <div class="clock">
+    <div class="time" id="clock">--:--:--</div>
+    <div class="date" id="date">Memuat...</div>
+  </div>
+
+</header>
+
+
+<div class="toolbar">
+
+  <div class="search">
+    <input
+      id="search"
+      type="search"
+      placeholder="Cari nama dokter atau poli..."
+      oninput="render()">
+  </div>
+
+  <div class="filter">
+    <select id="filter"
+            onchange="render()">
+
+      <option value="SEMUA">
+        Semua informasi
+      </option>
+
+      <option value="DOKTER_IZIN">
+        Dokter izin
+      </option>
+
+      <option value="PERUBAHAN_KUOTA">
+        Perubahan kuota
+      </option>
+
+      <option value="PERUBAHAN_JAM_PRAKTIK">
+        Perubahan jam praktik
+      </option>
+
+    </select>
+  </div>
+
+  <button class="refresh"
+          onclick="loadDashboard()">
+    ↻ Refresh
+  </button>
+
+</div>
+
+
+<div class="summary">
+
+  <div class="summary-card">
+    <div class="summary-label">
+      Dokter Izin
+    </div>
+    <div class="summary-number"
+         id="sumIzin">
+      0
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-label">
+      Perubahan Kuota
+    </div>
+    <div class="summary-number"
+         id="sumKuota">
+      0
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-label">
+      Perubahan Jam Praktik
+    </div>
+    <div class="summary-number"
+         id="sumJam">
+      0
+    </div>
+  </div>
+
+</div>
+
+
+<div id="app">
+
+  <div class="loading">
+    Memuat informasi dokter...
+  </div>
+
+</div>
+
+
+<footer>
+  Sistem Informasi Dokter · Rawat Jalan
 </footer>
-<!-- END: MinimalFooter -->
-<!-- Interactivity Script for Category and Status Filtering -->
+
+</div>
+
+
 <script>
-  let currentCategory = 'dokter-izin';
-  let currentStatus = 'all';
 
-  const categoryConfig = {
-    'dokter-izin': {
-      title: 'DOKTER IZIN',
-      badge: '4 Total',
-      todayCount: '2 Dokter',
-      todayDesc: 'Izin Hari Ini',
-      upcomingCount: '2 Dokter',
-      upcomingDesc: 'Akan Datang',
-      pillTodayBadge: '2',
-      pillUpcomingBadge: '2',
-      contentId: 'content-dokter-izin'
-    },
-    'perubahan-kuota': {
-      title: 'PERUBAHAN KUOTA',
-      badge: '4 Poli Total',
-      todayCount: '3 Poli',
-      todayDesc: 'Berlaku Hari Ini',
-      upcomingCount: '1 Poli',
-      upcomingDesc: 'Akan Datang',
-      pillTodayBadge: '3',
-      pillUpcomingBadge: '1',
-      contentId: 'content-perubahan-kuota'
-    },
-    'perubahan-jam': {
-      title: 'PERUBAHAN JAM PRAKTIK',
-      badge: '3 Dokter Total',
-      todayCount: '2 Dokter',
-      todayDesc: 'Berlaku Hari Ini',
-      upcomingCount: '1 Dokter',
-      upcomingDesc: 'Akan Datang',
-      pillTodayBadge: '2',
-      pillUpcomingBadge: '1',
-      contentId: 'content-perubahan-jam'
-    }
-  };
+/* ============================================================
+   KONFIGURASI
+   ============================================================ */
 
-  function switchCategory(catKey) {
-    currentCategory = catKey;
-    const categories = ['dokter-izin', 'perubahan-kuota', 'perubahan-jam'];
+/*
+ * GANTI dengan URL Web App Apps Script Anda.
+ *
+ * Contoh:
+ * https://script.google.com/macros/s/XXXXXXXX/exec
+ */
 
-    categories.forEach(key => {
-      const btn = document.getElementById('tab-' + key);
-      const content = document.getElementById('content-' + key);
-      const iconWrapper = btn ? btn.querySelector('.tab-icon-wrapper') : null;
-      const iconSpan = iconWrapper ? iconWrapper.querySelector('.material-symbols-outlined') : null;
-      const title = btn ? btn.querySelector('.tab-title') : null;
-      const sub = btn ? btn.querySelector('.tab-sub') : null;
-      const badge = btn ? btn.querySelector('.tab-badge') : null;
+const API_URL =
+  'GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT';
 
-      if (key === catKey) {
-        if (btn) btn.className = 'tab-btn w-full inline-flex items-center justify-between px-4 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white font-semibold text-xs tracking-wide shadow-md shadow-blue-500/20 border border-blue-400/30 transition-all duration-200 active:scale-[0.98] group';
-        if (iconWrapper) iconWrapper.className = 'tab-icon-wrapper w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0 transition-colors';
-        if (iconSpan) iconSpan.className = 'material-symbols-outlined text-[20px] text-white';
-        if (title) title.className = 'tab-title font-bold text-sm text-white';
-        if (sub) sub.className = 'tab-sub text-[11px] text-blue-100 font-normal';
-        if (badge) badge.className = 'tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-white/25 text-white';
 
-        if (content) content.classList.remove('hidden');
-      } else {
-        if (btn) btn.className = 'tab-btn w-full inline-flex items-center justify-between px-4 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-semibold text-xs tracking-wide border border-slate-200/90 hover:border-slate-300 transition-all duration-200 shadow-xs hover:shadow-sm active:scale-[0.98] group';
-        if (iconWrapper) iconWrapper.className = 'tab-icon-wrapper w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-slate-200 flex items-center justify-center flex-shrink-0 transition-colors';
-        if (iconSpan) iconSpan.className = 'material-symbols-outlined text-[20px] text-slate-600';
-        if (title) title.className = 'tab-title font-bold text-sm text-slate-800';
-        if (sub) sub.className = 'tab-sub text-[11px] text-slate-400 font-normal';
-        if (badge) badge.className = 'tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600';
+/*
+ * GANTI dengan URL GitHub Pages perawat.html.
+ *
+ * Contoh:
+ * https://username.github.io/informasi-dokter/perawat.html
+ */
 
-        if (content) content.classList.add('hidden');
-      }
-    });
+const PERAWAT_URL =
+  'GANTI_DENGAN_URL_GITHUB_PERAWAT';
 
-    // Update Category stats and headers
-    const cfg = categoryConfig[catKey];
-    if (cfg) {
-      const activeTitle = document.getElementById('active-category-title');
-      const activeBadge = document.getElementById('active-category-badge');
-      const statCount = document.getElementById('stat-count');
-      const statDesc = document.getElementById('stat-desc');
-      const statUpcoming = document.getElementById('stat-upcoming');
-      const statUpcomingDesc = document.getElementById('stat-upcoming-desc');
-      const badgePillToday = document.getElementById('badge-pill-today');
-      const badgePillUpcoming = document.getElementById('badge-pill-upcoming');
 
-      if (activeTitle) activeTitle.textContent = cfg.title;
-      if (activeBadge) activeBadge.textContent = cfg.badge;
-      if (statCount) statCount.textContent = cfg.todayCount;
-      if (statDesc) statDesc.textContent = cfg.todayDesc;
-      if (statUpcoming) statUpcoming.textContent = cfg.upcomingCount;
-      if (statUpcomingDesc) statUpcomingDesc.textContent = cfg.upcomingDesc;
-      if (badgePillToday) badgePillToday.textContent = cfg.pillTodayBadge;
-      if (badgePillUpcoming) badgePillUpcoming.textContent = cfg.pillUpcomingBadge;
-    }
+let DATA = [];
 
-    // Apply existing status filter on newly selected category
-    filterStatus(currentStatus);
-  }
 
-  function filterStatus(statusKey) {
-    currentStatus = statusKey;
-    const pills = ['all', 'today', 'upcoming'];
+/* ============================================================
+   CLOCK
+   ============================================================ */
 
-    pills.forEach(p => {
-      const pillBtn = document.getElementById('pill-' + p);
-      if (pillBtn) {
-        if (p === statusKey) {
-          pillBtn.className = 'status-pill px-3 py-1 text-xs font-bold rounded-lg transition-all duration-150 bg-white text-slate-900 shadow-xs border border-slate-200/60';
-        } else {
-          pillBtn.className = 'status-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-150 text-slate-600 hover:text-slate-900';
+function updateClock(){
+
+  const now =
+    new Date();
+
+  document
+    .getElementById('clock')
+    .textContent =
+      now.toLocaleTimeString(
+        'id-ID',
+        {
+          hour:'2-digit',
+          minute:'2-digit',
+          second:'2-digit'
         }
-      }
+      );
+
+  document
+    .getElementById('date')
+    .textContent =
+      now.toLocaleDateString(
+        'id-ID',
+        {
+          weekday:'long',
+          day:'numeric',
+          month:'long',
+          year:'numeric'
+        }
+      );
+
+}
+
+setInterval(
+  updateClock,
+  1000
+);
+
+updateClock();
+
+
+/* ============================================================
+   LOAD DASHBOARD
+   ============================================================ */
+
+async function loadDashboard(){
+
+  const app =
+    document.getElementById('app');
+
+  app.innerHTML =
+    '<div class="loading">Memuat informasi dokter...</div>';
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        '?aksi=get_dashboard&_=' +
+        Date.now()
+      );
+
+    const result =
+      await response.json();
+
+    if(
+      result.status !== 'success'
+    ){
+      throw new Error(
+        result.message ||
+        'Gagal mengambil data.'
+      );
+    }
+
+    DATA =
+      Array.isArray(result.data)
+        ? result.data
+        : [];
+
+    updateSummary();
+
+    render();
+
+  }catch(err){
+
+    app.innerHTML =
+      `
+      <div class="error">
+        <strong>Gagal memuat data.</strong>
+        <br>
+        ${escapeHtml(err.message)}
+        <br><br>
+        Periksa URL Apps Script dan deployment Web App.
+      </div>
+      `;
+
+  }
+
+}
+
+
+/* ============================================================
+   SUMMARY
+   ============================================================ */
+
+function updateSummary(){
+
+  document.getElementById(
+    'sumIzin'
+  ).textContent =
+    DATA.filter(
+      x =>
+        x.JENIS_INFORMASI ===
+        'DOKTER_IZIN'
+    ).length;
+
+  document.getElementById(
+    'sumKuota'
+  ).textContent =
+    DATA.filter(
+      x =>
+        x.JENIS_INFORMASI ===
+        'PERUBAHAN_KUOTA'
+    ).length;
+
+  document.getElementById(
+    'sumJam'
+  ).textContent =
+    DATA.filter(
+      x =>
+        x.JENIS_INFORMASI ===
+        'PERUBAHAN_JAM_PRAKTIK'
+    ).length;
+
+}
+
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+
+function render(){
+
+  const search =
+    document
+      .getElementById('search')
+      .value
+      .trim()
+      .toLowerCase();
+
+  const filter =
+    document
+      .getElementById('filter')
+      .value;
+
+  const filtered =
+    DATA.filter(item => {
+
+      const text =
+        (
+          item.NAMA_DOKTER +
+          ' ' +
+          item.POLI
+        )
+        .toLowerCase();
+
+      const matchSearch =
+        !search ||
+        text.includes(search);
+
+      const matchFilter =
+        filter === 'SEMUA' ||
+        item.JENIS_INFORMASI === filter;
+
+      return (
+        matchSearch &&
+        matchFilter
+      );
+
     });
 
-    const activeContent = document.getElementById('content-' + currentCategory);
-    if (!activeContent) return;
+  const app =
+    document.getElementById('app');
 
-    const todaySection = activeContent.querySelector('#section-' + currentCategory + '-today');
-    const upcomingSection = activeContent.querySelector('#section-' + currentCategory + '-upcoming');
+  if(!filtered.length){
 
-    if (todaySection) {
-      if (statusKey === 'all' || statusKey === 'today') {
-        todaySection.classList.remove('hidden');
-      } else {
-        todaySection.classList.add('hidden');
-      }
-    }
+    app.innerHTML =
+      `
+      <div class="empty">
+        Tidak ada informasi dokter
+        yang sesuai.
+      </div>
+      `;
 
-    if (upcomingSection) {
-      if (statusKey === 'all' || statusKey === 'upcoming') {
-        upcomingSection.classList.remove('hidden');
-      } else {
-        upcomingSection.classList.add('hidden');
-      }
-    }
+    return;
+
   }
+
+  const izin =
+    filtered.filter(
+      x =>
+        x.JENIS_INFORMASI ===
+        'DOKTER_IZIN'
+    );
+
+  const kuota =
+    filtered.filter(
+      x =>
+        x.JENIS_INFORMASI ===
+        'PERUBAHAN_KUOTA'
+    );
+
+  const jam =
+    filtered.filter(
+      x =>
+        x.JENIS_INFORMASI ===
+        'PERUBAHAN_JAM_PRAKTIK'
+    );
+
+  app.innerHTML =
+
+    section(
+      'Dokter Izin',
+      'red',
+      izin
+    ) +
+
+    section(
+      'Perubahan Kuota',
+      'orange',
+      kuota
+    ) +
+
+    section(
+      'Perubahan Jam Praktik',
+      'purple',
+      jam
+    );
+
+}
+
+
+/* ============================================================
+   SECTION
+   ============================================================ */
+
+function section(
+  title,
+  color,
+  items
+){
+
+  if(!items.length){
+    return '';
+  }
+
+  return `
+    <section class="section">
+
+      <div class="section-head">
+
+        <div class="section-title">
+
+          <span class="dot ${color}"></span>
+
+          ${escapeHtml(title)}
+
+        </div>
+
+        <span class="badge future">
+          ${items.length}
+        </span>
+
+      </div>
+
+      <div class="cards">
+
+        ${items
+          .map(card)
+          .join('')}
+
+      </div>
+
+    </section>
+  `;
+
+}
+
+
+/* ============================================================
+   CARD
+   ============================================================ */
+
+function card(item){
+
+  const editUrl =
+    PERAWAT_URL +
+    '?edit=' +
+    encodeURIComponent(
+      item.ID_INFORMASI
+    );
+
+  let detail = '';
+
+  if(
+    item.JENIS_INFORMASI ===
+    'DOKTER_IZIN'
+  ){
+
+    detail = `
+
+      <div class="info-row">
+
+        <span class="info-label">
+          Periode
+        </span>
+
+        <span class="info-value">
+          ${formatRange(
+            item.TGL_MULAI,
+            item.TGL_SELESAI,
+            item.IZIN_SAMPAI_INFO
+          )}
+        </span>
+
+      </div>
+
+      ${
+        item.SESI &&
+        item.SESI !== 'SEMUA'
+        ?
+        `
+        <div class="info-row">
+          <span class="info-label">
+            Sesi
+          </span>
+          <span class="info-value">
+            ${escapeHtml(item.SESI)}
+          </span>
+        </div>
+        `
+        : ''
+      }
+
+      ${
+        item.TGL_MULAI_PRAKTEK
+        ?
+        `
+        <div class="info-row">
+          <span class="info-label">
+            Praktik kembali
+          </span>
+          <span class="info-value">
+            ${formatDate(
+              item.TGL_MULAI_PRAKTEK
+            )}
+            ${
+              item.SESI_KEMBALI
+              &&
+              item.SESI_KEMBALI !== 'SEMUA'
+              ?
+              ' · ' +
+              escapeHtml(
+                item.SESI_KEMBALI
+              )
+              : ''
+            }
+          </span>
+        </div>
+        `
+        : ''
+      }
+
+    `;
+
+  }
+
+
+  if(
+    item.JENIS_INFORMASI ===
+    'PERUBAHAN_KUOTA'
+  ){
+
+    detail = `
+
+      <div class="info-row">
+
+        <span class="info-label">
+          Berlaku
+        </span>
+
+        <span class="info-value">
+          ${formatRange(
+            item.TGL_MULAI,
+            item.TGL_SELESAI,
+            'TIDAK'
+          )}
+        </span>
+
+      </div>
+
+      <div class="info-row">
+
+        <span class="info-label">
+          Kuota
+        </span>
+
+        <span class="info-value">
+          ${escapeHtml(
+            item.KUOTA || '-'
+          )}
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
+
+  if(
+    item.JENIS_INFORMASI ===
+    'PERUBAHAN_JAM_PRAKTIK'
+  ){
+
+    detail = `
+
+      <div class="info-row">
+
+        <span class="info-label">
+          Berlaku
+        </span>
+
+        <span class="info-value">
+          ${formatRange(
+            item.TGL_MULAI,
+            item.TGL_SELESAI,
+            'TIDAK'
+          )}
+        </span>
+
+      </div>
+
+      <div class="info-row">
+
+        <span class="info-label">
+          Jam praktik
+        </span>
+
+        <span class="info-value">
+          ${
+            escapeHtml(
+              item.JAM_MULAI || '-'
+            )
+          }
+          -
+          ${
+            escapeHtml(
+              item.JAM_SELESAI || '-'
+            )
+          }
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
+
+  return `
+
+    <article class="card">
+
+      <div class="card-top">
+
+        <div>
+
+          <div class="doctor">
+            ${escapeHtml(
+              item.NAMA_DOKTER
+            )}
+          </div>
+
+          <div class="special">
+            ${escapeHtml(
+              item.POLI || ''
+            )}
+          </div>
+
+        </div>
+
+        <span class="badge ${
+          item.STATUS_HARI_INI ===
+          'HARI_INI'
+          ? 'today'
+          : 'future'
+        }">
+
+          ${
+            item.STATUS_HARI_INI ===
+            'HARI_INI'
+            ? 'HARI INI'
+            : 'AKAN DATANG'
+          }
+
+        </span>
+
+      </div>
+
+      <div class="info">
+
+        ${detail}
+
+        ${
+          item.KETERANGAN
+          ?
+          `
+          <div class="note">
+            ${escapeHtml(
+              item.KETERANGAN
+            )}
+          </div>
+          `
+          : ''
+        }
+
+      </div>
+
+      <button
+        class="edit"
+        title="Edit informasi"
+        onclick="editInfo('${escapeAttr(
+          editUrl
+        )}')">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+
+          <path
+            d="M12 20h9"/>
+
+          <path
+            d="M16.5 3.5
+               a2.1 2.1 0 0 1 3 3
+               L7 19
+               l-4 1
+               1-4Z"/>
+
+        </svg>
+
+      </button>
+
+    </article>
+
+  `;
+
+}
+
+
+/* ============================================================
+   EDIT
+   ============================================================ */
+
+function editInfo(url){
+
+  window.location.href = url;
+
+}
+
+
+/* ============================================================
+   FORMAT
+   ============================================================ */
+
+function formatDate(date){
+
+  if(!date){
+    return '-';
+  }
+
+  const d =
+    new Date(
+      date + 'T00:00:00'
+    );
+
+  if(isNaN(d)){
+    return date;
+  }
+
+  return d.toLocaleDateString(
+    'id-ID',
+    {
+      day:'numeric',
+      month:'short',
+      year:'numeric'
+    }
+  );
+
+}
+
+
+function formatRange(
+  mulai,
+  selesai,
+  sampaiInfo
+){
+
+  if(
+    sampaiInfo === 'YA'
+  ){
+    return (
+      formatDate(mulai) +
+      ' – informasi selanjutnya'
+    );
+  }
+
+  if(
+    !selesai ||
+    selesai === mulai
+  ){
+    return formatDate(mulai);
+  }
+
+  return (
+    formatDate(mulai) +
+    ' – ' +
+    formatDate(selesai)
+  );
+
+}
+
+
+/* ============================================================
+   SECURITY HTML
+   ============================================================ */
+
+function escapeHtml(value){
+
+  return String(
+    value == null ? '' : value
+  )
+  .replace(/&/g,'&amp;')
+  .replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;')
+  .replace(/'/g,'&#039;');
+
+}
+
+
+function escapeAttr(value){
+
+  return String(value || '')
+    .replace(/\\/g,'\\\\')
+    .replace(/'/g,"\\'");
+
+}
+
+
+/* ============================================================
+   START
+   ============================================================ */
+
+loadDashboard();
+
+
+/*
+ * Refresh otomatis setiap 60 detik.
+ */
+
+setInterval(
+  loadDashboard,
+  60000
+);
+
 </script>
-</body></html>
+
+</body>
+</html>
