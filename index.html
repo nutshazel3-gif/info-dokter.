@@ -4,62 +4,38 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard Izin Pelayanan & Info Medis - RS. Islam Bontang</title>
-  
-  <!-- Fonts -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-  
-  <!-- Tailwind CDN -->
+
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
           colors: {
-            brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              200: '#bfdbfe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              800: '#1e40af',
-              900: '#1e3a8a',
-            }
+            brand: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a' }
           }
         }
       }
     }
   </script>
   <style>
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .skeleton { background: linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 37%,#f1f5f9 63%); background-size: 400% 100%; animation: skeleton-loading 1.4s ease infinite; }
+    @keyframes skeleton-loading { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-100/70 text-slate-800 antialiased font-sans">
 
-  <!-- TOP APP HEADER -->
   <header class="sticky top-0 z-40 bg-white border-b border-slate-200/90 shadow-xs">
     <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-      <!-- Logo & Brand -->
       <div class="flex items-center space-x-3.5">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
           <span class="material-symbols-outlined text-2xl font-bold">local_hospital</span>
@@ -67,36 +43,31 @@
         <div>
           <div class="flex items-center space-x-2">
             <span class="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">RS. ISLAM BONTANG</span>
-            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>SIMRS Live Connected
+            <span id="conn-badge" class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-500 border border-slate-200">
+              <span id="conn-dot" class="w-1.5 h-1.5 rounded-full bg-slate-400 mr-1.5"></span><span id="conn-text">Belum Terhubung</span>
             </span>
           </div>
           <p class="text-xs text-slate-500 font-medium">Portal Monitoring Izin Dokter, Kuota Poli & Jam Praktik</p>
         </div>
       </div>
 
-      <!-- Right Action Controls: Live Sync & AppsScript Info -->
       <div class="flex items-center space-x-3">
-        <!-- AppsScript API Status Indicator -->
         <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs">
-          <span class="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
+          <span class="w-2 h-2 rounded-full bg-blue-600" id="endpoint-dot"></span>
           <span class="text-slate-600 font-medium">Endpoint:</span>
-          <span id="endpoint-status-text" class="font-semibold text-slate-900 truncate max-w-[140px]" title="Google Apps Script Active">Web App Google Sheets</span>
+          <span id="endpoint-status-text" class="font-semibold text-slate-900 truncate max-w-[180px]" title="Google Apps Script Web App">Belum diatur</span>
         </div>
 
-        <!-- Sync Button -->
         <button onclick="syncDataFromAppsScript()" id="btn-sync" class="inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 hover:text-blue-700 text-xs font-semibold shadow-xs transition active:scale-95">
           <span class="material-symbols-outlined text-sm text-blue-600" id="sync-icon">sync</span>
           <span class="hidden sm:inline">Sinkronkan Data</span>
         </button>
 
-        <!-- API Config Modal Trigger -->
         <button onclick="toggleModal('modal-config')" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100/80 border border-blue-200 text-blue-700 text-xs font-bold transition shadow-xs">
           <span class="material-symbols-outlined text-sm">settings_ethernet</span>
           <span>Integrasi API Apps Script</span>
         </button>
 
-        <!-- View Code Modal Trigger -->
         <button onclick="toggleModal('modal-code')" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition shadow-xs">
           <span class="material-symbols-outlined text-sm text-emerald-400">terminal</span>
           <span class="hidden lg:inline">Lihat Code.gs</span>
@@ -105,14 +76,12 @@
     </div>
   </header>
 
-  <!-- MAIN WEB DASHBOARD WORKSPACE -->
   <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- HERO METRIC BANNER & QUICK STATS -->
+    <div id="alert-box" class="hidden rounded-xl border p-4 text-xs font-semibold"></div>
+
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-      <!-- Welcome & Context Card (Left col 5) -->
       <div class="lg:col-span-5 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 rounded-2xl p-6 text-white flex flex-col justify-between shadow-lg relative overflow-hidden">
-        <!-- Decorative Glow -->
         <div class="absolute -right-12 -top-12 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -125,30 +94,27 @@
             Izin Pelayanan & Info Medis Poliklinik
           </h1>
           <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Data tersinkronisasi langsung dari spreadsheet manajemen RS Islam Bontang melalui Google Apps Script Web App JSON API.
+            Data tersinkronisasi langsung dari spreadsheet manajemen RS Islam Bontang melalui Google Apps Script Web App JSON API (<code>aksi=get_dashboard</code>).
           </p>
         </div>
 
-        <!-- Quick Summary Bar -->
         <div class="mt-6 pt-5 border-t border-white/15 grid grid-cols-3 gap-3 relative z-10">
           <div>
-            <span class="block text-[11px] text-blue-200 font-medium">Hari Ini Izin</span>
-            <span class="text-xl sm:text-2xl font-black text-white" id="stat-hero-izin-today">2 Dokter</span>
+            <span class="block text-[11px] text-blue-200 font-medium">Izin Hari Ini</span>
+            <span class="text-xl sm:text-2xl font-black text-white" id="stat-hero-izin-today">0</span>
           </div>
           <div>
             <span class="block text-[11px] text-blue-200 font-medium">Akan Datang</span>
-            <span class="text-xl sm:text-2xl font-black text-white" id="stat-hero-izin-upcoming">2 Dokter</span>
+            <span class="text-xl sm:text-2xl font-black text-white" id="stat-hero-izin-upcoming">0</span>
           </div>
           <div>
-            <span class="block text-[11px] text-emerald-300 font-medium">Pembaruan Kuota</span>
-            <span class="text-xl sm:text-2xl font-black text-emerald-400">4 Poli</span>
+            <span class="block text-[11px] text-emerald-300 font-medium">Total Data</span>
+            <span class="text-xl sm:text-2xl font-black text-emerald-400" id="stat-hero-total">0</span>
           </div>
         </div>
       </div>
 
-      <!-- Overview Stats Cards (Right col 7) -->
       <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
-        <!-- Stat Card 1 -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs flex flex-col justify-between hover:shadow-md transition">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Dokter Izin</span>
@@ -157,20 +123,15 @@
             </div>
           </div>
           <div class="my-3">
-            <div class="text-3xl font-black text-slate-900" id="card-stat-total-izin">4</div>
-            <div class="text-xs text-slate-500 mt-1 flex items-center space-x-1">
-              <span class="font-semibold text-rose-600">2 aktif saat ini</span>
-              <span>•</span>
-              <span>2 terjadwal</span>
-            </div>
+            <div class="text-3xl font-black text-slate-900" id="card-stat-total-izin">0</div>
+            <div class="text-xs text-slate-500 mt-1" id="card-stat-total-izin-sub">-</div>
           </div>
           <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-400 flex items-center justify-between">
-            <span>Terverifikasi SIMRS</span>
-            <span class="text-emerald-600 font-bold">100%</span>
+            <span>Sumber</span>
+            <span class="text-emerald-600 font-bold">INFORMASI_DOKTER</span>
           </div>
         </div>
 
-        <!-- Stat Card 2 -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs flex flex-col justify-between hover:shadow-md transition">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Perubahan Kuota</span>
@@ -179,20 +140,15 @@
             </div>
           </div>
           <div class="my-3">
-            <div class="text-3xl font-black text-slate-900" id="card-stat-total-kuota">4</div>
-            <div class="text-xs text-slate-500 mt-1 flex items-center space-x-1">
-              <span class="font-semibold text-amber-600">3 poli hari ini</span>
-              <span>•</span>
-              <span>1 terencana</span>
-            </div>
+            <div class="text-3xl font-black text-slate-900" id="card-stat-total-kuota">0</div>
+            <div class="text-xs text-slate-500 mt-1" id="card-stat-total-kuota-sub">-</div>
           </div>
           <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-400 flex items-center justify-between">
-            <span>Status Registrasi</span>
-            <span class="text-blue-600 font-bold">Auto Update</span>
+            <span>Jenis</span>
+            <span class="text-blue-600 font-bold">PERUBAHAN_KUOTA</span>
           </div>
         </div>
 
-        <!-- Stat Card 3 -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs flex flex-col justify-between hover:shadow-md transition">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Perubahan Jam</span>
@@ -201,522 +157,111 @@
             </div>
           </div>
           <div class="my-3">
-            <div class="text-3xl font-black text-slate-900" id="card-stat-total-jam">3</div>
-            <div class="text-xs text-slate-500 mt-1 flex items-center space-x-1">
-              <span class="font-semibold text-violet-600">2 shift hari ini</span>
-              <span>•</span>
-              <span>1 mendatang</span>
-            </div>
+            <div class="text-3xl font-black text-slate-900" id="card-stat-total-jam">0</div>
+            <div class="text-xs text-slate-500 mt-1" id="card-stat-total-jam-sub">-</div>
           </div>
           <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-400 flex items-center justify-between">
-            <span>Konfirmasi Dokter</span>
-            <span class="text-violet-600 font-bold">Valid</span>
+            <span>Jenis</span>
+            <span class="text-violet-600 font-bold">PERUBAHAN_JAM</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- MAIN INTERACTIVE SECTION: TAB CONTROLS & FILTER TOOLBAR -->
     <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-4 sm:p-6 space-y-6">
-      
-      <!-- Top Bar: Tabs Switcher & Search & Status Filter -->
+
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-4 border-b border-slate-200">
-        <!-- 3 Primary Category Tabs -->
         <div class="inline-flex p-1.5 bg-slate-100 rounded-xl space-x-1 self-start lg:self-auto overflow-x-auto max-w-full">
           <button onclick="switchCategory('dokter-izin')" id="tab-nav-dokter-izin" class="tab-main-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all duration-200 bg-white text-blue-700 shadow-xs flex items-center space-x-2">
             <span class="material-symbols-outlined text-base">badge</span>
             <span>Dokter Izin</span>
-            <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-800" id="tab-badge-izin">4</span>
+            <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-blue-100 text-blue-800" id="tab-badge-izin">0</span>
           </button>
           <button onclick="switchCategory('perubahan-kuota')" id="tab-nav-perubahan-kuota" class="tab-main-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900 flex items-center space-x-2">
             <span class="material-symbols-outlined text-base">stacked_bar_chart</span>
             <span>Perubahan Kuota</span>
-            <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-200 text-slate-700" id="tab-badge-kuota">4 Poli</span>
+            <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-200 text-slate-700" id="tab-badge-kuota">0</span>
           </button>
           <button onclick="switchCategory('perubahan-jam')" id="tab-nav-perubahan-jam" class="tab-main-btn px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-slate-600 hover:text-slate-900 flex items-center space-x-2">
             <span class="material-symbols-outlined text-base">schedule</span>
             <span>Perubahan Jam Praktik</span>
-            <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-200 text-slate-700" id="tab-badge-jam">3 Dokter</span>
+            <span class="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-200 text-slate-700" id="tab-badge-jam">0</span>
           </button>
         </div>
 
-        <!-- Filter Controls: Search & Status Filter -->
         <div class="flex flex-wrap sm:flex-nowrap items-center gap-3">
-          <!-- Live Search Input -->
           <div class="relative w-full sm:w-64">
             <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
             <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Cari nama dokter / poli..." class="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition"/>
           </div>
 
-          <!-- Status Segmented Control -->
           <div class="inline-flex p-1 bg-slate-100 rounded-xl space-x-1">
             <button onclick="setStatusFilter('all')" id="btn-filter-all" class="status-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs transition">Semua</button>
             <button onclick="setStatusFilter('today')" id="btn-filter-today" class="status-btn px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center space-x-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-              <span>Hari Ini</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span><span>Hari Ini</span>
             </button>
             <button onclick="setStatusFilter('upcoming')" id="btn-filter-upcoming" class="status-btn px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center space-x-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-              <span>Akan Datang</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span><span>Akan Datang</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- ============================================== -->
-      <!-- TAB 1: DOKTER IZIN (GRID DISPLAY) -->
-      <!-- ============================================== -->
+      <!-- TAB 1: DOKTER IZIN -->
       <div id="panel-dokter-izin" class="category-panel space-y-6">
-        <!-- Section 1: Hari Ini -->
         <div id="section-izin-today" class="sub-section space-y-3">
           <div class="flex items-center space-x-2">
             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-200">
               <span class="w-2 h-2 rounded-full bg-rose-600 mr-1.5 animate-pulse"></span>Berlaku Hari Ini
             </span>
             <div class="h-px flex-1 bg-slate-200"></div>
-            <span class="text-xs text-slate-400 font-medium" id="count-izin-today">2 Dokter Aktif Izin</span>
+            <span class="text-xs text-slate-400 font-medium" id="count-izin-today">0 Dokter</span>
           </div>
-
-          <!-- Cards Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5" id="grid-izin-today">
-            <!-- Card 1: DR. HIDAYAT -->
-            <div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200 p-6 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-300"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between gap-3 pt-1">
-                  <div>
-                    <div class="flex items-center space-x-2">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
-                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin
-                      </span>
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Bedah</span>
-                    </div>
-                    <h3 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1.5 group-hover:text-blue-700 transition">DR. HIDAYAT, SP.B</h3>
-                  </div>
-                  <div class="w-11 h-11 rounded-xl bg-blue-50/70 border border-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0">
-                    <span class="material-symbols-outlined text-2xl">medical_services</span>
-                  </div>
-                </div>
-
-                <!-- Info Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  <!-- Periode -->
-                  <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Periode Izin</span>
-                    <div class="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-slate-800 mt-1">
-                      <span class="material-symbols-outlined text-base text-rose-500">event_busy</span>
-                      <span>4 Sept 2026 – 12 Sept 2026</span>
-                    </div>
-                  </div>
-
-                  <!-- Praktik Kembali -->
-                  <div class="bg-gradient-to-r from-blue-50 to-indigo-50/70 border border-blue-200/80 rounded-xl p-3">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 block">Mulai Praktik Kembali</span>
-                    <div class="flex items-center space-x-2 text-xs sm:text-sm font-extrabold text-blue-950 mt-1">
-                      <span class="material-symbols-outlined text-base text-blue-600">calendar_month</span>
-                      <span>14 September 2026</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Keterangan -->
-                <div class="bg-slate-50/80 border border-slate-100 rounded-xl p-3 text-xs text-slate-600 flex items-start space-x-2">
-                  <span class="material-symbols-outlined text-slate-400 text-sm mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-                  <div>
-                    <span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-                    <p class="mt-0.5 leading-relaxed">Mengikuti Pelatihan Bedah Laparoskopi Lanjutan di Jakarta.</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Footer info -->
-              <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <div class="flex items-center space-x-3">
-                  <span class="text-slate-400 text-[11px]">Diinput: <strong class="text-slate-700">Perawat Poli</strong></span>
-                  <span class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
-                    <span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-                    <span>TERVERIFIKASI SIMRS</span>
-                  </span>
-                </div>
-                <button class="text-slate-500 hover:text-blue-600 font-semibold text-xs flex items-center space-x-1">
-                  <span class="material-symbols-outlined text-xs">open_in_new</span>
-                  <span>Detail</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Card 2: DR. DEWI MAHARNI -->
-            <div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200 p-6 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-300"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between gap-3 pt-1">
-                  <div>
-                    <div class="flex items-center space-x-2">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
-                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin
-                      </span>
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Jiwa</span>
-                    </div>
-                    <h3 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1.5 group-hover:text-blue-700 transition">DR. DEWI MAHARNI, SP.KJ</h3>
-                  </div>
-                  <div class="w-11 h-11 rounded-xl bg-purple-50/70 border border-purple-100 flex items-center justify-center text-purple-600 flex-shrink-0">
-                    <span class="material-symbols-outlined text-2xl">psychology</span>
-                  </div>
-                </div>
-
-                <!-- Info Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Periode Izin</span>
-                    <div class="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-slate-800 mt-1">
-                      <span class="material-symbols-outlined text-base text-rose-500">event_busy</span>
-                      <span>9 Sept 2026 – 17 Sept 2026</span>
-                    </div>
-                  </div>
-
-                  <div class="bg-gradient-to-r from-blue-50 to-indigo-50/70 border border-blue-200/80 rounded-xl p-3">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 block">Mulai Praktik Kembali</span>
-                    <div class="flex items-center space-x-2 text-xs sm:text-sm font-extrabold text-blue-950 mt-1">
-                      <span class="material-symbols-outlined text-base text-blue-600">calendar_month</span>
-                      <span>18 September 2026</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Keterangan -->
-                <div class="bg-slate-50/80 border border-slate-100 rounded-xl p-3 text-xs text-slate-600 flex items-start space-x-2">
-                  <span class="material-symbols-outlined text-slate-400 text-sm mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-                  <div>
-                    <span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-                    <p class="mt-0.5 leading-relaxed">Pelaksanaan cuti tahunan resmi dan delegasi tugas dokter pendamping.</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Footer info -->
-              <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <div class="flex items-center space-x-3">
-                  <span class="text-slate-400 text-[11px]">Diinput: <strong class="text-slate-700">Perawat Poli</strong></span>
-                  <span class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
-                    <span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-                    <span>TERVERIFIKASI SIMRS</span>
-                  </span>
-                </div>
-                <button class="text-slate-500 hover:text-blue-600 font-semibold text-xs flex items-center space-x-1">
-                  <span class="material-symbols-outlined text-xs">open_in_new</span>
-                  <span>Detail</span>
-                </button>
-              </div>
-            </div>
-          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5" id="grid-izin-today"></div>
         </div>
 
-        <!-- Section 2: Akan Datang (Upcoming) -->
         <div id="section-izin-upcoming" class="sub-section space-y-3 pt-3">
           <div class="flex items-center space-x-2">
             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
               <span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
             </span>
             <div class="h-px flex-1 bg-indigo-100"></div>
-            <span class="text-xs text-indigo-600 font-semibold" id="count-izin-upcoming">2 Dokter Terjadwal</span>
+            <span class="text-xs text-indigo-600 font-semibold" id="count-izin-upcoming">0 Dokter</span>
           </div>
-
-          <!-- Cards Grid Upcoming -->
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5" id="grid-izin-upcoming">
-            <!-- Upcoming 1: DR. ARIF BUDIMAN -->
-            <div class="data-card bg-white rounded-2xl border border-indigo-200/80 shadow-sm hover:shadow-md transition-all duration-200 p-6 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between gap-3 pt-1">
-                  <div>
-                    <div class="flex items-center space-x-2">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200">
-                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
-                      </span>
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Anak</span>
-                    </div>
-                    <h3 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1.5 group-hover:text-indigo-700 transition">DR. ARIF BUDIMAN, SP.A</h3>
-                  </div>
-                  <div class="w-11 h-11 rounded-xl bg-amber-50/70 border border-amber-100 flex items-center justify-center text-amber-600 flex-shrink-0">
-                    <span class="material-symbols-outlined text-2xl">child_care</span>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  <div class="bg-indigo-50/40 border border-indigo-100 rounded-xl p-3">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Periode Izin Mendatang</span>
-                    <div class="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-slate-800 mt-1">
-                      <span class="material-symbols-outlined text-base text-indigo-600">event</span>
-                      <span>15 Sept 2026 – 20 Sept 2026</span>
-                    </div>
-                  </div>
-
-                  <div class="bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200/80 rounded-xl p-3">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-900 block">Mulai Praktik Kembali</span>
-                    <div class="flex items-center space-x-2 text-xs sm:text-sm font-extrabold text-indigo-950 mt-1">
-                      <span class="material-symbols-outlined text-base text-indigo-600">event_upcoming</span>
-                      <span>22 September 2026</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="bg-slate-50/80 border border-slate-100 rounded-xl p-3 text-xs text-slate-600 flex items-start space-x-2">
-                  <span class="material-symbols-outlined text-slate-400 text-sm mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-                  <div>
-                    <span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-                    <p class="mt-0.5 leading-relaxed">Cuti Ibadah / Partisipasi Pembicara Seminar Nasional Pediatri.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="text-slate-400 text-[11px]">Status: <strong class="text-indigo-700">TERJADWAL SISTEM</strong></span>
-                <span class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
-                  <span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-                  <span>TERVERIFIKASI</span>
-                </span>
-              </div>
-            </div>
-
-            <!-- Upcoming 2: DR. SISKA AMELIA -->
-            <div class="data-card bg-white rounded-2xl border border-indigo-200/80 shadow-sm hover:shadow-md transition-all duration-200 p-6 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between gap-3 pt-1">
-                  <div>
-                    <div class="flex items-center space-x-2">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200">
-                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
-                      </span>
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Mata</span>
-                    </div>
-                    <h3 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1.5 group-hover:text-indigo-700 transition">DR. SISKA AMELIA, SP.M</h3>
-                  </div>
-                  <div class="w-11 h-11 rounded-xl bg-teal-50/70 border border-teal-100 flex items-center justify-center text-teal-600 flex-shrink-0">
-                    <span class="material-symbols-outlined text-2xl">visibility</span>
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  <div class="bg-indigo-50/40 border border-indigo-100 rounded-xl p-3">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Periode Izin Mendatang</span>
-                    <div class="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-slate-800 mt-1">
-                      <span class="material-symbols-outlined text-base text-indigo-600">event</span>
-                      <span>18 Sept 2026 – 21 Sept 2026</span>
-                    </div>
-                  </div>
-
-                  <div class="bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200/80 rounded-xl p-3">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-900 block">Mulai Praktik Kembali</span>
-                    <div class="flex items-center space-x-2 text-xs sm:text-sm font-extrabold text-indigo-950 mt-1">
-                      <span class="material-symbols-outlined text-base text-indigo-600">event_upcoming</span>
-                      <span>23 September 2026</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="bg-slate-50/80 border border-slate-100 rounded-xl p-3 text-xs text-slate-600 flex items-start space-x-2">
-                  <span class="material-symbols-outlined text-slate-400 text-sm mt-0.5 flex-shrink-0">chat_bubble_outline</span>
-                  <div>
-                    <span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
-                    <p class="mt-0.5 leading-relaxed">Penugasan khusus simposium oftalmologi regional dan tindak lanjut delegasi klinis.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="text-slate-400 text-[11px]">Status: <strong class="text-indigo-700">TERJADWAL SISTEM</strong></span>
-                <span class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
-                  <span class="material-symbols-outlined text-xs text-blue-600">verified</span>
-                  <span>TERVERIFIKASI</span>
-                </span>
-              </div>
-            </div>
-          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-5" id="grid-izin-upcoming"></div>
         </div>
+
+        <div id="empty-izin" class="hidden text-center py-10 text-sm text-slate-400">Belum ada data izin dokter.</div>
       </div>
 
-      <!-- ============================================== -->
-      <!-- TAB 2: PERUBAHAN KUOTA POLI (GRID DISPLAY) -->
-      <!-- ============================================== -->
+      <!-- TAB 2: PERUBAHAN KUOTA -->
       <div id="panel-perubahan-kuota" class="category-panel hidden space-y-6">
-        <!-- Section: Kuota Hari Ini -->
         <div id="section-kuota-today" class="sub-section space-y-3">
           <div class="flex items-center space-x-2">
             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-200">
               <span class="w-2 h-2 rounded-full bg-amber-500 mr-1.5"></span>Berlaku Hari Ini
             </span>
             <div class="h-px flex-1 bg-slate-200"></div>
-            <span class="text-xs text-slate-400 font-medium">3 Poli Diperbarui</span>
+            <span class="text-xs text-slate-400 font-medium" id="count-kuota-today">0 Poli</span>
           </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <!-- Kuota Card 1: Poli Anak -->
-            <div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-400"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between gap-2">
-                  <div>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">Poli Anak</span>
-                    <h4 class="font-extrabold text-base text-slate-900 mt-1">DR. MUHAMMAD ARIS, SP.A</h4>
-                  </div>
-                  <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-                    <span class="material-symbols-outlined text-xl">child_care</span>
-                  </div>
-                </div>
-
-                <!-- Perbandingan Kuota -->
-                <div class="bg-amber-50/50 border border-amber-200/70 rounded-xl p-3 flex items-center justify-around text-center">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
-                    <span class="text-base font-bold text-slate-500 line-through">25 Pasien</span>
-                  </div>
-                  <span class="material-symbols-outlined text-amber-600">arrow_forward</span>
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-amber-800 block">Kuota Baru</span>
-                    <span class="text-xl font-black text-amber-600">35 Pasien</span>
-                  </div>
-                </div>
-
-                <div class="text-xs text-slate-600 bg-slate-50 rounded-lg p-2.5 border border-slate-100">
-                  <span class="font-bold text-[10px] uppercase text-slate-500 block">Efektif:</span>
-                  <span>Hari ini, mulai 08:00 WIB • Khusus antrean umum & faskes 1</span>
-                </div>
-              </div>
-              <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>SIMRS Status: <strong class="text-blue-600">Sinkron</strong></span>
-                <span class="text-emerald-600 font-bold">+10 Kuota</span>
-              </div>
-            </div>
-
-            <!-- Kuota Card 2: Poli Penyakit Dalam -->
-            <div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-400"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between gap-2">
-                  <div>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">Penyakit Dalam</span>
-                    <h4 class="font-extrabold text-base text-slate-900 mt-1">DR. HENDRA GUNAWAN, SP.PD</h4>
-                  </div>
-                  <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-                    <span class="material-symbols-outlined text-xl">vital_signs</span>
-                  </div>
-                </div>
-
-                <div class="bg-amber-50/50 border border-amber-200/70 rounded-xl p-3 flex items-center justify-around text-center">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
-                    <span class="text-base font-bold text-slate-500 line-through">40 Pasien</span>
-                  </div>
-                  <span class="material-symbols-outlined text-amber-600">arrow_forward</span>
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-amber-800 block">Kuota Baru</span>
-                    <span class="text-xl font-black text-amber-600">30 Pasien</span>
-                  </div>
-                </div>
-
-                <div class="text-xs text-slate-600 bg-slate-50 rounded-lg p-2.5 border border-slate-100">
-                  <span class="font-bold text-[10px] uppercase text-slate-500 block">Efektif:</span>
-                  <span>Hari ini, mulai 09:30 WIB • Pembatasan karena tindakan endoskopi</span>
-                </div>
-              </div>
-              <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>SIMRS Status: <strong class="text-blue-600">Sinkron</strong></span>
-                <span class="text-rose-600 font-bold">-10 Kuota</span>
-              </div>
-            </div>
-
-            <!-- Kuota Card 3: Poli Jantung -->
-            <div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-400"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between gap-2">
-                  <div>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">Poli Jantung</span>
-                    <h4 class="font-extrabold text-base text-slate-900 mt-1">DR. FARHAN MAULANA, SP.JP</h4>
-                  </div>
-                  <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-                    <span class="material-symbols-outlined text-xl">ecg_heart</span>
-                  </div>
-                </div>
-
-                <div class="bg-amber-50/50 border border-amber-200/70 rounded-xl p-3 flex items-center justify-around text-center">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
-                    <span class="text-base font-bold text-slate-500 line-through">20 Pasien</span>
-                  </div>
-                  <span class="material-symbols-outlined text-amber-600">arrow_forward</span>
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-amber-800 block">Kuota Baru</span>
-                    <span class="text-xl font-black text-amber-600">28 Pasien</span>
-                  </div>
-                </div>
-
-                <div class="text-xs text-slate-600 bg-slate-50 rounded-lg p-2.5 border border-slate-100">
-                  <span class="font-bold text-[10px] uppercase text-slate-500 block">Efektif:</span>
-                  <span>Hari ini, 10:00 WIB • Penambahan ruang rekam EKG mempercepat alur</span>
-                </div>
-              </div>
-              <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>SIMRS Status: <strong class="text-blue-600">Sinkron</strong></span>
-                <span class="text-emerald-600 font-bold">+8 Kuota</span>
-              </div>
-            </div>
-          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5" id="grid-kuota-today"></div>
         </div>
 
-        <!-- Section: Kuota Akan Datang -->
         <div id="section-kuota-upcoming" class="sub-section space-y-3 pt-2">
           <div class="flex items-center space-x-2">
             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
               <span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
             </span>
             <div class="h-px flex-1 bg-indigo-100"></div>
-            <span class="text-xs text-indigo-600 font-semibold">1 Poli Terjadwal</span>
+            <span class="text-xs text-indigo-600 font-semibold" id="count-kuota-upcoming">0 Poli</span>
           </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            <div class="data-card bg-white rounded-2xl border border-indigo-200/80 shadow-sm p-5 flex flex-col justify-between">
-              <div class="space-y-4">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200">Poli Gigi & Mulut</span>
-                    <h4 class="font-extrabold text-base text-slate-900 mt-1">DRG. RATNA INDAH, SP.KG</h4>
-                  </div>
-                  <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center flex-shrink-0">
-                    <span class="material-symbols-outlined text-xl">dentistry</span>
-                  </div>
-                </div>
-
-                <div class="bg-indigo-50/50 border border-indigo-200/70 rounded-xl p-3 flex items-center justify-around text-center">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
-                    <span class="text-base font-bold text-slate-500 line-through">25 Pasien</span>
-                  </div>
-                  <span class="material-symbols-outlined text-indigo-600">arrow_forward</span>
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-indigo-900 block">Kapasitas Baru</span>
-                    <span class="text-xl font-black text-indigo-700">15 Pasien</span>
-                  </div>
-                </div>
-
-                <div class="text-xs text-slate-600 bg-slate-50 rounded-lg p-2.5 border border-slate-100">
-                  <span class="font-bold text-[10px] uppercase text-slate-500 block">Mulai Berlaku:</span>
-                  <span>15 September 2026 • Pemeliharaan berkala unit dental chair 2</span>
-                </div>
-              </div>
-              <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-indigo-700 font-semibold">
-                <span>Status: Terjadwal</span>
-                <span>Penyesuaian Kapasitas</span>
-              </div>
-            </div>
-          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" id="grid-kuota-upcoming"></div>
         </div>
+
+        <div id="empty-kuota" class="hidden text-center py-10 text-sm text-slate-400">Belum ada data perubahan kuota.</div>
       </div>
 
-      <!-- ============================================== -->
-      <!-- TAB 3: PERUBAHAN JAM PRAKTIK (GRID DISPLAY) -->
-      <!-- ============================================== -->
+      <!-- TAB 3: PERUBAHAN JAM -->
       <div id="panel-perubahan-jam" class="category-panel hidden space-y-6">
         <div id="section-jam-today" class="sub-section space-y-3">
           <div class="flex items-center space-x-2">
@@ -724,100 +269,27 @@
               <span class="w-2 h-2 rounded-full bg-violet-600 mr-1.5"></span>Berlaku Hari Ini
             </span>
             <div class="h-px flex-1 bg-slate-200"></div>
-            <span class="text-xs text-slate-400 font-medium">2 Dokter Bergeser</span>
+            <span class="text-xs text-slate-400 font-medium" id="count-jam-today">0 Dokter</span>
           </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <!-- Jam Card 1: DR SITI SARAH -->
-            <div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 to-purple-400"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-50 text-violet-800 border border-violet-200">Poli Obgyn</span>
-                    <h3 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1.5">DR. SITI SARAH, SP.OG</h3>
-                  </div>
-                  <div class="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-2xl">pregnant_woman</span>
-                  </div>
-                </div>
-
-                <!-- Pergeseran Jam -->
-                <div class="bg-violet-50/70 border border-violet-200/80 rounded-xl p-3.5 flex items-center justify-between">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-slate-400 block">Jam Semula</span>
-                    <span class="text-sm font-extrabold text-slate-500 line-through">09:00 – 13:00 WIB</span>
-                  </div>
-                  <div class="w-8 h-8 rounded-full bg-violet-600 text-white flex items-center justify-center shadow-xs">
-                    <span class="material-symbols-outlined text-base">schedule</span>
-                  </div>
-                  <div class="text-right">
-                    <span class="text-[10px] font-bold uppercase text-violet-800 block">Jam Baru (Hari Ini)</span>
-                    <span class="text-base font-black text-violet-700">14:00 – 18:00 WIB</span>
-                  </div>
-                </div>
-
-                <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs text-slate-600">
-                  <strong class="text-slate-800">Alasan:</strong> Pergeseran jadwal akibat visitasi operasi caesar emergency pada pagi hari.
-                </div>
-              </div>
-              <div class="pt-3.5 mt-3.5 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="inline-flex items-center text-violet-700 font-bold space-x-1">
-                  <span class="material-symbols-outlined text-xs">check_circle</span>
-                  <span>Sudah Terkonfirmasi</span>
-                </span>
-                <span class="text-slate-400 text-[11px]">Shift Siang / Sore</span>
-              </div>
-            </div>
-
-            <!-- Jam Card 2: DR BUDI SANTOSO -->
-            <div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 flex flex-col justify-between relative overflow-hidden group">
-              <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 to-purple-400"></div>
-              <div class="space-y-4">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-50 text-violet-800 border border-violet-200">Poli Bedah Tulang</span>
-                    <h3 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1.5">DR. BUDI SANTOSO, SP.OT</h3>
-                  </div>
-                  <div class="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined text-2xl">orthopedics</span>
-                  </div>
-                </div>
-
-                <!-- Pergeseran Jam -->
-                <div class="bg-violet-50/70 border border-violet-200/80 rounded-xl p-3.5 flex items-center justify-between">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase text-slate-400 block">Jam Semula</span>
-                    <span class="text-sm font-extrabold text-slate-500 line-through">11:00 – 15:00 WIB</span>
-                  </div>
-                  <div class="w-8 h-8 rounded-full bg-violet-600 text-white flex items-center justify-center shadow-xs">
-                    <span class="material-symbols-outlined text-base">schedule</span>
-                  </div>
-                  <div class="text-right">
-                    <span class="text-[10px] font-bold uppercase text-violet-800 block">Jam Baru (Hari Ini)</span>
-                    <span class="text-base font-black text-violet-700">08:30 – 12:30 WIB</span>
-                  </div>
-                </div>
-
-                <div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs text-slate-600">
-                  <strong class="text-slate-800">Alasan:</strong> Jadwal dimajukan lebih awal untuk mengantisipasi rapat komite medik siang hari.
-                </div>
-              </div>
-              <div class="pt-3.5 mt-3.5 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="inline-flex items-center text-violet-700 font-bold space-x-1">
-                  <span class="material-symbols-outlined text-xs">check_circle</span>
-                  <span>Sudah Terkonfirmasi</span>
-                </span>
-                <span class="text-slate-400 text-[11px]">Shift Pagi Lebih Awal</span>
-              </div>
-            </div>
-          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="grid-jam-today"></div>
         </div>
+
+        <div id="section-jam-upcoming" class="sub-section space-y-3 pt-2">
+          <div class="flex items-center space-x-2">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
+              <span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
+            </span>
+            <div class="h-px flex-1 bg-indigo-100"></div>
+            <span class="text-xs text-indigo-600 font-semibold" id="count-jam-upcoming">0 Dokter</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="grid-jam-upcoming"></div>
+        </div>
+
+        <div id="empty-jam" class="hidden text-center py-10 text-sm text-slate-400">Belum ada data perubahan jam praktik.</div>
       </div>
 
     </div>
 
-    <!-- GOOGLE APPS SCRIPT SYNC LOG & CONNECTION GUIDE (BOTTOM EXPANDER) -->
     <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-5">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div class="flex items-start space-x-3.5">
@@ -825,8 +297,8 @@
             <span class="material-symbols-outlined text-2xl">table_chart</span>
           </div>
           <div>
-            <h4 class="font-bold text-slate-900 text-sm">Sinkronisasi Dua Arah Google Sheets & Google Apps Script</h4>
-            <p class="text-xs text-slate-500 mt-0.5">Semua data tabel dokter izin, perubahan kuota, dan jadwal diupdate langsung dari spreadsheet administrasi RS. Islam Bontang.</p>
+            <h4 class="font-bold text-slate-900 text-sm">Sinkronisasi Google Sheets & Google Apps Script</h4>
+            <p class="text-xs text-slate-500 mt-0.5">Data diambil langsung dari sheet <strong>INFORMASI_DOKTER</strong> (dan <strong>DETAIL_INFORMASI_DOKTER</strong> untuk detail tanggal kembali praktik) melalui endpoint <code>?aksi=get_dashboard</code>. Setiap aksi simpan/ubah data juga otomatis tercatat di sheet <strong>LOG</strong>.</p>
           </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -840,38 +312,29 @@
         </div>
       </div>
 
-      <!-- Live Debug / Status Box -->
       <div id="box-live-debug" class="hidden mt-4 pt-4 border-t border-slate-100 font-mono text-xs text-slate-600 space-y-1.5 bg-slate-50 p-4 rounded-xl">
         <div class="text-slate-400 uppercase text-[10px] font-sans font-bold tracking-wider mb-1">Live Sync Monitor</div>
-        <div id="log-line-1" class="text-emerald-700">✓ [SIMRS API] Ready. Endpoint state: Active.</div>
+        <div id="log-line-1" class="text-slate-500">i [SIMRS API] Menunggu URL Web App diatur.</div>
         <div id="log-line-2" class="text-slate-600">i [AppsScript] Polling interval: Manual on demand & auto 60s.</div>
-        <div id="log-line-3" class="text-blue-700">i [Data Load] 4 Dokter Izin, 4 Penyesuaian Kuota, 3 Perubahan Jam Praktik terdata.</div>
+        <div id="log-line-3" class="text-blue-700">i [Data Load] Belum ada data dimuat.</div>
       </div>
     </div>
   </main>
 
-  <!-- FOOTER -->
   <footer class="mt-auto border-t border-slate-200 bg-white py-4 px-4 sm:px-6 lg:px-8 text-xs text-slate-500">
     <div class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <div>
-        © 2026 <span class="font-bold text-slate-700">Rumah Sakit Islam Bontang</span>. Sistem Informasi Manajemen Rawat Jalan & Info Medis.
-      </div>
+      <div>© 2026 <span class="font-bold text-slate-700">Rumah Sakit Islam Bontang</span>. Sistem Informasi Manajemen Rawat Jalan & Info Medis.</div>
       <div class="flex items-center space-x-4">
-        <span class="flex items-center space-x-1">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span>Web & Mobile Synchronized</span>
-        </span>
+        <span class="flex items-center space-x-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span>Web & Mobile Synchronized</span></span>
         <span class="text-slate-300">|</span>
-        <span>Versi Web 3.5.0</span>
+        <span>Versi Web 4.0.0 (Live API)</span>
       </div>
     </div>
   </footer>
 
-  <!-- ======================================================== -->
-  <!-- MODAL 1: KONFIGURASI API GOOGLE APPS SCRIPT -->
-  <!-- ======================================================== -->
+  <!-- MODAL 1: KONFIGURASI API -->
   <div id="modal-config" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div class="bg-white rounded-3xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden">
       <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
         <div class="flex items-center space-x-2.5">
           <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
@@ -890,26 +353,34 @@
       <div class="p-6 space-y-4 text-xs">
         <div>
           <label class="block font-bold text-slate-700 mb-1.5">Web App Deployment URL (Apps Script):</label>
-          <input type="url" id="input-api-url" placeholder="https://script.google.com/macros/s/.../exec" value="https://script.google.com/macros/s/AKfycbzEXAMPLE/exec" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
-          <p class="text-[11px] text-slate-400 mt-1">Dapatkan URL ini dari menu <em>Deploy > New deployment > Web app</em> (Access: Anyone) pada Google Apps Script.</p>
+          <input type="url" id="input-api-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs font-mono focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+          <p class="text-[11px] text-slate-400 mt-1">Dapatkan URL ini dari menu <em>Deploy &gt; New deployment &gt; Web app</em> (Execute as: Me, Access: Anyone) pada proyek Apps Script yang berisi <code>Code.gs</code> Anda.</p>
         </div>
 
         <div class="bg-blue-50/70 border border-blue-200/80 rounded-xl p-3.5 space-y-2 text-slate-700">
           <div class="font-bold text-blue-900 flex items-center space-x-1.5">
             <span class="material-symbols-outlined text-base text-blue-600">info</span>
-            <span>Struktur Sheet yang didukung:</span>
+            <span>Struktur Spreadsheet yang digunakan:</span>
           </div>
           <p class="text-[11px] leading-relaxed">
-            Google Spreadsheet memerlukan 3 sheet / tab dengan nama:
-            <br/>• <code class="bg-white px-1.5 py-0.5 rounded font-bold text-blue-800">DokterIzin</code>: (nama_dokter, poli, tanggal_mulai, tanggal_selesai, kembali_praktik, keterangan, status)
-            <br/>• <code class="bg-white px-1.5 py-0.5 rounded font-bold text-blue-800">PerubahanKuota</code>: (nama_dokter, poli, kuota_lama, kuota_baru, tanggal_efektif, keterangan, status)
-            <br/>• <code class="bg-white px-1.5 py-0.5 rounded font-bold text-blue-800">PerubahanJam</code>: (nama_dokter, poli, jam_lama, jam_baru, tanggal_efektif, keterangan, status)
+            Backend membaca 4 sheet:
+            <br/>&bull; <code class="bg-white px-1.5 py-0.5 rounded font-bold text-blue-800">DOKTER</code> &mdash; master data dokter
+            <br/>&bull; <code class="bg-white px-1.5 py-0.5 rounded font-bold text-blue-800">INFORMASI_DOKTER</code> &mdash; data izin / perubahan kuota / perubahan jam (kolom JENIS_INFORMASI membedakan jenisnya)
+            <br/>&bull; <code class="bg-white px-1.5 py-0.5 rounded font-bold text-blue-800">DETAIL_INFORMASI_DOKTER</code> &mdash; rincian tanggal mulai tidak praktik &amp; tanggal kembali praktik
+            <br/>&bull; <code class="bg-white px-1.5 py-0.5 rounded font-bold text-blue-800">LOG</code> &mdash; jejak audit setiap SIMPAN / EDIT data
           </p>
+          <p class="text-[11px] leading-relaxed text-blue-900">
+            Dashboard ini memanggil <code class="bg-white px-1 rounded">?aksi=get_dashboard</code>, yang mengembalikan data gabungan dari <code>INFORMASI_DOKTER</code> + <code>DETAIL_INFORMASI_DOKTER</code>, sudah diberi status <code>HARI_INI</code> / <code>AKAN_DATANG</code> oleh backend.
+          </p>
+        </div>
+
+        <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3.5 text-amber-900 text-[11px] leading-relaxed">
+          <strong>Catatan penting:</strong> nilai kolom <code>JENIS_INFORMASI</code> pada sheet <code>INFORMASI_DOKTER</code> harus persis salah satu dari: <code>DOKTER_IZIN</code>, <code>PERUBAHAN_KUOTA</code>, atau <code>PERUBAHAN_JAM</code>, agar dashboard bisa mengelompokkan data ke tab yang tepat. Sesuaikan pilihan pada form input (perawat.html) Anda jika nilainya berbeda.
         </div>
 
         <div id="config-status-alert" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold flex items-center space-x-2">
           <span class="material-symbols-outlined text-sm text-emerald-600">check_circle</span>
-          <span id="config-status-msg">Konfigurasi berhasil disimpan di browser local storage.</span>
+          <span id="config-status-msg">Konfigurasi tersimpan.</span>
         </div>
       </div>
 
@@ -920,17 +391,15 @@
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- MODAL 2: KODE GOOGLE APPS SCRIPT (Code.gs) -->
-  <!-- ======================================================== -->
+  <!-- MODAL 2: KODE GOOGLE APPS SCRIPT -->
   <div id="modal-code" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[85vh]">
+    <div class="bg-white rounded-3xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
       <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-900 text-white flex-shrink-0">
         <div class="flex items-center space-x-2.5">
           <span class="material-symbols-outlined text-emerald-400">code</span>
           <div>
-            <h3 class="font-bold text-sm sm:text-base">Source Code: Code.gs (Google Apps Script)</h3>
-            <p class="text-[11px] text-slate-400">Salin kode ini ke Apps Script editor spreadsheet Anda</p>
+            <h3 class="font-bold text-sm sm:text-base">Ringkasan Code.gs (Google Apps Script)</h3>
+            <p class="text-[11px] text-slate-400">Cuplikan endpoint utama. Kode lengkap ada di proyek Apps Script Anda.</p>
           </div>
         </div>
         <button onclick="toggleModal('modal-code')" class="w-8 h-8 rounded-full hover:bg-white/10 text-slate-400 hover:text-white flex items-center justify-center transition">
@@ -939,96 +408,278 @@
       </div>
 
       <div class="p-6 overflow-y-auto custom-scrollbar flex-1 bg-slate-950 text-slate-200 font-mono text-xs leading-relaxed">
-        <pre><code id="code-snippet">// ========================================================
-// SISTEM IZIN PELAYANAN & INFO MEDIS RS. ISLAM BONTANG
-// BACKEND GOOGLE APPS SCRIPT (Deploy as Web App)
-// ========================================================
+        <pre><code id="code-snippet">/**
+ * ============================================================
+ * INFORMASI DOKTER
+ * BACKEND / API GOOGLE APPS SCRIPT
+ * ============================================================
+ *
+ * SHEET:
+ *   DOKTER
+ *   INFORMASI_DOKTER
+ *   DETAIL_INFORMASI_DOKTER
+ *   LOG
+ *
+ * GET:
+ *   ?aksi=get_dokter
+ *   ?aksi=get_dashboard
+ *   ?aksi=get_info_by_id&amp;id=INFO-xxxx
+ *
+ * POST JSON:
+ *   {"aksi":"simpan_info", ...}
+ *   {"aksi":"update_info", ...}
+ * ============================================================
+ */
+
+const NAMA_SHEET_DOKTER = 'DOKTER';
+const NAMA_SHEET_INFO = 'INFORMASI_DOKTER';
+const NAMA_SHEET_DETAIL = 'DETAIL_INFORMASI_DOKTER';
+const NAMA_SHEET_LOG = 'LOG';
+const TIMEZONE = 'Asia/Makassar';
 
 function doGet(e) {
   try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    
-    const dataIzin = getSheetData(ss, "DokterIzin");
-    const dataKuota = getSheetData(ss, "PerubahanKuota");
-    const dataJam = getSheetData(ss, "PerubahanJam");
+    const p = e &amp;&amp; e.parameter ? e.parameter : {};
+    const aksi = clean_(p.aksi);
 
-    const payload = {
-      status: "success",
-      hospital: "RS. Islam Bontang",
-      timestamp: new Date().toISOString(),
-      counts: {
-        dokter_izin: dataIzin.length,
-        perubahan_kuota: dataKuota.length,
-        perubahan_jam: dataJam.length
-      },
-      data: {
-        dokter_izin: dataIzin,
-        perubahan_kuota: dataKuota,
-        perubahan_jam: dataJam
-      }
-    };
-
-    return ContentService.createTextOutput(JSON.stringify(payload))
-      .setMimeType(ContentService.MimeType.JSON);
-
+    if (aksi === 'get_dokter') {
+      return json_({ status: 'success', data: getDokter_() });
+    }
+    if (aksi === 'get_dashboard') {
+      return json_({ status: 'success', data: getDashboard_() });
+    }
+    if (aksi === 'get_info_by_id') {
+      const id = clean_(p.id || p.ID_INFORMASI);
+      if (!id) return json_({ status: 'error', message: 'ID_INFORMASI wajib diisi.' });
+      const data = getInfoById_(id);
+      if (!data) return json_({ status: 'error', message: 'Data tidak ditemukan.' });
+      return json_({ status: 'success', data: data });
+    }
+    return json_({ status: 'success', message: 'API INFORMASI DOKTER aktif.', api: true });
   } catch (err) {
-    const errorPayload = {
-      status: "error",
-      message: err.toString()
-    };
-    return ContentService.createTextOutput(JSON.stringify(errorPayload))
-      .setMimeType(ContentService.MimeType.JSON);
+    return json_({ status: 'error', message: err.message });
   }
 }
 
-// Utility: Ekstrak baris sheet menjadi JSON Array otomatis
-function getSheetData(spreadsheet, sheetName) {
-  const sheet = spreadsheet.getSheetByName(sheetName);
-  if (!sheet) return [];
-  
-  const rows = sheet.getDataRange().getValues();
-  if (rows.length &lt; 2) return [];
-
-  const headers = rows[0].map(h => String(h).trim().toLowerCase().replace(/\s+/g, '_'));
-  const results = [];
-
-  for (let i = 1; i &lt; rows.length; i++) {
-    const row = rows[i];
-    if (row.join("").trim() === "") continue; // skip row kosong
-    const obj = {};
-    headers.forEach((header, idx) => {
-      let val = row[idx];
-      if (val instanceof Date) {
-        val = Utilities.formatDate(val, "Asia/Makassar", "yyyy-MM-dd");
-      }
-      obj[header] = val;
-    });
-    results.push(obj);
-  }
-  return results;
-}</code></pre>
+// ... doPost, simpanInfo_, updateInfo_, getDashboard_, dan fungsi util lainnya
+// mengikuti kode backend yang sudah berjalan di Apps Script Anda saat ini.
+// (Lihat file Code.gs asli di proyek Apps Script Anda untuk kode lengkapnya.)
+</code></pre>
       </div>
 
       <div class="px-6 py-3.5 bg-slate-900 border-t border-slate-800 flex items-center justify-between flex-shrink-0">
-        <span class="text-xs text-slate-400">Deploy sebagai Web App dengan Access: Anyone</span>
+        <span class="text-xs text-slate-400">Endpoint: get_dokter &bull; get_dashboard &bull; get_info_by_id &bull; simpan_info &bull; update_info</span>
         <button onclick="copyCode()" id="btn-copy-code" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold inline-flex items-center space-x-1.5 transition">
           <span class="material-symbols-outlined text-sm">content_copy</span>
-          <span id="btn-copy-text">Salin Kode Code.gs</span>
+          <span id="btn-copy-text">Salin Cuplikan</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC FOR WEB INTERACTIVITY -->
   <script>
+    const STORAGE_KEY = 'rsi_appscript_url';
+    const POLL_INTERVAL_MS = 60000;
+
     let activeCategory = 'dokter-izin';
     let currentStatus = 'all';
+    let rawData = [];      // seluruh data dari get_dashboard
+    let pollTimer = null;
 
+    const BULAN_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+    /* ============================ INIT ============================ */
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedUrl = localStorage.getItem(STORAGE_KEY);
+      if (savedUrl) {
+        document.getElementById('input-api-url').value = savedUrl;
+        setEndpointStatus(savedUrl, false);
+        loadDashboard();
+        startPolling();
+      } else {
+        showAlert('Atur dulu URL Web App Apps Script lewat tombol "Integrasi API Apps Script" di kanan atas, lalu klik "Simpan & Uji Koneksi".', 'info');
+      }
+    });
+
+    function startPolling() {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(loadDashboard, POLL_INTERVAL_MS);
+    }
+
+    /* ============================ FETCH DATA ============================ */
+    async function loadDashboard() {
+      const apiUrl = localStorage.getItem(STORAGE_KEY);
+      if (!apiUrl) return;
+
+      const syncIcon = document.getElementById('sync-icon');
+      syncIcon.classList.add('animate-spin');
+      setLog(1, 'i [SIMRS API] Mengambil data dari get_dashboard...', 'text-blue-700');
+
+      try {
+        const res = await fetch(apiUrl + '?aksi=get_dashboard');
+        const json = await res.json();
+
+        if (json.status !== 'success') {
+          throw new Error(json.message || 'Respons API tidak sukses.');
+        }
+
+        rawData = Array.isArray(json.data) ? json.data : [];
+        renderAll();
+        setConnStatus(true);
+        setLog(1, '✓ [SIMRS API] Data berhasil diambil: ' + rawData.length + ' baris.', 'text-emerald-700');
+        setLog(3, 'i [Data Load] Terakhir sinkron: ' + new Date().toLocaleTimeString('id-ID') + ' WIB.', 'text-blue-700');
+        hideAlert();
+      } catch (err) {
+        setConnStatus(false);
+        setLog(1, '✗ [SIMRS API] Gagal mengambil data: ' + err.message, 'text-rose-700');
+        showAlert('Gagal terhubung ke Apps Script: ' + err.message + '. Pastikan Web App sudah di-deploy dengan akses "Anyone", dan URL diakhiri dengan /exec.', 'error');
+      } finally {
+        syncIcon.classList.remove('animate-spin');
+      }
+    }
+
+    function syncDataFromAppsScript() { loadDashboard(); }
+
+    /* ============================ RENDER ============================ */
+    function renderAll() {
+      const groups = { DOKTER_IZIN: [], PERUBAHAN_KUOTA: [], PERUBAHAN_JAM: [] };
+      rawData.forEach(item => {
+        const jenis = (item.JENIS_INFORMASI || '').toUpperCase();
+        if (groups[jenis]) groups[jenis].push(item);
+      });
+
+      renderGroup('izin', groups.DOKTER_IZIN, buildIzinCard);
+      renderGroup('kuota', groups.PERUBAHAN_KUOTA, buildKuotaCard);
+      renderGroup('jam', groups.PERUBAHAN_JAM, buildJamCard);
+
+      // Hero + overview stats
+      const izinToday = groups.DOKTER_IZIN.filter(d => d.STATUS_HARI_INI === 'HARI_INI').length;
+      const izinUpcoming = groups.DOKTER_IZIN.length - izinToday;
+      document.getElementById('stat-hero-izin-today').textContent = izinToday;
+      document.getElementById('stat-hero-izin-upcoming').textContent = izinUpcoming;
+      document.getElementById('stat-hero-total').textContent = rawData.length;
+
+      document.getElementById('card-stat-total-izin').textContent = groups.DOKTER_IZIN.length;
+      document.getElementById('card-stat-total-izin-sub').textContent = izinToday + ' aktif hari ini • ' + izinUpcoming + ' terjadwal';
+
+      const kuotaToday = groups.PERUBAHAN_KUOTA.filter(d => d.STATUS_HARI_INI === 'HARI_INI').length;
+      document.getElementById('card-stat-total-kuota').textContent = groups.PERUBAHAN_KUOTA.length;
+      document.getElementById('card-stat-total-kuota-sub').textContent = kuotaToday + ' hari ini • ' + (groups.PERUBAHAN_KUOTA.length - kuotaToday) + ' terencana';
+
+      const jamToday = groups.PERUBAHAN_JAM.filter(d => d.STATUS_HARI_INI === 'HARI_INI').length;
+      document.getElementById('card-stat-total-jam').textContent = groups.PERUBAHAN_JAM.length;
+      document.getElementById('card-stat-total-jam-sub').textContent = jamToday + ' shift hari ini • ' + (groups.PERUBAHAN_JAM.length - jamToday) + ' mendatang';
+
+      document.getElementById('tab-badge-izin').textContent = groups.DOKTER_IZIN.length;
+      document.getElementById('tab-badge-kuota').textContent = groups.PERUBAHAN_KUOTA.length;
+      document.getElementById('tab-badge-jam').textContent = groups.PERUBAHAN_JAM.length;
+
+      applyFilters();
+    }
+
+    function renderGroup(key, items, cardBuilder) {
+      const today = items.filter(d => d.STATUS_HARI_INI === 'HARI_INI');
+      const upcoming = items.filter(d => d.STATUS_HARI_INI !== 'HARI_INI');
+
+      document.getElementById('grid-' + key + '-today').innerHTML = today.map(cardBuilder).join('') || emptyHint();
+      document.getElementById('grid-' + key + '-upcoming').innerHTML = upcoming.map(cardBuilder).join('') || emptyHint();
+
+      document.getElementById('count-' + key + '-today').textContent = today.length + ' data';
+      document.getElementById('count-' + key + '-upcoming').textContent = upcoming.length + ' data';
+
+      document.getElementById('section-' + key + '-today').classList.toggle('hidden', today.length === 0);
+      document.getElementById('section-' + key + '-upcoming').classList.toggle('hidden', upcoming.length === 0);
+      document.getElementById('empty-' + key).classList.toggle('hidden', items.length !== 0);
+    }
+
+    function emptyHint() { return ''; }
+
+    function fmtTgl(iso) {
+      if (!iso) return '-';
+      const parts = String(iso).split('-');
+      if (parts.length !== 3) return iso;
+      const d = parseInt(parts[2], 10), m = parseInt(parts[1], 10) - 1, y = parts[0];
+      if (!BULAN_ID[m]) return iso;
+      return d + ' ' + BULAN_ID[m] + ' ' + y;
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function buildIzinCard(d) {
+      const isToday = d.STATUS_HARI_INI === 'HARI_INI';
+      const bar = isToday ? 'from-rose-500 via-rose-400 to-amber-300' : 'from-indigo-500 via-blue-500 to-indigo-400';
+      const badge = isToday
+        ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin</span>'
+        : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang</span>';
+
+      const periode = d.IZIN_SAMPAI_INFO === 'YA'
+        ? fmtTgl(d.TGL_MULAI) + ' – sampai informasi lebih lanjut'
+        : fmtTgl(d.TGL_MULAI) + ' – ' + fmtTgl(d.TGL_SELESAI);
+
+      const kembaliTgl = (d.DETAIL_KEMBALI && d.DETAIL_KEMBALI.length) ? d.DETAIL_KEMBALI[0].TANGGAL : d.TGL_MULAI_PRAKTEK;
+      const kembaliSesi = (d.DETAIL_KEMBALI && d.DETAIL_KEMBALI.length) ? d.DETAIL_KEMBALI[0].SESI_KET : d.SESI_KEMBALI;
+      const kembaliText = kembaliTgl ? (fmtTgl(kembaliTgl) + (kembaliSesi ? ' (' + esc(kembaliSesi) + ')' : '')) : 'Belum ditentukan';
+
+      return '<div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-200 p-6 flex flex-col justify-between relative overflow-hidden group">'
+        + '<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ' + bar + '"></div>'
+        + '<div class="space-y-4">'
+        + '<div class="flex items-start justify-between gap-3 pt-1"><div>'
+        + '<div class="flex items-center space-x-2">' + badge + '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">' + esc(d.POLI) + '</span></div>'
+        + '<h3 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1.5 group-hover:text-blue-700 transition">' + esc(d.NAMA_DOKTER) + '</h3>'
+        + '</div><div class="w-11 h-11 rounded-xl bg-blue-50/70 border border-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0"><span class="material-symbols-outlined text-2xl">medical_services</span></div></div>'
+        + '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">'
+        + '<div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3"><span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Periode Izin</span>'
+        + '<div class="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-slate-800 mt-1"><span class="material-symbols-outlined text-base text-rose-500">event_busy</span><span>' + periode + '</span></div></div>'
+        + '<div class="bg-gradient-to-r from-blue-50 to-indigo-50/70 border border-blue-200/80 rounded-xl p-3"><span class="text-[10px] font-bold uppercase tracking-wider text-blue-700 block">Mulai Praktik Kembali</span>'
+        + '<div class="flex items-center space-x-2 text-xs sm:text-sm font-extrabold text-blue-950 mt-1"><span class="material-symbols-outlined text-base text-blue-600">calendar_month</span><span>' + kembaliText + '</span></div></div>'
+        + '</div>'
+        + '<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-3 text-xs text-slate-600 flex items-start space-x-2"><span class="material-symbols-outlined text-slate-400 text-sm mt-0.5 flex-shrink-0">chat_bubble_outline</span>'
+        + '<div><span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span><p class="mt-0.5 leading-relaxed">' + esc(d.KETERANGAN || '-') + '</p></div></div>'
+        + '</div>'
+        + '<div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">'
+        + '<span class="text-slate-400 text-[11px]">Diinput: <strong class="text-slate-700">' + esc(d.INPUT_OLEH || '-') + '</strong></span>'
+        + '<span class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1"><span class="material-symbols-outlined text-xs text-blue-600">verified</span><span>' + esc(d.ID_INFORMASI) + '</span></span>'
+        + '</div></div>';
+    }
+
+    function buildKuotaCard(d) {
+      return '<div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5 flex flex-col justify-between relative overflow-hidden group">'
+        + '<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 to-orange-400"></div>'
+        + '<div class="space-y-4"><div class="flex items-start justify-between gap-2"><div>'
+        + '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">' + esc(d.POLI) + '</span>'
+        + '<h4 class="font-extrabold text-base text-slate-900 mt-1">' + esc(d.NAMA_DOKTER) + '</h4></div>'
+        + '<div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-xl">stacked_bar_chart</span></div></div>'
+        + '<div class="bg-amber-50/50 border border-amber-200/70 rounded-xl p-3 flex items-center justify-center text-center">'
+        + '<div><span class="text-[10px] font-bold uppercase text-amber-800 block">Kuota Baru</span><span class="text-xl font-black text-amber-600">' + esc(d.KUOTA || '-') + ' Pasien</span></div></div>'
+        + '<div class="text-xs text-slate-600 bg-slate-50 rounded-lg p-2.5 border border-slate-100"><span class="font-bold text-[10px] uppercase text-slate-500 block">Efektif:</span>'
+        + '<span>' + fmtTgl(d.TGL_MULAI) + (d.KETERANGAN ? ' • ' + esc(d.KETERANGAN) : '') + '</span></div>'
+        + '</div><div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">'
+        + '<span>Diinput: <strong class="text-slate-700">' + esc(d.INPUT_OLEH || '-') + '</strong></span>'
+        + '<span class="text-blue-600 font-bold">' + esc(d.ID_INFORMASI) + '</span></div></div>';
+    }
+
+    function buildJamCard(d) {
+      return '<div class="data-card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 flex flex-col justify-between relative overflow-hidden group">'
+        + '<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 to-purple-400"></div>'
+        + '<div class="space-y-4"><div class="flex items-start justify-between"><div>'
+        + '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-50 text-violet-800 border border-violet-200">' + esc(d.POLI) + '</span>'
+        + '<h3 class="text-xl font-extrabold text-slate-900 tracking-tight mt-1.5">' + esc(d.NAMA_DOKTER) + '</h3></div>'
+        + '<div class="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center"><span class="material-symbols-outlined text-2xl">schedule</span></div></div>'
+        + '<div class="bg-violet-50/70 border border-violet-200/80 rounded-xl p-3.5 flex items-center justify-center">'
+        + '<div class="text-center"><span class="text-[10px] font-bold uppercase text-violet-800 block">Jam Praktik Baru</span>'
+        + '<span class="text-base font-black text-violet-700">' + esc(d.JAM_MULAI || '-') + ' – ' + esc(d.JAM_SELESAI || '-') + ' WIB</span></div></div>'
+        + '<div class="bg-slate-50 rounded-xl p-3 border border-slate-100 text-xs text-slate-600"><strong class="text-slate-800">Efektif ' + fmtTgl(d.TGL_MULAI) + ':</strong> ' + esc(d.KETERANGAN || '-') + '</div>'
+        + '</div><div class="pt-3.5 mt-3.5 border-t border-slate-100 flex items-center justify-between text-xs">'
+        + '<span class="text-slate-400 text-[11px]">Diinput: <strong class="text-slate-700">' + esc(d.INPUT_OLEH || '-') + '</strong></span>'
+        + '<span class="text-violet-700 font-bold text-[10px]">' + esc(d.ID_INFORMASI) + '</span></div></div>';
+    }
+
+    /* ============================ TABS & FILTER ============================ */
     function switchCategory(cat) {
       activeCategory = cat;
-      const categories = ['dokter-izin', 'perubahan-kuota', 'perubahan-jam'];
-      
-      categories.forEach(c => {
+      ['dokter-izin','perubahan-kuota','perubahan-jam'].forEach(c => {
         const btn = document.getElementById('tab-nav-' + c);
         const panel = document.getElementById('panel-' + c);
         if (c === cat) {
@@ -1044,14 +695,11 @@ function getSheetData(spreadsheet, sheetName) {
 
     function setStatusFilter(status) {
       currentStatus = status;
-      const statuses = ['all', 'today', 'upcoming'];
-      statuses.forEach(s => {
+      ['all','today','upcoming'].forEach(s => {
         const btn = document.getElementById('btn-filter-' + s);
-        if (s === status) {
-          btn.className = 'status-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs transition';
-        } else {
-          btn.className = 'status-btn px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center space-x-1';
-        }
+        btn.className = s === status
+          ? 'status-btn px-3 py-1.5 text-xs font-bold rounded-lg bg-white text-slate-900 shadow-xs transition'
+          : 'status-btn px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center space-x-1';
       });
       applyFilters();
     }
@@ -1061,79 +709,82 @@ function getSheetData(spreadsheet, sheetName) {
       const currentPanel = document.getElementById('panel-' + activeCategory);
       if (!currentPanel) return;
 
-      const subSections = currentPanel.querySelectorAll('.sub-section');
-      subSections.forEach(sec => {
+      currentPanel.querySelectorAll('.sub-section').forEach(sec => {
         const isToday = sec.id.includes('today');
         const isUpcoming = sec.id.includes('upcoming');
-        
         let showSectionByStatus = true;
         if (currentStatus === 'today' && !isToday) showSectionByStatus = false;
         if (currentStatus === 'upcoming' && !isUpcoming) showSectionByStatus = false;
 
-        let visibleCardsCount = 0;
-        const cards = sec.querySelectorAll('.data-card');
-        cards.forEach(card => {
-          const text = card.textContent.toLowerCase();
-          const matchQuery = text.includes(query);
-          if (matchQuery && showSectionByStatus) {
-            card.classList.remove('hidden');
-            visibleCardsCount++;
-          } else {
-            card.classList.add('hidden');
-          }
+        let visible = 0;
+        sec.querySelectorAll('.data-card').forEach(card => {
+          const match = card.textContent.toLowerCase().includes(query);
+          card.classList.toggle('hidden', !(match && showSectionByStatus));
+          if (match && showSectionByStatus) visible++;
         });
-
-        if (showSectionByStatus && visibleCardsCount > 0) {
-          sec.classList.remove('hidden');
-        } else {
-          sec.classList.add('hidden');
-        }
+        sec.classList.toggle('hidden', !(showSectionByStatus && visible > 0));
       });
     }
 
-    function toggleModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) modal.classList.toggle('hidden');
-    }
-
-    function toggleElement(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.toggle('hidden');
-    }
+    /* ============================ UI HELPERS ============================ */
+    function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+    function toggleElement(id) { document.getElementById(id).classList.toggle('hidden'); }
 
     function copyCode() {
       const code = document.getElementById('code-snippet').innerText;
       navigator.clipboard.writeText(code).then(() => {
-        const btnText = document.getElementById('btn-copy-text');
-        btnText.textContent = "Tersalin ke Clipboard!";
-        setTimeout(() => { btnText.textContent = "Salin Kode Code.gs"; }, 2500);
+        const t = document.getElementById('btn-copy-text');
+        t.textContent = 'Tersalin!';
+        setTimeout(() => { t.textContent = 'Salin Cuplikan'; }, 2000);
       });
     }
 
     function saveApiUrl() {
       const val = document.getElementById('input-api-url').value.trim();
-      localStorage.setItem('rsi_appscript_url', val);
-      const alertBox = document.getElementById('config-status-alert');
-      alertBox.classList.remove('hidden');
+      if (!val) return;
+      localStorage.setItem(STORAGE_KEY, val);
+      setEndpointStatus(val, true);
+      const box = document.getElementById('config-status-alert');
+      box.classList.remove('hidden');
       setTimeout(() => {
         toggleModal('modal-config');
-        alertBox.classList.add('hidden');
-        syncDataFromAppsScript();
-      }, 1000);
-    }
-
-    function syncDataFromAppsScript() {
-      const syncIcon = document.getElementById('sync-icon');
-      syncIcon.classList.add('animate-spin');
-      
-      const debugLine = document.getElementById('log-line-1');
-      if (debugLine) debugLine.textContent = "↻ Memulai sinkronisasi data dari Google Sheets API...";
-
-      setTimeout(() => {
-        syncIcon.classList.remove('animate-spin');
-        if (debugLine) debugLine.textContent = "✓ Data berhasil disinkronisasi: " + new Date().toLocaleTimeString('id-ID') + " WIB.";
+        box.classList.add('hidden');
+        loadDashboard();
+        startPolling();
       }, 900);
     }
+
+    function setEndpointStatus(url, connected) {
+      document.getElementById('endpoint-status-text').textContent = url.length > 42 ? (url.slice(0,20) + '...' + url.slice(-14)) : url;
+    }
+
+    function setConnStatus(ok) {
+      const dot = document.getElementById('conn-dot');
+      const text = document.getElementById('conn-text');
+      const badge = document.getElementById('conn-badge');
+      if (ok) {
+        badge.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse';
+        text.textContent = 'SIMRS Live Connected';
+      } else {
+        badge.className = 'inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200';
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5';
+        text.textContent = 'Koneksi Gagal';
+      }
+    }
+
+    function setLog(n, text, cls) {
+      const el = document.getElementById('log-line-' + n);
+      if (el) { el.textContent = text; el.className = cls; }
+    }
+
+    function showAlert(msg, type) {
+      const box = document.getElementById('alert-box');
+      box.textContent = msg;
+      box.className = 'rounded-xl border p-4 text-xs font-semibold ' + (type === 'error' ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-blue-50 border-blue-200 text-blue-700');
+      box.classList.remove('hidden');
+    }
+    function hideAlert() { document.getElementById('alert-box').classList.add('hidden'); }
   </script>
 </body>
 </html>
