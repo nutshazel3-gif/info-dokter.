@@ -1,11 +1,13 @@
-<!DOCTYPE html><html lang="id" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Izin Pelayanan &amp; Kuota Pasien - RS. Islam Bontang</title>
+<!DOCTYPE html>
+
+<html lang="id" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Izin Pelayanan &amp; Layanan Medis - RS. Islam Bontang</title>
 <!-- Google Fonts: Plus Jakarta Sans -->
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>
@@ -17,14 +19,14 @@
           },
           colors: {
             brand: {
-              50: '#ecfdf5',
-              100: '#d1fae5',
-              200: '#a7f3d0',
-              500: '#10b981',
-              600: '#059669',
-              700: '#047857',
-              800: '#065f46',
-              900: '#064e3b',
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
             }
           }
         }
@@ -34,29 +36,956 @@
 <style data-purpose="custom-scroll-and-smooth">
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #f7f9f8;
+      background-color: #f8fafc;
     }
-    .hero-card-shadow {
-      box-shadow: 0 20px 45px -15px rgba(6, 78, 59, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(241, 245, 249, 0.6);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.6);
     }
   </style>
 </head>
-<body class="min-h-screen text-slate-800 flex flex-col justify-between selection:bg-brand-500 selection:text-white antialiased">
-<!-- BEGIN: MainHeader -->
-
-<!-- END: MainHeader -->
+<body class="min-h-screen h-screen w-full flex flex-col justify-between overflow-hidden text-slate-800 selection:bg-blue-600 selection:text-white antialiased bg-slate-50/80">
 <!-- BEGIN: MainHeroLandscape -->
-<main class="w-full flex-grow flex items-center justify-center p-6 lg:p-10" id="hero"><div class="w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"><div class="lg:col-span-5 space-y-6" data-purpose="hero-left-column"><h1 class="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-slate-950 tracking-tight leading-[1.15]">Izin Pelayanan &amp; <span class="text-blue-600">kuota pasien</span> dalam satu dashboard</h1><div class="pt-2 flex flex-wrap items-center gap-3"><button class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold text-xs tracking-wide shadow-md shadow-blue-500/20 border border-blue-400/30 transition-all duration-200 active:scale-[0.98] group" type="button"><div class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-[13px] text-white">badge</span></div><span class="font-bold">Dokter Izin</span><span class="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-white/25 text-white ml-0.5">2 Aktif</span></button><button class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-full bg-white hover:bg-blue-50/60 text-slate-700 hover:text-blue-700 font-semibold text-xs tracking-wide border border-slate-200/90 hover:border-blue-300 transition-all duration-200 shadow-xs hover:shadow-sm active:scale-[0.98] group" type="button"><div class="w-5 h-5 rounded-full bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center flex-shrink-0 transition-colors"><span class="material-symbols-outlined text-[13px] text-slate-500 group-hover:text-blue-600">stacked_bar_chart</span></div><span class="font-medium">Perubahan Kuota</span><span class="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 group-hover:bg-blue-100 text-slate-600 group-hover:text-blue-700 transition-colors">18 Poli</span></button><button class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-full bg-white hover:bg-blue-50/60 text-slate-700 hover:text-blue-700 font-semibold text-xs tracking-wide border border-slate-200/90 hover:border-blue-300 transition-all duration-200 shadow-xs hover:shadow-sm active:scale-[0.98] group" type="button"><div class="w-5 h-5 rounded-full bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center flex-shrink-0 transition-colors"><span class="material-symbols-outlined text-[13px] text-slate-500 group-hover:text-blue-600">schedule</span></div><span class="font-medium">Perubahan Jam Praktik</span></button></div><div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200/80"><div class="space-y-0.5"><span class="block text-xl font-extrabold text-slate-900 tracking-tight">2 Dokter</span><span class="text-xs text-slate-500 font-medium">Izin Hari Ini</span></div><div class="space-y-0.5"><span class="block text-xl font-extrabold text-slate-900 tracking-tight">18 Poli</span><span class="text-xs text-slate-500 font-medium">Layanan Poli</span></div><div class="space-y-0.5"><span class="block text-xl font-extrabold text-blue-600 tracking-tight">100%</span><span class="text-xs text-slate-500 font-medium">Data Tersinkron</span></div></div></div><div class="lg:col-span-7 flex flex-col justify-center space-y-4" data-purpose="hero-right-column"><div class="flex items-center justify-between px-1"><div class="flex items-center space-x-2.5"><span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-600"></span></span><span class="text-xs font-bold tracking-wider text-slate-800 uppercase">BERLAKU HARI INI</span><span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">2</span></div><div class="flex items-center space-x-1.5 text-xs font-medium text-slate-400"><span class="material-symbols-outlined text-sm text-blue-600">verified</span><span class="">Pembaruan Resmi</span></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="bg-white rounded-2xl border border-slate-200/80 glass-card transition-all duration-300 p-5 flex flex-col justify-between space-y-4 relative overflow-hidden group"><div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-300"></div><div class="flex items-start justify-between gap-2 pt-1"><div><div class="flex items-center space-x-2"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-xs"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin</span><span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100/90 text-slate-700 border border-slate-200">Poli Bedah</span></div><h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2.5 group-hover:text-emerald-800 transition-colors">DR. HIDAYAT, SP.B</h3></div><div class="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 text-slate-400 group-hover:text-emerald-600 transition-colors"><span class="material-symbols-outlined text-lg">medical_services</span></div></div><div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1"><span class="">Periode Izin</span></div><div class="flex items-center space-x-2 text-xs font-semibold text-slate-700 bg-slate-50/90 px-3 py-2 rounded-xl border border-slate-200/80"><span class="material-symbols-outlined text-base text-rose-500">event_busy</span><span class="">4 September 2026 – 12 September 2026</span></div></div><div class="bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/80 rounded-xl p-3 flex items-center space-x-3 shadow-xs"><div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm"><span class="material-symbols-outlined text-lg">calendar_month</span></div><div><div class="text-[10px] font-bold text-blue-800 uppercase tracking-wide">Mulai Praktik Kembali:</div><div class="text-xs font-extrabold text-blue-950 mt-0.5">14 September 2026</div></div></div><div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600"><span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span><div><span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span><span class="text-[11px] text-slate-600">Tidak ada catatan tambahan.</span></div></div><div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"><div class="space-y-0.5"><div class="text-slate-400 text-[11px]">Diinput oleh: <span class="font-bold text-slate-700">PERAWAT</span></div><div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1"><span class="material-symbols-outlined text-xs text-blue-600">verified</span><span class="">TERVERIFIKASI</span></div></div><button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button"><span class="material-symbols-outlined text-xs">edit</span><span class="">Edit</span></button></div></div><div class="bg-white rounded-2xl border border-slate-200/80 glass-card transition-all duration-300 p-5 flex flex-col justify-between space-y-4 relative overflow-hidden group"><div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-300"></div><div class="flex items-start justify-between gap-2 pt-1"><div><div class="flex items-center space-x-2"><span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-xs"><span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin</span><span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100/90 text-slate-700 border border-slate-200">Poli Jiwa</span></div><h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2.5 group-hover:text-emerald-800 transition-colors">DR. DEWI MAHARNI, SP.KJ</h3></div><div class="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 text-slate-400 group-hover:text-emerald-600 transition-colors"><span class="material-symbols-outlined text-lg">psychology</span></div></div><div class="space-y-1.5"><div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-1"><span class="">Periode Izin</span></div><div class="flex items-center space-x-2 text-xs font-semibold text-slate-700 bg-slate-50/90 px-3 py-2 rounded-xl border border-slate-200/80"><span class="material-symbols-outlined text-base text-rose-500">event_busy</span><span class="">9 September 2026 – 17 September 2026</span></div></div><div class="bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/80 rounded-xl p-3 flex items-center space-x-3 shadow-xs"><div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm"><span class="material-symbols-outlined text-lg">calendar_month</span></div><div><div class="text-[10px] font-bold text-blue-800 uppercase tracking-wide">Mulai Praktik Kembali:</div><div class="text-xs font-extrabold text-blue-950 mt-0.5">18 September 2026</div></div></div><div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600"><span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span><div><span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span><span class="text-[11px] text-slate-600">Tidak ada catatan tambahan.</span></div></div><div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]"><div class="space-y-0.5"><div class="text-slate-400 text-[11px]">Diinput oleh: <span class="font-bold text-slate-700">PERAWAT</span></div><div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1"><span class="material-symbols-outlined text-xs text-blue-600">verified</span><span class="">TERVERIFIKASI</span></div></div><button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button"><span class="material-symbols-outlined text-xs">edit</span><span class="">Edit</span></button></div></div></div></div></div></main>
+<main class="w-full flex-1 flex flex-col justify-center px-6 lg:px-12 py-4 overflow-hidden" id="hero">
+<div class="w-full h-full flex flex-col justify-between gap-4">
+<div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch flex-1 min-h-0">
+<!-- Left Column: Title, Tabs, & Quick Stats -->
+<div class="lg:col-span-4 xl:col-span-4 flex flex-col justify-between h-full py-1" data-purpose="hero-left-column">
+<div class="space-y-4">
+<div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold">
+<span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+<span>Live Monitor Pelayanan Rawat Jalan</span>
+</div>
+<h1 class="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl font-extrabold text-slate-950 tracking-tight leading-[1.18]">
+            Izin Pelayanan &amp; <span class="text-blue-600 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">layanan medis</span> dalam satu layar
+          </h1>
+<!-- Interactive Tabs -->
+<div class="pt-1 flex flex-col sm:flex-row lg:flex-col gap-2.5" id="tab-container">
+<button class="tab-btn w-full inline-flex items-center justify-between px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white font-semibold text-xs tracking-wide shadow-md shadow-blue-500/20 border border-blue-400/30 transition-all duration-200 active:scale-[0.98] group" id="tab-dokter-izin" onclick="switchCategory('dokter-izin')" type="button">
+<div class="flex items-center space-x-3">
+<div class="tab-icon-wrapper w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0 transition-colors">
+<span class="material-symbols-outlined text-[17px] text-white">badge</span>
+</div>
+<div class="text-left">
+<div class="tab-title font-bold text-sm text-white">Dokter Izin</div>
+<div class="tab-sub text-[11px] text-blue-100 font-normal">Jadwal ketidakhadiran dokter</div>
+</div>
+</div>
+<span class="tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-white/25 text-white">4 Total</span>
+</button>
+<button class="tab-btn w-full inline-flex items-center justify-between px-4 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-semibold text-xs tracking-wide border border-slate-200/90 hover:border-slate-300 transition-all duration-200 shadow-xs hover:shadow-sm active:scale-[0.98] group" id="tab-perubahan-kuota" onclick="switchCategory('perubahan-kuota')" type="button">
+<div class="flex items-center space-x-3">
+<div class="tab-icon-wrapper w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
+<span class="material-symbols-outlined text-[17px] text-slate-600">stacked_bar_chart</span>
+</div>
+<div class="text-left">
+<div class="tab-title font-bold text-sm text-slate-800">Perubahan Kuota</div>
+<div class="tab-sub text-[11px] text-slate-400 font-normal">Penyesuaian kapasitas poli</div>
+</div>
+</div>
+<span class="tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">4 Poli</span>
+</button>
+<button class="tab-btn w-full inline-flex items-center justify-between px-4 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-semibold text-xs tracking-wide border border-slate-200/90 hover:border-slate-300 transition-all duration-200 shadow-xs hover:shadow-sm active:scale-[0.98] group" id="tab-perubahan-jam" onclick="switchCategory('perubahan-jam')" type="button">
+<div class="flex items-center space-x-3">
+<div class="tab-icon-wrapper w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-slate-200 flex items-center justify-center flex-shrink-0 transition-colors">
+<span class="material-symbols-outlined text-[17px] text-slate-600">schedule</span>
+</div>
+<div class="text-left">
+<div class="tab-title font-bold text-sm text-slate-800">Perubahan Jam Praktik</div>
+<div class="tab-sub text-[11px] text-slate-400 font-normal">Pergeseran sesi konsultasi</div>
+</div>
+</div>
+<span class="tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">3 Dokter</span>
+</button>
+</div>
+</div>
+<!-- Metric Footer of Left Column -->
+<div class="pt-3 mt-3 grid grid-cols-3 gap-3 border-t border-slate-200/80">
+<div class="bg-white/80 border border-slate-200/70 rounded-xl p-3">
+<span class="block text-xl font-extrabold text-slate-900 tracking-tight" id="stat-count">2 Dokter</span>
+<span class="text-xs text-slate-500 font-medium" id="stat-desc">Izin Hari Ini</span>
+</div>
+<div class="bg-white/80 border border-slate-200/70 rounded-xl p-3">
+<span class="block text-xl font-extrabold text-slate-900 tracking-tight" id="stat-upcoming">2 Dokter</span>
+<span class="text-xs text-slate-500 font-medium" id="stat-upcoming-desc">Akan Datang</span>
+</div>
+<div class="bg-white/80 border border-slate-200/70 rounded-xl p-3">
+<span class="block text-xl font-extrabold text-blue-600 tracking-tight">100%</span>
+<span class="text-xs text-slate-500 font-medium">Tersinkronisasi</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Card Display Grid -->
+<div class="lg:col-span-8 xl:col-span-8 flex flex-col justify-start h-full min-h-0 space-y-3" data-purpose="hero-right-column">
+<!-- Header Bar of Cards with Segmented Status Switcher -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1 flex-shrink-0">
+<div class="flex items-center space-x-2.5">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-600"></span>
+</span>
+<span class="text-xs font-bold tracking-wider text-slate-800 uppercase" id="active-category-title">DOKTER IZIN</span>
+<span class="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-extrabold" id="active-category-badge">4 Total</span>
+</div>
+<!-- Segmented Filter Pills -->
+<div class="flex items-center space-x-1.5 bg-slate-200/70 p-1 rounded-xl border border-slate-200">
+<button class="status-pill px-3 py-1 text-xs font-bold rounded-lg transition-all duration-150 bg-white text-slate-900 shadow-xs" id="pill-all" onclick="filterStatus('all')">
+              Semua Jadwal
+            </button>
+<button class="status-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-150 text-slate-600 hover:text-slate-900" id="pill-today" onclick="filterStatus('today')">
+<span class="inline-flex items-center space-x-1">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+<span>Berlaku Hari Ini</span>
+<span class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-blue-50 text-blue-700 font-bold" id="badge-pill-today">2</span>
+</span>
+</button>
+<button class="status-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-150 text-slate-600 hover:text-slate-900" id="pill-upcoming" onclick="filterStatus('upcoming')">
+<span class="inline-flex items-center space-x-1">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
+<span>Akan Datang</span>
+<span class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-50 text-indigo-700 font-bold" id="badge-pill-upcoming">2</span>
+</span>
+</button>
+</div>
+</div>
+<!-- Cards Container (Scrollable or Full Fit) -->
+<div class="flex-1 overflow-y-auto custom-scrollbar pr-1 pb-2 space-y-6">
+<!-- ============================================== -->
+<!-- TAB 1: DOKTER IZIN CONTENT -->
+<!-- ============================================== -->
+<div class="space-y-6 transition-all duration-300" id="content-dokter-izin">
+<!-- Section: Berlaku Hari Ini -->
+<div class="status-section space-y-3" id="section-dokter-izin-today">
+<div class="flex items-center space-x-2 px-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-200">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-600 mr-1.5 animate-pulse"></span>Berlaku Hari Ini
+                </span>
+<div class="h-px flex-1 bg-slate-200/80"></div>
+<span class="text-[11px] text-slate-400 font-medium">2 Dokter Aktif Izin</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Card 1: DR. HIDAYAT -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3.5 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-300"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin
+                        </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Bedah</span>
+</div>
+<h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-blue-700 transition-colors">DR. HIDAYAT, SP.B</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 text-slate-400 group-hover:text-blue-600 transition-colors">
+<span class="material-symbols-outlined text-xl">medical_services</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Periode Izin</div>
+<div class="flex items-center space-x-2 text-xs font-semibold text-slate-700 bg-slate-50/90 px-3 py-2 rounded-xl border border-slate-200/80">
+<span class="material-symbols-outlined text-base text-rose-500">event_busy</span>
+<span>4 September 2026 – 12 September 2026</span>
+</div>
+</div>
+<div class="bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/80 rounded-xl p-3 flex items-center space-x-3 shadow-xs">
+<div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-base">calendar_month</span>
+</div>
+<div>
+<div class="text-[10px] font-bold text-blue-800 uppercase tracking-wide">Mulai Praktik Kembali:</div>
+<div class="text-xs font-extrabold text-blue-950 mt-0.5">14 September 2026</div>
+</div>
+</div>
+<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600">
+<span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
+<div>
+<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
+<span class="text-[11px] text-slate-600">Mengikuti Pelatihan Bedah Laparoskopi Lanjutan di Jakarta.</span>
+</div>
+</div>
+<div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+<div class="space-y-0.5">
+<div class="text-slate-400 text-[11px]">Diinput oleh: <span class="font-bold text-slate-700">PERAWAT</span></div>
+<div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
+<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
+<span>TERVERIFIKASI</span>
+</div>
+</div>
+<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button">
+<span class="material-symbols-outlined text-xs">edit</span>
+<span>Edit</span>
+</button>
+</div>
+</div>
+<!-- Card 2: DR. DEWI MAHARNI -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3.5 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-amber-300"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5 animate-pulse"></span>Dokter Izin
+                        </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Jiwa</span>
+</div>
+<h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-blue-700 transition-colors">DR. DEWI MAHARNI, SP.KJ</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 text-slate-400 group-hover:text-blue-600 transition-colors">
+<span class="material-symbols-outlined text-xl">psychology</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Periode Izin</div>
+<div class="flex items-center space-x-2 text-xs font-semibold text-slate-700 bg-slate-50/90 px-3 py-2 rounded-xl border border-slate-200/80">
+<span class="material-symbols-outlined text-base text-rose-500">event_busy</span>
+<span>9 September 2026 – 17 September 2026</span>
+</div>
+</div>
+<div class="bg-gradient-to-r from-blue-50 to-indigo-50/60 border border-blue-200/80 rounded-xl p-3 flex items-center space-x-3 shadow-xs">
+<div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-base">calendar_month</span>
+</div>
+<div>
+<div class="text-[10px] font-bold text-blue-800 uppercase tracking-wide">Mulai Praktik Kembali:</div>
+<div class="text-xs font-extrabold text-blue-950 mt-0.5">18 September 2026</div>
+</div>
+</div>
+<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600">
+<span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
+<div>
+<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
+<span class="text-[11px] text-slate-600">Pelaksanaan cuti tahunan resmi dan delegasi tugas dokter pendamping.</span>
+</div>
+</div>
+<div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+<div class="space-y-0.5">
+<div class="text-slate-400 text-[11px]">Diinput oleh: <span class="font-bold text-slate-700">PERAWAT</span></div>
+<div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
+<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
+<span>TERVERIFIKASI</span>
+</div>
+</div>
+<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button">
+<span class="material-symbols-outlined text-xs">edit</span>
+<span>Edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Akan Datang (Upcoming) -->
+<div class="status-section space-y-3" id="section-dokter-izin-upcoming">
+<div class="flex items-center space-x-2 px-1 pt-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
+<span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
+                </span>
+<div class="h-px flex-1 bg-indigo-100"></div>
+<span class="text-[11px] text-indigo-600 font-semibold">2 Dokter Terjadwal</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Upcoming Card 1: DR. ARIF BUDIMAN -->
+<div class="bg-white rounded-2xl border border-indigo-200/80 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3.5 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
+                        </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Anak</span>
+</div>
+<h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-indigo-700 transition-colors">DR. ARIF BUDIMAN, SP.A</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-indigo-600">
+<span class="material-symbols-outlined text-xl">child_care</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Periode Izin Mendatang</div>
+<div class="flex items-center space-x-2 text-xs font-semibold text-slate-700 bg-indigo-50/40 px-3 py-2 rounded-xl border border-indigo-100">
+<span class="material-symbols-outlined text-base text-indigo-600">event</span>
+<span>15 September 2026 – 20 September 2026</span>
+</div>
+</div>
+<div class="bg-gradient-to-r from-indigo-50/90 to-blue-50/70 border border-indigo-200/80 rounded-xl p-3 flex items-center space-x-3 shadow-xs">
+<div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-base">event_upcoming</span>
+</div>
+<div>
+<div class="text-[10px] font-bold text-indigo-900 uppercase tracking-wide">Mulai Praktik Kembali:</div>
+<div class="text-xs font-extrabold text-indigo-950 mt-0.5">22 September 2026</div>
+</div>
+</div>
+<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600">
+<span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
+<div>
+<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
+<span class="text-[11px] text-slate-600">Cuti Ibadah / Partisipasi Pembicara Seminar Nasional Pediatri.</span>
+</div>
+</div>
+<div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+<div class="space-y-0.5">
+<div class="text-slate-400 text-[11px]">Status: <span class="font-bold text-indigo-700">TERJADWAL SISTEM</span></div>
+<div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
+<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
+<span>TERVERIFIKASI</span>
+</div>
+</div>
+<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button">
+<span class="material-symbols-outlined text-xs">edit</span>
+<span>Edit</span>
+</button>
+</div>
+</div>
+<!-- Upcoming Card 2: DR. SISKA AMELIA -->
+<div class="bg-white rounded-2xl border border-indigo-200/80 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3.5 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
+                        </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Mata</span>
+</div>
+<h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-indigo-700 transition-colors">DR. SISKA AMELIA, SP.M</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-indigo-600">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</div>
+</div>
+<div class="space-y-1">
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Periode Izin Mendatang</div>
+<div class="flex items-center space-x-2 text-xs font-semibold text-slate-700 bg-indigo-50/40 px-3 py-2 rounded-xl border border-indigo-100">
+<span class="material-symbols-outlined text-base text-indigo-600">event</span>
+<span>18 September 2026 – 21 September 2026</span>
+</div>
+</div>
+<div class="bg-gradient-to-r from-indigo-50/90 to-blue-50/70 border border-indigo-200/80 rounded-xl p-3 flex items-center space-x-3 shadow-xs">
+<div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-base">event_upcoming</span>
+</div>
+<div>
+<div class="text-[10px] font-bold text-indigo-900 uppercase tracking-wide">Mulai Praktik Kembali:</div>
+<div class="text-xs font-extrabold text-indigo-950 mt-0.5">23 September 2026</div>
+</div>
+</div>
+<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600">
+<span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">chat_bubble_outline</span>
+<div>
+<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
+<span class="text-[11px] text-slate-600">Penugasan khusus simposium oftalmologi regional dan tindak lanjut delegasi klinis.</span>
+</div>
+</div>
+<div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+<div class="space-y-0.5">
+<div class="text-slate-400 text-[11px]">Status: <span class="font-bold text-indigo-700">TERJADWAL SISTEM</span></div>
+<div class="inline-flex items-center text-blue-700 font-bold text-[10px] space-x-1">
+<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
+<span>TERVERIFIKASI</span>
+</div>
+</div>
+<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button">
+<span class="material-symbols-outlined text-xs">edit</span>
+<span>Edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- TAB 2: PERUBAHAN KUOTA CONTENT -->
+<!-- ============================================== -->
+<div class="hidden space-y-6 transition-all duration-300" id="content-perubahan-kuota">
+<!-- Section: Berlaku Hari Ini -->
+<div class="status-section space-y-3" id="section-perubahan-kuota-today">
+<div class="flex items-center space-x-2 px-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Berlaku Hari Ini
+                </span>
+<div class="h-px flex-1 bg-slate-200/80"></div>
+<span class="text-[11px] text-slate-400 font-medium">3 Poli Diperbarui</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Quota Card 1 -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 via-orange-400 to-amber-300"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Perubahan Kuota
+                        </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Anak</span>
+</div>
+<h3 class="text-sm font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-blue-700 transition-colors">DR. MUHAMMAD ARIS, SP.A</h3>
+</div>
+<div class="w-9 h-9 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0 text-amber-600">
+<span class="material-symbols-outlined text-lg">child_care</span>
+</div>
+</div>
+<!-- Old vs New Kuota Comparison -->
+<div class="bg-gradient-to-r from-amber-50/70 to-orange-50/60 border border-amber-200/80 rounded-xl p-2.5 flex items-center justify-between">
+<div class="text-center flex-1">
+<span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
+<span class="text-base font-black text-slate-500 line-through">25</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="text-center flex-1">
+<span class="text-[10px] font-bold uppercase text-amber-800 block">Baru</span>
+<span class="text-xl font-black text-amber-600">35</span>
+</div>
+</div>
+<div class="space-y-1 text-xs">
+<div class="flex items-center justify-between bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/70">
+<span class="text-slate-500 text-[10px] font-medium">Efektif:</span>
+<span class="font-bold text-slate-800 text-[10px]">Hari ini, 08:00 WIB</span>
+</div>
+<div class="text-[10px] text-slate-600 bg-slate-50/80 p-2 rounded-xl border border-slate-100 leading-snug">
+<span class="font-bold text-[9px] uppercase tracking-wider text-slate-400 block">Catatan:</span>
+                      Penambahan slot registrasi khusus antrean umum dan faskes 1.
+                    </div>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
+<span class="inline-flex items-center text-blue-700 font-bold space-x-1">
+<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
+<span>TERVALIDASI</span>
+</span>
+<button class="inline-flex items-center space-x-1 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold" type="button">
+<span class="material-symbols-outlined text-xs">tune</span>
+<span>Sesuaikan</span>
+</button>
+</div>
+</div>
+<!-- Quota Card 2 -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 via-orange-400 to-amber-300"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Perubahan Kuota
+                        </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Penyakit Dalam</span>
+</div>
+<h3 class="text-sm font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-blue-700 transition-colors">DR. HENDRA GUNAWAN, SP.PD</h3>
+</div>
+<div class="w-9 h-9 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0 text-amber-600">
+<span class="material-symbols-outlined text-lg">vital_signs</span>
+</div>
+</div>
+<!-- Old vs New Kuota Comparison -->
+<div class="bg-gradient-to-r from-amber-50/70 to-orange-50/60 border border-amber-200/80 rounded-xl p-2.5 flex items-center justify-between">
+<div class="text-center flex-1">
+<span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
+<span class="text-base font-black text-slate-500 line-through">40</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="text-center flex-1">
+<span class="text-[10px] font-bold uppercase text-amber-800 block">Baru</span>
+<span class="text-xl font-black text-amber-600">30</span>
+</div>
+</div>
+<div class="space-y-1 text-xs">
+<div class="flex items-center justify-between bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/70">
+<span class="text-slate-500 text-[10px] font-medium">Efektif:</span>
+<span class="font-bold text-slate-800 text-[10px]">Hari ini, 09:30 WIB</span>
+</div>
+<div class="text-[10px] text-slate-600 bg-slate-50/80 p-2 rounded-xl border border-slate-100 leading-snug">
+<span class="font-bold text-[9px] uppercase tracking-wider text-slate-400 block">Catatan:</span>
+                      Pembatasan waktu karena tindakan endoskopi terjadwal.
+                    </div>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
+<span class="inline-flex items-center text-blue-700 font-bold space-x-1">
+<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
+<span>TERVALIDASI</span>
+</span>
+<button class="inline-flex items-center space-x-1 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold" type="button">
+<span class="material-symbols-outlined text-xs">tune</span>
+<span>Sesuaikan</span>
+</button>
+</div>
+</div>
+<!-- Quota Card 3 -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 via-orange-400 to-amber-300"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>Perubahan Kuota
+                        </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Jantung</span>
+</div>
+<h3 class="text-sm font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-blue-700 transition-colors">DR. FARHAN MAULANA, SP.JP</h3>
+</div>
+<div class="w-9 h-9 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0 text-amber-600">
+<span class="material-symbols-outlined text-lg">ecg_heart</span>
+</div>
+</div>
+<!-- Old vs New Kuota Comparison -->
+<div class="bg-gradient-to-r from-amber-50/70 to-orange-50/60 border border-amber-200/80 rounded-xl p-2.5 flex items-center justify-between">
+<div class="text-center flex-1">
+<span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
+<span class="text-base font-black text-slate-500 line-through">20</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="text-center flex-1">
+<span class="text-[10px] font-bold uppercase text-amber-800 block">Baru</span>
+<span class="text-xl font-black text-amber-600">28</span>
+</div>
+</div>
+<div class="space-y-1 text-xs">
+<div class="flex items-center justify-between bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/70">
+<span class="text-slate-500 text-[10px] font-medium">Efektif:</span>
+<span class="font-bold text-slate-800 text-[10px]">Hari ini, 10:00 WIB</span>
+</div>
+<div class="text-[10px] text-slate-600 bg-slate-50/80 p-2 rounded-xl border border-slate-100 leading-snug">
+<span class="font-bold text-[9px] uppercase tracking-wider text-slate-400 block">Catatan:</span>
+                      Penambahan ruang rekam EKG mempercepat alur konsultasi.
+                    </div>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
+<span class="inline-flex items-center text-blue-700 font-bold space-x-1">
+<span class="material-symbols-outlined text-xs text-blue-600">verified</span>
+<span>TERVALIDASI</span>
+</span>
+<button class="inline-flex items-center space-x-1 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold" type="button">
+<span class="material-symbols-outlined text-xs">tune</span>
+<span>Sesuaikan</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Akan Datang (Upcoming Kuota) -->
+<div class="status-section space-y-3" id="section-perubahan-kuota-upcoming">
+<div class="flex items-center space-x-2 px-1 pt-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
+<span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
+                </span>
+<div class="h-px flex-1 bg-indigo-100"></div>
+<span class="text-[11px] text-indigo-600 font-semibold">1 Penyesuaian Terjadwal</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Upcoming Quota Card 1: Poli Gigi & Mulut -->
+<div class="bg-white rounded-2xl border border-indigo-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
+                        </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Gigi &amp; Mulut</span>
+</div>
+<h3 class="text-sm font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-indigo-700 transition-colors">DRG. RATNA INDAH, SP.KG</h3>
+</div>
+<div class="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-indigo-600">
+<span class="material-symbols-outlined text-lg">dentistry</span>
+</div>
+</div>
+<!-- Old vs New Kuota Comparison -->
+<div class="bg-gradient-to-r from-indigo-50/80 to-blue-50/70 border border-indigo-200/80 rounded-xl p-2.5 flex items-center justify-between">
+<div class="text-center flex-1">
+<span class="text-[10px] font-bold uppercase text-slate-400 block">Semula</span>
+<span class="text-base font-black text-slate-500 line-through">25</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="text-center flex-1">
+<span class="text-[10px] font-bold uppercase text-indigo-900 block">Kapasitas Baru</span>
+<span class="text-xl font-black text-indigo-700">15</span>
+</div>
+</div>
+<div class="space-y-1 text-xs">
+<div class="flex items-center justify-between bg-indigo-50/40 px-2.5 py-1 rounded-lg border border-indigo-100">
+<span class="text-indigo-800 text-[10px] font-medium">Mulai Berlaku:</span>
+<span class="font-bold text-indigo-950 text-[10px]">15 September 2026</span>
+</div>
+<div class="text-[10px] text-slate-600 bg-slate-50/80 p-2 rounded-xl border border-slate-100 leading-snug">
+<span class="font-bold text-[9px] uppercase tracking-wider text-slate-400 block">Catatan Penyesuaian:</span>
+                      Pemeliharaan dan kalibrasi unit dental chair 2 secara berkala.
+                    </div>
+</div>
+<div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px]">
+<span class="inline-flex items-center text-indigo-700 font-bold space-x-1">
+<span class="material-symbols-outlined text-xs text-indigo-600">event_available</span>
+<span>TERJADWAL SISTEM</span>
+</span>
+<button class="inline-flex items-center space-x-1 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold" type="button">
+<span class="material-symbols-outlined text-xs">tune</span>
+<span>Sesuaikan</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- TAB 3: PERUBAHAN JAM PRAKTIK CONTENT -->
+<!-- ============================================== -->
+<div class="hidden space-y-6 transition-all duration-300" id="content-perubahan-jam">
+<!-- Section: Berlaku Hari Ini -->
+<div class="status-section space-y-3" id="section-perubahan-jam-today">
+<div class="flex items-center space-x-2 px-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-violet-100 text-violet-900 border border-violet-200">
+<span class="w-1.5 h-1.5 rounded-full bg-violet-600 mr-1.5"></span>Berlaku Hari Ini
+                </span>
+<div class="h-px flex-1 bg-slate-200/80"></div>
+<span class="text-[11px] text-slate-400 font-medium">2 Dokter Bergeser</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Schedule Card 1 -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3.5 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 via-indigo-500 to-purple-400"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-50 text-violet-800 border border-violet-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-violet-600 mr-1.5"></span>Perubahan Jam
+                        </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Obgyn</span>
+</div>
+<h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-indigo-700 transition-colors">DR. SITI SARAH, SP.OG</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center flex-shrink-0 text-violet-600">
+<span class="material-symbols-outlined text-xl">pregnant_woman</span>
+</div>
+</div>
+<!-- Time Shift Comparison Block -->
+<div class="bg-gradient-to-r from-violet-50/80 to-indigo-50/60 border border-violet-200/80 rounded-xl p-3 flex items-center justify-between">
+<div>
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Jam Semula</div>
+<div class="text-xs font-extrabold text-slate-500 line-through">09:00 – 13:00 WIB</div>
+</div>
+<div class="w-7 h-7 rounded-full bg-violet-600 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-sm">schedule</span>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-bold uppercase tracking-wider text-violet-800">Jam Baru</div>
+<div class="text-sm font-black text-violet-700">14:00 – 18:00 WIB</div>
+</div>
+</div>
+<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600">
+<span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">info</span>
+<div>
+<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
+<span class="text-[11px] text-slate-600">Pergeseran jadwal akibat visitasi operasi caesar emergency pada pagi hari.</span>
+</div>
+</div>
+<div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+<div class="space-y-0.5">
+<div class="text-slate-400 text-[11px]">Tanggal Berlaku: <span class="font-bold text-slate-700">Hari ini</span></div>
+<div class="inline-flex items-center text-violet-700 font-bold text-[10px] space-x-1">
+<span class="material-symbols-outlined text-xs text-violet-600">check_circle</span>
+<span>SUDAH DIKONFIRMASI</span>
+</div>
+</div>
+<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button">
+<span class="material-symbols-outlined text-xs">edit</span>
+<span>Edit</span>
+</button>
+</div>
+</div>
+<!-- Schedule Card 2 -->
+<div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3.5 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 via-indigo-500 to-purple-400"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-violet-50 text-violet-800 border border-violet-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-violet-600 mr-1.5"></span>Perubahan Jam
+                        </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Bedah Tulang</span>
+</div>
+<h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-indigo-700 transition-colors">DR. BUDI SANTOSO, SP.OT</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center flex-shrink-0 text-violet-600">
+<span class="material-symbols-outlined text-xl">orthopedics</span>
+</div>
+</div>
+<!-- Time Shift Comparison Block -->
+<div class="bg-gradient-to-r from-violet-50/80 to-indigo-50/60 border border-violet-200/80 rounded-xl p-3 flex items-center justify-between">
+<div>
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Jam Semula</div>
+<div class="text-xs font-extrabold text-slate-500 line-through">11:00 – 15:00 WIB</div>
+</div>
+<div class="w-7 h-7 rounded-full bg-violet-600 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-sm">schedule</span>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-bold uppercase tracking-wider text-violet-800">Jam Baru</div>
+<div class="text-sm font-black text-violet-700">08:30 – 12:30 WIB</div>
+</div>
+</div>
+<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600">
+<span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">info</span>
+<div>
+<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
+<span class="text-[11px] text-slate-600">Jadwal dimulai lebih awal untuk mengantisipasi rapat komite medik siang hari.</span>
+</div>
+</div>
+<div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+<div class="space-y-0.5">
+<div class="text-slate-400 text-[11px]">Tanggal Berlaku: <span class="font-bold text-slate-700">Hari ini</span></div>
+<div class="inline-flex items-center text-violet-700 font-bold text-[10px] space-x-1">
+<span class="material-symbols-outlined text-xs text-violet-600">check_circle</span>
+<span>SUDAH DIKONFIRMASI</span>
+</div>
+</div>
+<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button">
+<span class="material-symbols-outlined text-xs">edit</span>
+<span>Edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Akan Datang (Upcoming Jam Praktik) -->
+<div class="status-section space-y-3" id="section-perubahan-jam-upcoming">
+<div class="flex items-center space-x-2 px-1 pt-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-900 border border-indigo-200">
+<span class="material-symbols-outlined text-xs mr-1 text-indigo-600">update</span>Akan Datang
+                </span>
+<div class="h-px flex-1 bg-indigo-100"></div>
+<span class="text-[11px] text-indigo-600 font-semibold">1 Dokter Terjadwal</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Upcoming Schedule Card 1 -->
+<div class="bg-white rounded-2xl border border-indigo-200/90 shadow-sm hover:shadow-md transition-all duration-300 p-5 flex flex-col justify-between space-y-3.5 relative overflow-hidden group">
+<div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-blue-500 to-indigo-400"></div>
+<div class="flex items-start justify-between gap-2 pt-1">
+<div>
+<div class="flex items-center space-x-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 shadow-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>Akan Datang
+                        </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">Poli Jantung &amp; Pembuluh Darah</span>
+</div>
+<h3 class="text-base font-extrabold text-slate-900 tracking-tight mt-2 group-hover:text-indigo-700 transition-colors">DR. FARHAN MAULANA, SP.JP</h3>
+</div>
+<div class="w-10 h-10 rounded-xl bg-indigo-50/80 border border-indigo-100 flex items-center justify-center flex-shrink-0 text-indigo-600">
+<span class="material-symbols-outlined text-xl">ecg_heart</span>
+</div>
+</div>
+<!-- Time Shift Comparison Block -->
+<div class="bg-gradient-to-r from-indigo-50/80 to-blue-50/60 border border-indigo-200/80 rounded-xl p-3 flex items-center justify-between">
+<div>
+<div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Jam Semula</div>
+<div class="text-xs font-extrabold text-slate-500 line-through">09:00 – 12:00 WIB</div>
+</div>
+<div class="w-7 h-7 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-sm">schedule</span>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-bold uppercase tracking-wider text-indigo-900">Mulai 16 Sept 2026</div>
+<div class="text-sm font-black text-indigo-700">14:00 – 17:30 WIB</div>
+</div>
+</div>
+<div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 flex items-start space-x-2 text-xs text-slate-600">
+<span class="material-symbols-outlined text-sm text-slate-400 mt-0.5 flex-shrink-0">info</span>
+<div>
+<span class="font-bold text-[10px] uppercase tracking-wider text-slate-500 block">Keterangan:</span>
+<span class="text-[11px] text-slate-600">Penyesuaian sesi konsultasi sore sehubungan jadwal kateterisasi jantung (Cath Lab) pagi.</span>
+</div>
+</div>
+<div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+<div class="space-y-0.5">
+<div class="text-slate-400 text-[11px]">Mulai Berlaku: <span class="font-bold text-indigo-700">16 September 2026</span></div>
+<div class="inline-flex items-center text-indigo-700 font-bold text-[10px] space-x-1">
+<span class="material-symbols-outlined text-xs text-indigo-600">check_circle</span>
+<span>SUDAH DIJADWALKAN</span>
+</div>
+</div>
+<button class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-100/90 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition shadow-xs" type="button">
+<span class="material-symbols-outlined text-xs">edit</span>
+<span>Edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
 <!-- END: MainHeroLandscape -->
 <!-- BEGIN: MinimalFooter -->
-<footer class="w-full border-t border-emerald-900/5 bg-white py-4">
-<div class="w-full px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2"><div class="">© 2026 <span class="font-semibold text-slate-700">Rumah Sakit Islam Bontang</span>. Seluruh hak cipta dilindungi undang-undang.</div><div class="flex items-center space-x-5"><span class="flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span><span class="">Sistem Informasi Terpadu (SIMRS)</span></span><span class="text-slate-300">|</span><span class="text-slate-400">Versi 3.4.2</span></div></div>
+<footer class="w-full border-t border-slate-200/80 bg-white/95 backdrop-blur py-3 px-6 lg:px-12 flex-shrink-0">
+<div class="w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+<div>© 2026 <span class="font-semibold text-slate-700">Rumah Sakit Islam Bontang</span>. Seluruh hak cipta dilindungi undang-undang.</div>
+<div class="flex items-center space-x-5">
+<span class="flex items-center space-x-1.5">
+<span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+<span class="font-medium text-slate-600">Sistem Terintegrasi SIMRS</span>
+</span>
+<span class="text-slate-300">|</span>
+<span class="text-slate-400">Versi 3.4.2</span>
+</div>
+</div>
 </footer>
 <!-- END: MinimalFooter -->
+<!-- Interactivity Script for Category and Status Filtering -->
+<script>
+  let currentCategory = 'dokter-izin';
+  let currentStatus = 'all';
 
+  const categoryConfig = {
+    'dokter-izin': {
+      title: 'DOKTER IZIN',
+      badge: '4 Total',
+      todayCount: '2 Dokter',
+      todayDesc: 'Izin Hari Ini',
+      upcomingCount: '2 Dokter',
+      upcomingDesc: 'Akan Datang',
+      pillTodayBadge: '2',
+      pillUpcomingBadge: '2',
+      contentId: 'content-dokter-izin'
+    },
+    'perubahan-kuota': {
+      title: 'PERUBAHAN KUOTA',
+      badge: '4 Poli Total',
+      todayCount: '3 Poli',
+      todayDesc: 'Berlaku Hari Ini',
+      upcomingCount: '1 Poli',
+      upcomingDesc: 'Akan Datang',
+      pillTodayBadge: '3',
+      pillUpcomingBadge: '1',
+      contentId: 'content-perubahan-kuota'
+    },
+    'perubahan-jam': {
+      title: 'PERUBAHAN JAM PRAKTIK',
+      badge: '3 Dokter Total',
+      todayCount: '2 Dokter',
+      todayDesc: 'Berlaku Hari Ini',
+      upcomingCount: '1 Dokter',
+      upcomingDesc: 'Akan Datang',
+      pillTodayBadge: '2',
+      pillUpcomingBadge: '1',
+      contentId: 'content-perubahan-jam'
+    }
+  };
 
+  function switchCategory(catKey) {
+    currentCategory = catKey;
+    const categories = ['dokter-izin', 'perubahan-kuota', 'perubahan-jam'];
 
+    categories.forEach(key => {
+      const btn = document.getElementById('tab-' + key);
+      const content = document.getElementById('content-' + key);
+      const iconWrapper = btn ? btn.querySelector('.tab-icon-wrapper') : null;
+      const iconSpan = iconWrapper ? iconWrapper.querySelector('.material-symbols-outlined') : null;
+      const title = btn ? btn.querySelector('.tab-title') : null;
+      const sub = btn ? btn.querySelector('.tab-sub') : null;
+      const badge = btn ? btn.querySelector('.tab-badge') : null;
 
+      if (key === catKey) {
+        if (btn) btn.className = 'tab-btn w-full inline-flex items-center justify-between px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white font-semibold text-xs tracking-wide shadow-md shadow-blue-500/20 border border-blue-400/30 transition-all duration-200 active:scale-[0.98] group';
+        if (iconWrapper) iconWrapper.className = 'tab-icon-wrapper w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0 transition-colors';
+        if (iconSpan) iconSpan.className = 'material-symbols-outlined text-[17px] text-white';
+        if (title) title.className = 'tab-title font-bold text-sm text-white';
+        if (sub) sub.className = 'tab-sub text-[11px] text-blue-100 font-normal';
+        if (badge) badge.className = 'tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-white/25 text-white';
 
+        if (content) content.classList.remove('hidden');
+      } else {
+        if (btn) btn.className = 'tab-btn w-full inline-flex items-center justify-between px-4 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-semibold text-xs tracking-wide border border-slate-200/90 hover:border-slate-300 transition-all duration-200 shadow-xs hover:shadow-sm active:scale-[0.98] group';
+        if (iconWrapper) iconWrapper.className = 'tab-icon-wrapper w-8 h-8 rounded-xl bg-slate-100 group-hover:bg-slate-200 flex items-center justify-center flex-shrink-0 transition-colors';
+        if (iconSpan) iconSpan.className = 'material-symbols-outlined text-[17px] text-slate-600';
+        if (title) title.className = 'tab-title font-bold text-sm text-slate-800';
+        if (sub) sub.className = 'tab-sub text-[11px] text-slate-400 font-normal';
+        if (badge) badge.className = 'tab-badge inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600';
 
+        if (content) content.classList.add('hidden');
+      }
+    });
+
+    // Update Category stats and headers
+    const cfg = categoryConfig[catKey];
+    if (cfg) {
+      const activeTitle = document.getElementById('active-category-title');
+      const activeBadge = document.getElementById('active-category-badge');
+      const statCount = document.getElementById('stat-count');
+      const statDesc = document.getElementById('stat-desc');
+      const statUpcoming = document.getElementById('stat-upcoming');
+      const statUpcomingDesc = document.getElementById('stat-upcoming-desc');
+      const badgePillToday = document.getElementById('badge-pill-today');
+      const badgePillUpcoming = document.getElementById('badge-pill-upcoming');
+
+      if (activeTitle) activeTitle.textContent = cfg.title;
+      if (activeBadge) activeBadge.textContent = cfg.badge;
+      if (statCount) statCount.textContent = cfg.todayCount;
+      if (statDesc) statDesc.textContent = cfg.todayDesc;
+      if (statUpcoming) statUpcoming.textContent = cfg.upcomingCount;
+      if (statUpcomingDesc) statUpcomingDesc.textContent = cfg.upcomingDesc;
+      if (badgePillToday) badgePillToday.textContent = cfg.pillTodayBadge;
+      if (badgePillUpcoming) badgePillUpcoming.textContent = cfg.pillUpcomingBadge;
+    }
+
+    // Apply existing status filter on newly selected category
+    filterStatus(currentStatus);
+  }
+
+  function filterStatus(statusKey) {
+    currentStatus = statusKey;
+    const pills = ['all', 'today', 'upcoming'];
+
+    pills.forEach(p => {
+      const pillBtn = document.getElementById('pill-' + p);
+      if (pillBtn) {
+        if (p === statusKey) {
+          pillBtn.className = 'status-pill px-3 py-1 text-xs font-bold rounded-lg transition-all duration-150 bg-white text-slate-900 shadow-xs border border-slate-200/60';
+        } else {
+          pillBtn.className = 'status-pill px-3 py-1 text-xs font-semibold rounded-lg transition-all duration-150 text-slate-600 hover:text-slate-900';
+        }
+      }
+    });
+
+    const activeContent = document.getElementById('content-' + currentCategory);
+    if (!activeContent) return;
+
+    const todaySection = activeContent.querySelector('#section-' + currentCategory + '-today');
+    const upcomingSection = activeContent.querySelector('#section-' + currentCategory + '-upcoming');
+
+    if (todaySection) {
+      if (statusKey === 'all' || statusKey === 'today') {
+        todaySection.classList.remove('hidden');
+      } else {
+        todaySection.classList.add('hidden');
+      }
+    }
+
+    if (upcomingSection) {
+      if (statusKey === 'all' || statusKey === 'upcoming') {
+        upcomingSection.classList.remove('hidden');
+      } else {
+        upcomingSection.classList.add('hidden');
+      }
+    }
+  }
+</script>
 </body></html>
