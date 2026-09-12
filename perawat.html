@@ -387,9 +387,11 @@ document.addEventListener('DOMContentLoaded', () => {
   pilihDokter(DEMO_DOKTER[0]);
   ubahJenisInformasi();
   setupApiModal();
-  fetchDaftarDokter();
+  fetchDaftarDokter().finally(() => {
+    // Setelah daftar dokter selesai dimuat, baru isi data yang akan diedit.
+    muatDataEdit();
+  });
   updateBadgeAntrian();
-  setTimeout(muatDataEdit, 700);
   cobaSinkronAntrian();
 
   if ('serviceWorker' in navigator) {
@@ -651,14 +653,27 @@ function isiFormDariData(item) {
 
 async function muatDataEdit() {
   const id = getQueryParam('edit');
-  if (!id || !GAS_API_URL) return;
+  if (!id) return;
+  if (!GAS_API_URL) {
+    tampilkanAlert('URL Google Apps Script belum tersedia untuk mode edit.', 'error');
+    return;
+  }
+
   try {
-    const res = await fetch(`${GAS_API_URL}?aksi=get_info_by_id&id=${encodeURIComponent(id)}`);
+    const url = `${GAS_API_URL}?aksi=get_info_by_id&id=${encodeURIComponent(id)}`;
+    console.log('Memuat data edit:', url);
+    const res = await fetch(url, { cache: 'no-store' });
     const json = await res.json();
-    if (json && json.status === 'success' && json.data) isiFormDariData(json.data);
-    else tampilkanAlert((json && json.message) || 'Data yang akan diedit tidak ditemukan.', 'error');
+    console.log('Respons data edit:', json);
+
+    if (json && json.status === 'success' && json.data) {
+      isiFormDariData(json.data);
+    } else {
+      tampilkanAlert((json && json.message) || 'Data yang akan diedit tidak ditemukan.', 'error');
+    }
   } catch (e) {
-    tampilkanAlert('Gagal mengambil data untuk diedit. Periksa koneksi ke Google Apps Script.', 'error');
+    console.error('Gagal mengambil data edit:', e);
+    tampilkanAlert('Gagal mengambil data untuk diedit. Periksa koneksi dan deployment Google Apps Script.', 'error');
   }
 }
 
