@@ -1,1682 +1,716 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+  <title>Portal Perawat - RS Islam Bontang</title>
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
 
-<title>Input Informasi Dokter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+    }
 
-<style>
+    .field-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+    }
 
-:root{
-  --bg:#07111f;
-  --panel:#0d1b2d;
-  --panel2:#10243a;
-  --line:rgba(255,255,255,.09);
-  --text:#f8fafc;
-  --muted:#8fa3b8;
-  --blue:#38bdf8;
-  --green:#34d399;
-  --red:#fb7185;
-}
+    .field {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px 12px;
+      outline: none;
+    }
 
-*{
-  box-sizing:border-box;
-}
+    .field:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, .15);
+    }
 
-body{
-  margin:0;
-  min-height:100vh;
-  background:
-    radial-gradient(
-      circle at top right,
-      #173454,
-      #07111f 42%
-    );
-  color:var(--text);
-  font-family:
-    Inter,
-    system-ui,
-    sans-serif;
-}
-
-.wrapper{
-  width:min(900px,94%);
-  margin:35px auto;
-}
-
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:22px;
-}
-
-.title h1{
-  margin:0;
-  font-size:25px;
-}
-
-.title p{
-  margin:5px 0 0;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.back{
-  border:1px solid var(--line);
-  background:var(--panel);
-  color:white;
-  border-radius:12px;
-  padding:11px 15px;
-  cursor:pointer;
-  font-weight:700;
-}
-
-.form{
-  background:
-    rgba(13,27,45,.95);
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:25px;
-  box-shadow:
-    0 25px 70px rgba(0,0,0,.2);
-}
-
-.mode{
-  display:inline-flex;
-  padding:7px 12px;
-  border-radius:999px;
-  background:rgba(56,189,248,.1);
-  color:var(--blue);
-  font-size:11px;
-  font-weight:800;
-  margin-bottom:20px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
-  gap:17px;
-}
-
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.field.full{
-  grid-column:1/-1;
-}
-
-label{
-  font-size:12px;
-  color:#b7c6d6;
-  font-weight:700;
-}
-
-input,
-select,
-textarea{
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:13px;
-  background:#091827;
-  color:white;
-  padding:13px 14px;
-  outline:none;
-  font:inherit;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:
-    rgba(56,189,248,.65);
-}
-
-textarea{
-  min-height:100px;
-  resize:vertical;
-}
-
-.doctor-wrap{
-  position:relative;
-}
-
-.suggestions{
-  position:absolute;
-  z-index:20;
-  left:0;
-  right:0;
-  top:100%;
-  margin-top:5px;
-  border:1px solid var(--line);
-  background:#0b192a;
-  border-radius:13px;
-  overflow:hidden;
-  max-height:260px;
-  overflow-y:auto;
-  box-shadow:
-    0 20px 40px rgba(0,0,0,.3);
-}
-
-.suggestion{
-  padding:12px 14px;
-  cursor:pointer;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.suggestion:hover{
-  background:rgba(56,189,248,.1);
-}
-
-.suggestion strong{
-  display:block;
-  font-size:13px;
-}
-
-.suggestion span{
-  display:block;
-  margin-top:3px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.checkbox{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:12px 14px;
-  border-radius:13px;
-  background:rgba(255,255,255,.035);
-  border:1px solid var(--line);
-}
-
-.checkbox input{
-  width:auto;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  justify-content:flex-end;
-  margin-top:25px;
-}
-
-button{
-  font:inherit;
-}
-
-.btn{
-  border:0;
-  border-radius:13px;
-  padding:13px 19px;
-  cursor:pointer;
-  font-weight:800;
-}
-
-.btn-cancel{
-  background:#17283c;
-  color:white;
-}
-
-.btn-save{
-  background:
-    linear-gradient(
-      135deg,
-      #0ea5e9,
-      #6366f1
-    );
-  color:white;
-}
-
-.btn-save:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-}
-
-.alert{
-  padding:13px 15px;
-  border-radius:13px;
-  margin-bottom:18px;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.alert.error{
-  background:rgba(251,113,133,.1);
-  color:#fecdd3;
-  border:1px solid rgba(251,113,133,.2);
-}
-
-.alert.success{
-  background:rgba(52,211,153,.1);
-  color:#a7f3d0;
-  border:1px solid rgba(52,211,153,.2);
-}
-
-.hint{
-  color:var(--muted);
-  font-size:11px;
-}
-
-@media(max-width:700px){
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .field.full{
-    grid-column:auto;
-  }
-
-  .top{
-    align-items:flex-start;
-  }
-
-  .actions{
-    flex-direction:column-reverse;
-  }
-
-  .btn{
-    width:100%;
-  }
-
-}
-
-</style>
-
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+  </style>
 </head>
 
 <body>
+  <header class="bg-slate-900 text-white px-5 py-4">
+    <div class="max-w-6xl mx-auto flex flex-wrap justify-between gap-3">
+      <div>
+        <h1 class="text-xl font-bold">Portal Perawat</h1>
+        <p class="text-sm text-slate-300">
+          Input dan perubahan informasi pelayanan dokter
+        </p>
+      </div>
 
-<div class="wrapper">
-
-  <div class="top">
-
-    <div class="title">
-
-      <h1 id="pageTitle">
-        Input Informasi Dokter
-      </h1>
-
-      <p>
-        Kelola informasi pelayanan dokter rawat jalan
-      </p>
-
+      <a
+        href="index.html"
+        class="rounded-lg bg-white px-4 py-2 text-slate-800 hover:bg-slate-100">
+        Kembali ke Dashboard
+      </a>
     </div>
+  </header>
 
-    <button
-      class="back"
-      onclick="goDashboard()">
+  <main class="max-w-6xl mx-auto p-5">
 
-      ← Dashboard
+    <div id="messageBox"
+         class="hidden mb-5 rounded-lg px-4 py-3"></div>
 
-    </button>
+    <form id="informationForm"
+          class="bg-white rounded-xl border p-5 space-y-6">
 
-  </div>
+      <div class="flex flex-wrap justify-between items-center gap-3">
+        <div>
+          <h2 id="formTitle" class="text-xl font-bold text-slate-800">
+            Tambah Informasi
+          </h2>
 
+          <p class="text-sm text-slate-500">
+            Semua perubahan akan disimpan ke Google Sheets.
+          </p>
+        </div>
 
-  <div id="alert"></div>
+        <span id="modeBadge"
+              class="rounded-full bg-green-100 px-3 py-1 text-sm text-green-700">
+          Data Baru
+        </span>
+      </div>
 
+      <input type="hidden" id="ID_INFORMASI" name="ID_INFORMASI">
 
-  <form
-    id="form"
-    class="form"
-    onsubmit="submitForm(event)">
+      <!-- DATA DOKTER -->
+      <section>
+        <div class="section-title">Data Dokter</div>
 
-    <div
-      id="mode"
-      class="mode">
-      INPUT BARU
-    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label" for="ID_DOKTER">
+              Dokter
+            </label>
 
-
-    <div class="grid">
-
-      <!-- DOKTER -->
-
-      <div class="field full">
-
-        <label>
-          Dokter
-        </label>
-
-        <div class="doctor-wrap">
-
-          <input
-            id="doctorSearch"
-            type="text"
-            autocomplete="off"
-            placeholder="Ketik nama dokter...">
-
-          <div
-            id="suggestions"
-            class="suggestions hidden">
+            <select id="ID_DOKTER"
+                    name="ID_DOKTER"
+                    class="field"
+                    required>
+              <option value="">Memuat daftar dokter...</option>
+            </select>
           </div>
 
+          <div>
+            <label class="field-label" for="NAMA_DOKTER">
+              Nama Dokter
+            </label>
+
+            <input
+              id="NAMA_DOKTER"
+              name="NAMA_DOKTER"
+              class="field bg-slate-100"
+              readonly
+              required>
+          </div>
+
+          <div>
+            <label class="field-label" for="POLI">
+              Poli
+            </label>
+
+            <input
+              id="POLI"
+              name="POLI"
+              class="field bg-slate-100"
+              readonly
+              required>
+          </div>
+
+          <div>
+            <label class="field-label" for="DIINPUT_OLEH">
+              Diinput Oleh
+            </label>
+
+            <input
+              id="DIINPUT_OLEH"
+              name="DIINPUT_OLEH"
+              class="field"
+              placeholder="Nama petugas"
+              required>
+          </div>
         </div>
+      </section>
 
-        <input
-          id="ID_DOKTER"
-          type="hidden">
+      <!-- JENIS INFORMASI -->
+      <section>
+        <div class="section-title">Jenis Informasi</div>
 
-        <input
-          id="NAMA_DOKTER"
-          type="hidden">
+        <div>
+          <label class="field-label" for="JENIS_INFORMASI">
+            Pilih Jenis Informasi
+          </label>
 
-        <div
-          id="doctorHint"
-          class="hint">
-          Ketik nama dokter untuk memilih.
+          <select
+            id="JENIS_INFORMASI"
+            name="JENIS_INFORMASI"
+            class="field"
+            required>
+            <option value="">-- Pilih Jenis --</option>
+            <option value="DOKTER_IZIN">Dokter Izin</option>
+            <option value="PERUBAHAN_KUOTA">Perubahan Kuota</option>
+            <option value="PERUBAHAN_JAM">Perubahan Jam Praktik</option>
+          </select>
         </div>
-
-      </div>
-
-
-      <!-- POLI -->
-
-      <div class="field">
-
-        <label>
-          Poli
-        </label>
-
-        <input
-          id="POLI"
-          type="text"
-          placeholder="Poli dokter">
-
-      </div>
-
-
-      <!-- JENIS -->
-
-      <div class="field">
-
-        <label>
-          Jenis informasi
-        </label>
-
-        <select id="JENIS_INFORMASI"
-                onchange="changeType()">
-
-          <option value="">
-            Pilih informasi
-          </option>
-
-          <option value="DOKTER_IZIN">
-            Dokter Izin
-          </option>
-
-          <option value="PERUBAHAN_KUOTA">
-            Perubahan Kuota
-          </option>
-
-          <option value="PERUBAHAN_JAM_PRAKTIK">
-            Perubahan Jam Praktik
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <!-- TANGGAL MULAI -->
-
-      <div class="field">
-
-        <label>
-          Tanggal mulai
-        </label>
-
-        <input
-          id="TGL_MULAI"
-          type="date">
-
-      </div>
-
-
-      <!-- TANGGAL SELESAI -->
-
-      <div
-        id="fieldTanggalSelesai"
-        class="field">
-
-        <label>
-          Tanggal selesai
-        </label>
-
-        <input
-          id="TGL_SELESAI"
-          type="date">
-
-      </div>
-
-
-      <!-- SAMPAI INFO -->
-
-      <div
-        id="fieldSampaiInfo"
-        class="field full hidden">
-
-        <label>
-          Status izin
-        </label>
-
-        <label class="checkbox">
-
-          <input
-            id="SAMPAI_INFO"
-            type="checkbox"
-            onchange="toggleSampaiInfo()">
-
-          <span>
-            Izin sampai ada informasi selanjutnya
-          </span>
-
-        </label>
-
-      </div>
-
-
-      <!-- SESI -->
-
-      <div
-        id="fieldSesi"
-        class="field">
-
-        <label>
-          Sesi
-        </label>
-
-        <select id="SESI">
-
-          <option value="SEMUA">
-            Semua sesi
-          </option>
-
-          <option value="PAGI">
-            Pagi
-          </option>
-
-          <option value="SIANG">
-            Siang
-          </option>
-
-          <option value="MALAM">
-            Malam
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <!-- PRAKTIK KEMBALI -->
-
-      <div
-        id="fieldPraktikKembali"
-        class="field">
-
-        <label>
-          Tanggal mulai praktik kembali
-        </label>
-
-        <input
-          id="TGL_MULAI_PRAKTEK"
-          type="date">
-
-      </div>
-
-
-      <!-- SESI KEMBALI -->
-
-      <div
-        id="fieldSesiKembali"
-        class="field">
-
-        <label>
-          Sesi praktik kembali
-        </label>
-
-        <select id="SESI_KEMBALI">
-
-          <option value="">
-            Pilih sesi
-          </option>
-
-          <option value="PAGI">
-            Pagi
-          </option>
-
-          <option value="SIANG">
-            Siang
-          </option>
-
-          <option value="MALAM">
-            Malam
-          </option>
-
-        </select>
-
-      </div>
-
+      </section>
+
+      <!-- TANGGAL DAN SESI -->
+      <section>
+        <div class="section-title">Tanggal dan Sesi</div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="field-label" for="TGL_MULAI">
+              Tanggal Mulai
+            </label>
+
+            <input
+              type="date"
+              id="TGL_MULAI"
+              name="TGL_MULAI"
+              class="field"
+              required>
+          </div>
+
+          <div>
+            <label class="field-label" for="TGL_SELESAI">
+              Tanggal Selesai
+            </label>
+
+            <select
+              id="TGL_SELESAI"
+              name="TGL_SELESAI"
+              class="field">
+              <option value="">Pilih tanggal selesai</option>
+              <option value="SAMPAI_INFORMASI">
+                Sampai informasi lebih lanjut
+              </option>
+            </select>
+
+            <input
+              type="date"
+              id="TGL_SELESAI_DATE"
+              class="field mt-2">
+          </div>
+
+          <div>
+            <label class="field-label" for="SESI">
+              Sesi
+            </label>
+
+            <select id="SESI" name="SESI" class="field">
+              <option value="SEMUA">Semua Sesi</option>
+              <option value="PAGI">Pagi</option>
+              <option value="SIANG">Siang</option>
+              <option value="SORE">Sore</option>
+              <option value="MALAM">Malam</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOKTER IZIN -->
+      <section id="leaveSection" class="hidden">
+        <div class="section-title">Detail Dokter Izin</div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label" for="DOKTER_PENGGANTI">
+              Dokter Pengganti
+            </label>
+
+            <input
+              id="DOKTER_PENGGANTI"
+              name="DOKTER_PENGGANTI"
+              class="field"
+              placeholder="Nama dokter pengganti">
+          </div>
+
+          <div>
+            <label class="field-label" for="TGL_MULAI_PRAKTEK">
+              Mulai Praktik Kembali
+            </label>
+
+            <input
+              type="date"
+              id="TGL_MULAI_PRAKTEK"
+              name="TGL_MULAI_PRAKTEK"
+              class="field">
+          </div>
+
+          <div>
+            <label class="field-label" for="SESI_KEMBALI">
+              Sesi Kembali
+            </label>
+
+            <select
+              id="SESI_KEMBALI"
+              name="SESI_KEMBALI"
+              class="field">
+              <option value="">Pilih sesi</option>
+              <option value="PAGI">Pagi</option>
+              <option value="SIANG">Siang</option>
+              <option value="SORE">Sore</option>
+              <option value="MALAM">Malam</option>
+            </select>
+          </div>
+        </div>
+      </section>
 
       <!-- KUOTA -->
+      <section id="quotaSection" class="hidden">
+        <div class="section-title">Detail Perubahan Kuota</div>
 
-      <div
-        id="fieldKuota"
-        class="field hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label" for="KUOTA_LAMA">
+              Kuota Lama
+            </label>
 
-        <label>
-          Kuota baru
-        </label>
+            <input
+              type="number"
+              id="KUOTA_LAMA"
+              name="KUOTA_LAMA"
+              class="field"
+              min="0">
+          </div>
 
-        <input
-          id="KUOTA"
-          type="number"
-          min="0"
-          placeholder="Contoh: 20">
+          <div>
+            <label class="field-label" for="KUOTA">
+              Kuota Baru
+            </label>
 
-      </div>
+            <input
+              type="number"
+              id="KUOTA"
+              name="KUOTA"
+              class="field"
+              min="0">
+          </div>
+        </div>
+      </section>
 
+      <!-- JAM -->
+      <section id="timeSection" class="hidden">
+        <div class="section-title">Detail Perubahan Jam Praktik</div>
 
-      <!-- JAM MULAI -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="field-label" for="JAM_MULAI_LAMA">
+              Jam Mulai Lama
+            </label>
 
-      <div
-        id="fieldJamMulai"
-        class="field hidden">
+            <input
+              type="time"
+              id="JAM_MULAI_LAMA"
+              name="JAM_MULAI_LAMA"
+              class="field">
+          </div>
 
-        <label>
-          Jam mulai praktik
-        </label>
+          <div>
+            <label class="field-label" for="JAM_SELESAI_LAMA">
+              Jam Selesai Lama
+            </label>
 
-        <input
-          id="JAM_MULAI"
-          type="time">
+            <input
+              type="time"
+              id="JAM_SELESAI_LAMA"
+              name="JAM_SELESAI_LAMA"
+              class="field">
+          </div>
 
-      </div>
+          <div>
+            <label class="field-label" for="JAM_MULAI">
+              Jam Mulai Baru
+            </label>
 
+            <input
+              type="time"
+              id="JAM_MULAI"
+              name="JAM_MULAI"
+              class="field">
+          </div>
 
-      <!-- JAM SELESAI -->
+          <div>
+            <label class="field-label" for="JAM_SELESAI">
+              Jam Selesai Baru
+            </label>
 
-      <div
-        id="fieldJamSelesai"
-        class="field hidden">
-
-        <label>
-          Jam selesai praktik
-        </label>
-
-        <input
-          id="JAM_SELESAI"
-          type="time">
-
-      </div>
-
+            <input
+              type="time"
+              id="JAM_SELESAI"
+              name="JAM_SELESAI"
+              class="field">
+          </div>
+        </div>
+      </section>
 
       <!-- KETERANGAN -->
-
-      <div
-        class="field full">
-
-        <label>
-          Keterangan
-        </label>
+      <section>
+        <div class="section-title">Keterangan</div>
 
         <textarea
           id="KETERANGAN"
-          placeholder="Keterangan tambahan..."></textarea>
+          name="KETERANGAN"
+          rows="4"
+          class="field"
+          placeholder="Tuliskan keterangan informasi..."></textarea>
+      </section>
 
+      <!-- BUTTON -->
+      <div class="flex flex-wrap justify-end gap-3 border-t pt-5">
+        <a
+          href="index.html"
+          class="rounded-lg border px-5 py-2 text-slate-700 hover:bg-slate-100">
+          Batal
+        </a>
+
+        <button
+          id="submitButton"
+          type="submit"
+          class="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700">
+          Simpan Informasi
+        </button>
       </div>
+    </form>
+  </main>
 
+  <script>
+    const API_URL =
+      localStorage.getItem('rsi_appscript_url') ||
+      'https://script.google.com/macros/s/AKfycbxHNqfVkTu9onyXq3pXVMfApJRRRDOx8AmTThrHMl6TbubtSmz5b_XJxpuHzMbmdG4NKw/exec';
 
-      <!-- INPUT OLEH -->
+    let dokterList = [];
+    let editMode = false;
 
-      <div class="field">
+    const form = document.getElementById('informationForm');
 
-        <label>
-          Diinput oleh
-        </label>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadDokter();
 
-        <input
-          id="DIINPUT_OLEH"
-          type="text"
-          placeholder="Nama petugas">
+      const id = new URLSearchParams(window.location.search).get('id');
 
-      </div>
-
-    </div>
-
-
-    <div class="actions">
-
-      <button
-        type="button"
-        class="btn btn-cancel"
-        onclick="goDashboard()">
-
-        Batal
-
-      </button>
-
-      <button
-        id="btnSave"
-        type="submit"
-        class="btn btn-save">
-
-        Simpan Informasi
-
-      </button>
-
-    </div>
-
-  </form>
-
-</div>
-
-
-<script>
-
-/* ============================================================
-   KONFIGURASI
-   ============================================================ */
-
-const API_URL =
-  https://script.google.com/macros/s/AKfycbxHNqfVkTu9onyXq3pXVMfApJRRRDOx8AmTThrHMl6TbubtSmz5b_XJxpuHzMbmdG4NKw/exec;
-
-
-const DASHBOARD_URL =
-  'GANTI_DENGAN_URL_GITHUB_INDEX';
-
-
-let DOKTER = [];
-
-let EDIT_ID = '';
-
-let IS_EDIT = false;
-
-
-/* ============================================================
-   INIT
-   ============================================================ */
-
-document.addEventListener(
-  'DOMContentLoaded',
-  init
-);
-
-
-async function init(){
-
-  EDIT_ID =
-    new URLSearchParams(
-      window.location.search
-    ).get('edit') || '';
-
-  IS_EDIT =
-    Boolean(EDIT_ID);
-
-  if(IS_EDIT){
-
-    document
-      .getElementById('mode')
-      .textContent =
-        'MODE EDIT';
-
-    document
-      .getElementById('pageTitle')
-      .textContent =
-        'Edit Informasi Dokter';
-
-  }
-
-  await loadDokter();
-
-  setupAutocomplete();
-
-  changeType();
-
-  if(IS_EDIT){
-
-    await loadEditData();
-
-  }
-
-}
-
-
-/* ============================================================
-   LOAD DOKTER
-   ============================================================ */
-
-async function loadDokter(){
-
-  try{
-
-    const response =
-      await fetch(
-        API_URL +
-        '?aksi=get_dokter&_=' +
-        Date.now()
-      );
-
-    const result =
-      await response.json();
-
-    if(
-      result.status !==
-      'success'
-    ){
-
-      throw new Error(
-        result.message ||
-        'Gagal mengambil daftar dokter.'
-      );
-
-    }
-
-    DOKTER =
-      Array.isArray(
-        result.data
-      )
-      ?
-      result.data
-      :
-      [];
-
-  }catch(err){
-
-    showAlert(
-      err.message,
-      'error'
-    );
-
-  }
-
-}
-
-
-/* ============================================================
-   AUTOCOMPLETE
-   ============================================================ */
-
-function setupAutocomplete(){
-
-  const input =
-    document.getElementById(
-      'doctorSearch'
-    );
-
-  input.addEventListener(
-    'input',
-    function(){
-
-      const keyword =
-        this.value
-          .trim()
-          .toLowerCase();
-
-      /*
-       * Bila user menghapus nama,
-       * ID dokter juga dihapus.
-       */
-
-      document.getElementById(
-        'ID_DOKTER'
-      ).value = '';
-
-      document.getElementById(
-        'NAMA_DOKTER'
-      ).value = '';
-
-      if(!keyword){
-
-        hideSuggestions();
-
-        return;
-
+      if (id) {
+        await loadEditData(id);
       }
 
-      const matches =
-        DOKTER
-          .filter(d => {
+      updateSections();
+    });
 
-            const text =
-              (
-                d.nama +
-                ' ' +
-                d.spesialisasi +
-                ' ' +
-                d.poli
-              )
-              .toLowerCase();
-
-            return text.includes(
-              keyword
-            );
-
-          })
-          .slice(0,10);
-
-      showSuggestions(
-        matches
+    document.getElementById('ID_DOKTER').addEventListener('change', () => {
+      const selected = dokterList.find(
+        dokter =>
+          String(dokter.id) ===
+          String(document.getElementById('ID_DOKTER').value)
       );
 
+      if (!selected) return;
+
+      document.getElementById('NAMA_DOKTER').value =
+        selected.nama || '';
+
+      document.getElementById('POLI').value =
+        selected.poli || '';
+    });
+
+    document.getElementById('JENIS_INFORMASI')
+      .addEventListener('change', updateSections);
+
+    document.getElementById('TGL_SELESAI')
+      .addEventListener('change', updateFinishDate);
+
+    form.addEventListener('submit', saveInformation);
+
+    async function loadDokter() {
+      try {
+        const response = await fetch(
+          API_URL + '?aksi=get_dokter'
+        );
+
+        const result = await response.json();
+
+        if (result.status !== 'success') {
+          throw new Error(result.message || 'Gagal memuat dokter.');
+        }
+
+        dokterList = Array.isArray(result.data)
+          ? result.data
+          : [];
+
+        const select = document.getElementById('ID_DOKTER');
+
+        select.innerHTML =
+          '<option value="">-- Pilih Dokter --</option>';
+
+        dokterList.forEach(dokter => {
+          const option = document.createElement('option');
+
+          option.value = dokter.id;
+          option.textContent =
+            `${dokter.nama} - ${dokter.poli || '-'}`;
+
+          select.appendChild(option);
+        });
+
+      } catch (error) {
+        showMessage(error.message, 'error');
+      }
     }
-  );
 
+    async function loadEditData(id) {
+      try {
+        const response = await fetch(
+          API_URL +
+          '?aksi=get_info_by_id&id=' +
+          encodeURIComponent(id)
+        );
 
-  document.addEventListener(
-    'click',
-    function(e){
+        const result = await response.json();
 
-      if(
-        !e.target.closest(
-          '.doctor-wrap'
-        )
-      ){
+        if (result.status !== 'success' || !result.data) {
+          throw new Error(result.message || 'Data edit tidak ditemukan.');
+        }
 
-        hideSuggestions();
+        editMode = true;
 
+        document.getElementById('formTitle').textContent =
+          'Edit Informasi';
+
+        document.getElementById('modeBadge').textContent =
+          'Mode Edit';
+
+        document.getElementById('modeBadge').className =
+          'rounded-full bg-orange-100 px-3 py-1 text-sm text-orange-700';
+
+        document.getElementById('submitButton').textContent =
+          'Simpan Perubahan';
+
+        fillForm(result.data);
+
+      } catch (error) {
+        showMessage(error.message, 'error');
+      }
+    }
+
+    function fillForm(data) {
+      const fields = [
+        'ID_INFORMASI',
+        'ID_DOKTER',
+        'NAMA_DOKTER',
+        'POLI',
+        'JENIS_INFORMASI',
+        'TGL_MULAI',
+        'SESI',
+        'TGL_MULAI_PRAKTEK',
+        'SESI_KEMBALI',
+        'JAM_MULAI',
+        'JAM_SELESAI',
+        'JAM_MULAI_LAMA',
+        'JAM_SELESAI_LAMA',
+        'KUOTA',
+        'KUOTA_LAMA',
+        'DOKTER_PENGGANTI',
+        'KETERANGAN',
+        'DIINPUT_OLEH'
+      ];
+
+      fields.forEach(field => {
+        const element = document.getElementById(field);
+
+        if (element) {
+          element.value = data[field] ?? '';
+        }
+      });
+
+      const selesaiSelect =
+        document.getElementById('TGL_SELESAI');
+
+      const selesaiDate =
+        document.getElementById('TGL_SELESAI_DATE');
+
+      if (data.TGL_SELESAI === 'SAMPAI_INFORMASI') {
+        selesaiSelect.value = 'SAMPAI_INFORMASI';
+        selesaiDate.value = '';
+      } else {
+        selesaiSelect.value = '';
+        selesaiDate.value = data.TGL_SELESAI || '';
       }
 
-    }
-  );
-
-}
-
-
-/* ============================================================
-   SUGGESTIONS
-   ============================================================ */
-
-function showSuggestions(
-  items
-){
-
-  const box =
-    document.getElementById(
-      'suggestions'
-    );
-
-  if(!items.length){
-
-    box.innerHTML =
-      `
-      <div class="suggestion">
-        <span>Dokter tidak ditemukan</span>
-      </div>
-      `;
-
-    box.classList.remove(
-      'hidden'
-    );
-
-    return;
-
-  }
-
-  box.innerHTML =
-    items
-      .map(
-        d =>
-          `
-          <div
-            class="suggestion"
-            onclick="selectDoctor(
-              '${escapeAttr(d.id)}'
-            )">
-
-            <strong>
-              ${escapeHtml(d.nama)}
-            </strong>
-
-            <span>
-              ${escapeHtml(
-                d.spesialisasi || ''
-              )}
-              ${
-                d.poli
-                ?
-                ' · ' +
-                escapeHtml(d.poli)
-                :
-                ''
-              }
-            </span>
-
-          </div>
-          `
-      )
-      .join('');
-
-  box.classList.remove(
-    'hidden'
-  );
-
-}
-
-
-function selectDoctor(
-  id
-){
-
-  const dokter =
-    DOKTER.find(
-      d =>
-        String(d.id) ===
-        String(id)
-    );
-
-  if(!dokter){
-    return;
-  }
-
-  document.getElementById(
-    'doctorSearch'
-  ).value =
-    dokter.nama;
-
-  document.getElementById(
-    'ID_DOKTER'
-  ).value =
-    dokter.id;
-
-  document.getElementById(
-    'NAMA_DOKTER'
-  ).value =
-    dokter.nama;
-
-  document.getElementById(
-    'POLI'
-  ).value =
-    dokter.poli || '';
-
-  document.getElementById(
-    'doctorHint'
-  ).textContent =
-    (
-      dokter.spesialisasi ||
-      'Dokter'
-    ) +
-    (
-      dokter.poli
-      ? ' · ' + dokter.poli
-      : ''
-    );
-
-  hideSuggestions();
-
-}
-
-
-function hideSuggestions(){
-
-  document
-    .getElementById(
-      'suggestions'
-    )
-    .classList.add(
-      'hidden'
-    );
-
-}
-
-
-/* ============================================================
-   JENIS INFORMASI
-   ============================================================ */
-
-function changeType(){
-
-  const type =
-    document.getElementById(
-      'JENIS_INFORMASI'
-    ).value;
-
-  hideAllSpecificFields();
-
-
-  if(
-    type ===
-    'DOKTER_IZIN'
-  ){
-
-    show(
-      'fieldTanggalSelesai'
-    );
-
-    show(
-      'fieldSampaiInfo'
-    );
-
-    show(
-      'fieldSesi'
-    );
-
-    show(
-      'fieldPraktikKembali'
-    );
-
-    show(
-      'fieldSesiKembali'
-    );
-
-    return;
-
-  }
-
-
-  if(
-    type ===
-    'PERUBAHAN_KUOTA'
-  ){
-
-    show(
-      'fieldTanggalSelesai'
-    );
-
-    show(
-      'fieldKuota'
-    );
-
-    return;
-
-  }
-
-
-  if(
-    type ===
-    'PERUBAHAN_JAM_PRAKTIK'
-  ){
-
-    show(
-      'fieldTanggalSelesai'
-    );
-
-    show(
-      'fieldJamMulai'
-    );
-
-    show(
-      'fieldJamSelesai'
-    );
-
-    return;
-
-  }
-
-}
-
-
-function hideAllSpecificFields(){
-
-  [
-    'fieldTanggalSelesai',
-    'fieldSampaiInfo',
-    'fieldSesi',
-    'fieldPraktikKembali',
-    'fieldSesiKembali',
-    'fieldKuota',
-    'fieldJamMulai',
-    'fieldJamSelesai'
-  ].forEach(
-    id =>
-      hide(id)
-  );
-
-}
-
-
-function show(id){
-
-  document
-    .getElementById(id)
-    .classList.remove(
-      'hidden'
-    );
-
-}
-
-
-function hide(id){
-
-  document
-    .getElementById(id)
-    .classList.add(
-      'hidden'
-    );
-
-}
-
-
-/* ============================================================
-   SAMPAI INFORMASI
-   ============================================================ */
-
-function toggleSampaiInfo(){
-
-  const checked =
-    document.getElementById(
-      'SAMPAI_INFO'
-    ).checked;
-
-  const selesai =
-    document.getElementById(
-      'TGL_SELESAI'
-    );
-
-  selesai.disabled =
-    checked;
-
-  if(checked){
-
-    selesai.value = '';
-
-  }
-
-}
-
-
-/* ============================================================
-   LOAD EDIT
-   ============================================================ */
-
-async function loadEditData(){
-
-  try{
-
-    const response =
-      await fetch(
-        API_URL +
-        '?aksi=get_info_by_id&id=' +
-        encodeURIComponent(
-          EDIT_ID
-        ) +
-        '&_=' +
-        Date.now()
-      );
-
-    const result =
-      await response.json();
-
-    if(
-      result.status !==
-      'success'
-    ){
-
-      throw new Error(
-        result.message ||
-        'Data edit tidak ditemukan.'
-      );
-
+      updateSections();
     }
 
-    fillForm(
-      result.data
-    );
+    function updateSections() {
+      const jenis =
+        document.getElementById('JENIS_INFORMASI').value;
 
-  }catch(err){
+      document.getElementById('leaveSection')
+        .classList.toggle(
+          'hidden',
+          jenis !== 'DOKTER_IZIN'
+        );
 
-    showAlert(
-      err.message,
-      'error'
-    );
+      document.getElementById('quotaSection')
+        .classList.toggle(
+          'hidden',
+          jenis !== 'PERUBAHAN_KUOTA'
+        );
 
-  }
+      document.getElementById('timeSection')
+        .classList.toggle(
+          'hidden',
+          jenis !== 'PERUBAHAN_JAM'
+        );
+    }
 
-}
+    function updateFinishDate() {
+      const select =
+        document.getElementById('TGL_SELESAI');
 
+      const date =
+        document.getElementById('TGL_SELESAI_DATE');
 
-/* ============================================================
-   ISI FORM EDIT
-   ============================================================ */
+      if (select.value === 'SAMPAI_INFORMASI') {
+        date.value = '';
+        date.classList.add('hidden');
+      } else {
+        date.classList.remove('hidden');
+      }
+    }
 
-function fillForm(
-  data
-){
+    async function saveInformation(event) {
+      event.preventDefault();
 
-  document.getElementById(
-    'ID_DOKTER'
-  ).value =
-    data.ID_DOKTER || '';
+      const button =
+        document.getElementById('submitButton');
 
-  document.getElementById(
-    'NAMA_DOKTER'
-  ).value =
-    data.NAMA_DOKTER || '';
+      button.disabled = true;
+      button.textContent = 'Menyimpan...';
 
-  document.getElementById(
-    'doctorSearch'
-  ).value =
-    data.NAMA_DOKTER || '';
+      try {
+        const payload = collectFormData();
 
-  document.getElementById(
-    'POLI'
-  ).value =
-    data.POLI || '';
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(payload)
+        });
 
-  document.getElementById(
-    'JENIS_INFORMASI'
-  ).value =
-    data.JENIS_INFORMASI || '';
+        const result = await response.json();
 
-  document.getElementById(
-    'TGL_MULAI'
-  ).value =
-    data.TGL_MULAI || '';
+        if (result.status !== 'success') {
+          throw new Error(
+            result.message || 'Data gagal disimpan.'
+          );
+        }
 
-  document.getElementById(
-    'TGL_SELESAI'
-  ).value =
-    data.TGL_SELESAI ===
-    'SAMPAI_INFORMASI'
-    ? ''
-    : (
-      data.TGL_SELESAI || ''
-    );
+        showMessage(
+          result.message || 'Data berhasil disimpan.',
+          'success'
+        );
 
-  document.getElementById(
-    'SAMPAI_INFO'
-  ).checked =
-    data.IZIN_SAMPAI_INFO ===
-    'YA';
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1200);
 
-  document.getElementById(
-    'SESI'
-  ).value =
-    data.SESI || 'SEMUA';
+      } catch (error) {
+        showMessage(error.message, 'error');
 
-  document.getElementById(
-    'TGL_MULAI_PRAKTEK'
-  ).value =
-    data.TGL_MULAI_PRAKTEK || '';
+        button.disabled = false;
+        button.textContent = editMode
+          ? 'Simpan Perubahan'
+          : 'Simpan Informasi';
+      }
+    }
 
-  document.getElementById(
-    'SESI_KEMBALI'
-  ).value =
-    data.SESI_KEMBALI || '';
+    function collectFormData() {
+      const data = {};
 
-  document.getElementById(
-    'JAM_MULAI'
-  ).value =
-    data.JAM_MULAI || '';
+      const fields = [
+        'ID_INFORMASI',
+        'ID_DOKTER',
+        'NAMA_DOKTER',
+        'POLI',
+        'JENIS_INFORMASI',
+        'TGL_MULAI',
+        'SESI',
+        'TGL_MULAI_PRAKTEK',
+        'SESI_KEMBALI',
+        'JAM_MULAI',
+        'JAM_SELESAI',
+        'JAM_MULAI_LAMA',
+        'JAM_SELESAI_LAMA',
+        'KUOTA',
+        'KUOTA_LAMA',
+        'DOKTER_PENGGANTI',
+        'KETERANGAN',
+        'DIINPUT_OLEH'
+      ];
 
-  document.getElementById(
-    'JAM_SELESAI'
-  ).value =
-    data.JAM_SELESAI || '';
+      fields.forEach(field => {
+        const element = document.getElementById(field);
 
-  document.getElementById(
-    'KUOTA'
-  ).value =
-    data.KUOTA || '';
+        if (element) {
+          data[field] = element.value.trim();
+        }
+      });
 
-  document.getElementById(
-    'KETERANGAN'
-  ).value =
-    data.KETERANGAN || '';
+      const finishSelect =
+        document.getElementById('TGL_SELESAI');
 
-  document.getElementById(
-    'DIINPUT_OLEH'
-  ).value =
-    data.DIINPUT_OLEH || '';
+      const finishDate =
+        document.getElementById('TGL_SELESAI_DATE');
 
-  document.getElementById(
-    'doctorHint'
-  ).textContent =
-    'Data sedang diedit.';
+      data.TGL_SELESAI =
+        finishSelect.value === 'SAMPAI_INFORMASI'
+          ? 'SAMPAI_INFORMASI'
+          : finishDate.value;
 
-  changeType();
-
-  toggleSampaiInfo();
-
-}
-
-
-/* ============================================================
-   SUBMIT
-   ============================================================ */
-
-async function submitForm(
-  event
-){
-
-  event.preventDefault();
-
-  const btn =
-    document.getElementById(
-      'btnSave'
-    );
-
-  btn.disabled = true;
-
-  btn.textContent =
-    'Menyimpan...';
-
-  try{
-
-    const payload =
-      collectForm();
-
-    validate(
-      payload
-    );
-
-    payload.aksi =
-      IS_EDIT
+      data.aksi = editMode
         ? 'update_info'
         : 'simpan_info';
 
-    if(IS_EDIT){
-
-      payload.ID_INFORMASI =
-        EDIT_ID;
-
+      return data;
     }
 
-    const response =
-      await fetch(
-        API_URL,
-        {
-          method:'POST',
+    function showMessage(message, type) {
+      const box = document.getElementById('messageBox');
 
-          body:
-            JSON.stringify(
-              payload
-            )
-        }
+      box.textContent = message;
+      box.classList.remove(
+        'hidden',
+        'bg-green-100',
+        'text-green-700',
+        'bg-red-100',
+        'text-red-700'
       );
 
-    const result =
-      await response.json();
-
-    if(
-      result.status !==
-      'success'
-    ){
-
-      throw new Error(
-        result.message ||
-        'Gagal menyimpan data.'
-      );
-
+      if (type === 'success') {
+        box.classList.add('bg-green-100', 'text-green-700');
+      } else {
+        box.classList.add('bg-red-100', 'text-red-700');
+      }
     }
-
-    showAlert(
-      result.message,
-      'success'
-    );
-
-    /*
-     * Beri sedikit waktu supaya
-     * pesan sukses terlihat,
-     * kemudian kembali dashboard.
-     */
-
-    setTimeout(
-      goDashboard,
-      800
-    );
-
-  }catch(err){
-
-    showAlert(
-      err.message,
-      'error'
-    );
-
-    btn.disabled = false;
-
-    btn.textContent =
-      IS_EDIT
-        ? 'Simpan Perubahan'
-        : 'Simpan Informasi';
-
-  }
-
-}
-
-
-/* ============================================================
-   COLLECT FORM
-   ============================================================ */
-
-function collectForm(){
-
-  const sampaiInfo =
-    document.getElementById(
-      'SAMPAI_INFO'
-    ).checked;
-
-  return {
-
-    ID_INFORMASI:
-      EDIT_ID,
-
-    ID_DOKTER:
-      value('ID_DOKTER'),
-
-    NAMA_DOKTER:
-      value('NAMA_DOKTER'),
-
-    POLI:
-      value('POLI'),
-
-    JENIS_INFORMASI:
-      value('JENIS_INFORMASI'),
-
-    TGL_MULAI:
-      value('TGL_MULAI'),
-
-    TGL_SELESAI:
-      sampaiInfo
-        ? 'SAMPAI_INFORMASI'
-        : value('TGL_SELESAI'),
-
-    IZIN_SAMPAI_INFO:
-      sampaiInfo
-        ? 'YA'
-        : 'TIDAK',
-
-    SESI:
-      value('SESI') ||
-      'SEMUA',
-
-    TGL_MULAI_PRAKTEK:
-      value('TGL_MULAI_PRAKTEK'),
-
-    SESI_KEMBALI:
-      value('SESI_KEMBALI'),
-
-    JAM_MULAI:
-      value('JAM_MULAI'),
-
-    JAM_SELESAI:
-      value('JAM_SELESAI'),
-
-    KUOTA:
-      value('KUOTA'),
-
-    KETERANGAN:
-      value('KETERANGAN'),
-
-    DIINPUT_OLEH:
-      value('DIINPUT_OLEH')
-
-  };
-
-}
-
-
-/* ============================================================
-   VALIDASI
-   ============================================================ */
-
-function validate(
-  p
-){
-
-  if(!p.ID_DOKTER){
-
-    throw new Error(
-      'Silakan pilih dokter dari daftar.'
-    );
-
-  }
-
-  if(!p.JENIS_INFORMASI){
-
-    throw new Error(
-      'Jenis informasi wajib dipilih.'
-    );
-
-  }
-
-  if(!p.TGL_MULAI){
-
-    throw new Error(
-      'Tanggal mulai wajib diisi.'
-    );
-
-  }
-
-
-  if(
-    p.JENIS_INFORMASI ===
-    'DOKTER_IZIN'
-  ){
-
-    if(
-      p.TGL_SELESAI !==
-      'SAMPAI_INFORMASI' &&
-      !p.TGL_SELESAI
-    ){
-
-      throw new Error(
-        'Tanggal selesai wajib diisi atau pilih izin sampai informasi selanjutnya.'
-      );
-
-    }
-
-  }
-
-
-  if(
-    p.JENIS_INFORMASI ===
-    'PERUBAHAN_KUOTA'
-  ){
-
-    if(
-      p.KUOTA === ''
-    ){
-
-      throw new Error(
-        'Kuota baru wajib diisi.'
-      );
-
-    }
-
-  }
-
-
-  if(
-    p.JENIS_INFORMASI ===
-    'PERUBAHAN_JAM_PRAKTIK'
-  ){
-
-    if(
-      !p.JAM_MULAI ||
-      !p.JAM_SELESAI
-    ){
-
-      throw new Error(
-        'Jam mulai dan jam selesai wajib diisi.'
-      );
-
-    }
-
-  }
-
-}
-
-
-/* ============================================================
-   HELPERS
-   ============================================================ */
-
-function value(id){
-
-  return document
-    .getElementById(id)
-    .value
-    .trim();
-
-}
-
-
-function goDashboard(){
-
-  window.location.href =
-    DASHBOARD_URL;
-
-}
-
-
-function showAlert(
-  message,
-  type
-){
-
-  document.getElementById(
-    'alert'
-  ).innerHTML =
-
-    `
-    <div class="alert ${type}">
-      ${escapeHtml(message)}
-    </div>
-    `;
-
-}
-
-
-function escapeHtml(value){
-
-  return String(
-    value == null ? '' : value
-  )
-  .replace(/&/g,'&amp;')
-  .replace(/</g,'&lt;')
-  .replace(/>/g,'&gt;')
-  .replace(/"/g,'&quot;')
-  .replace(/'/g,'&#039;');
-
-}
-
-
-function escapeAttr(value){
-
-  return String(value || '')
-    .replace(/\\/g,'\\\\')
-    .replace(/'/g,"\\'");
-
-}
-
-</script>
-
+  </script>
 </body>
 </html>
