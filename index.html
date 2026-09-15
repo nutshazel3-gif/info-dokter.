@@ -1,900 +1,2814 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <base target="_top">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base target="_top"/>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
   <title>Dashboard Informasi Dokter - RS Islam Bontang</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
   <style>
     :root {
       --primary: #0284c7;
       --primary-dark: #0369a1;
-      --primary-navy: #0f172a;
+      --sidebar-dark: #091e36;
+      --sidebar-card: #132a48;
     }
+
     body {
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #f8fafc;
-      color: #1e293b;
+      color: #0f172a;
       -webkit-font-smoothing: antialiased;
     }
+
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
+
     .custom-scrollbar::-webkit-scrollbar-track {
       background: #f1f5f9;
     }
+
     .custom-scrollbar::-webkit-scrollbar-thumb {
       background: #cbd5e1;
       border-radius: 9999px;
     }
-    .modal {
-      background: rgba(15, 23, 42, 0.6);
+
+    .modal-backdrop {
+      background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(4px);
     }
-    .doctor-link {
-      color: #0284c7;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.15s ease;
+
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
     }
-    .doctor-link:hover {
-      color: #0369a1;
-      text-decoration: underline;
-    }
-    .badge-hari-ini {
-      background: #ecfdf5;
-      color: #059669;
-      border: 1px solid #a7f3d0;
-    }
-    .badge-akan-datang {
-      background: #eff6ff;
-      color: #2563eb;
-      border: 1px solid #bfdbfe;
+
+    .material-symbols-fill {
+      font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
     }
   </style>
 </head>
-<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col md:flex-row">
 
-  <!-- ================= SIDEBAR ================= -->
-  <aside class="sidebar w-full md:w-72 bg-slate-900 text-white flex flex-col shrink-0 border-r border-slate-800/80 shadow-xl z-20">
-    <!-- Brand Header -->
-    <div class="p-6 border-b border-slate-800/80">
-      <div class="flex items-center gap-3.5">
-        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-sky-600 via-sky-500 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-sky-500/25 ring-2 ring-white/15">
-          <span class="material-icons-round text-2xl">local_hospital</span>
-        </div>
-        <div>
-          <h1 class="text-base font-bold tracking-tight text-white leading-tight">RS Islam Bontang</h1>
-          <p class="text-[11px] font-medium text-sky-400/90 tracking-wide uppercase mt-0.5">Sistem Pelayanan</p>
-        </div>
-      </div>
-    </div>
+<body class="bg-[#f8fafc] min-h-screen flex flex-col md:flex-row antialiased">
 
-    <!-- Navigation -->
-    <div class="p-4 flex-1 flex flex-col justify-between">
-      <div class="space-y-6">
-        <div>
-          <p class="px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Menu Utama</p>
-          <nav class="space-y-1.5" id="sidebarNav">
-            <button
-              onclick="handleSidebarClick(this, 'SEMUA')"
-              class="menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all text-white bg-sky-600 shadow-md shadow-sky-600/30">
-              <span class="material-icons-round text-lg opacity-90">dashboard</span>
-              <span>Dashboard</span>
-            </button>
-            <button
-              onclick="handleSidebarClick(this, 'DOKTER_IZIN')"
-              class="menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/70 transition-all">
-              <span class="material-icons-round text-lg text-rose-400">event_busy</span>
-              <span>Dokter Izin</span>
-            </button>
-            <button
-              onclick="handleSidebarClick(this, 'PERUBAHAN_KUOTA')"
-              class="menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/70 transition-all">
-              <span class="material-icons-round text-lg text-amber-400">tune</span>
-              <span>Perubahan Kuota</span>
-            </button>
-            <button
-              onclick="handleSidebarClick(this, 'PERUBAHAN_JAM')"
-              class="menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/70 transition-all">
-              <span class="material-icons-round text-lg text-violet-400">schedule</span>
-              <span>Perubahan Jam Praktik</span>
-            </button>
-          </nav>
-        </div>
+<!-- =========================================================
+     SIDEBAR RS ISLAM BONTANG
+========================================================= -->
 
-        <div>
-          <p class="px-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Aplikasi Terkait</p>
-          <a
-            href="perawat.html"
-            class="flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/70 group transition-all">
-            <span class="flex items-center gap-3">
-              <span class="material-icons-round text-lg text-emerald-400">assignment_ind</span>
-              <span>Portal Perawat</span>
-            </span>
-            <span class="material-icons-round text-slate-500 group-hover:translate-x-0.5 text-base transition-transform">arrow_forward</span>
-          </a>
-        </div>
+<aside class="sidebar w-full md:w-72 bg-[#0a1f38] text-white flex flex-col shrink-0 border-r border-[#152e50] shadow-2xl z-20">
+
+  <!-- Brand Header -->
+  <div class="p-6 pb-5">
+    <div class="flex items-center gap-3.5">
+
+      <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0093e9] to-[#80d0c7] flex items-center justify-center text-white shadow-lg shadow-sky-500/25 ring-2 ring-white/20">
+        <span class="material-symbols-outlined text-2xl material-symbols-fill text-white">
+          medical_services
+        </span>
       </div>
 
-      <!-- Footer Info -->
-      <div class="pt-4 border-t border-slate-800/80 mt-6 px-3">
-        <div class="bg-slate-800/50 rounded-xl p-3 border border-slate-800 flex items-center gap-3">
-          <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-          <div class="text-xs text-slate-400">
-            <div class="font-medium text-slate-300">Sistem Online</div>
-            <div class="text-[10px] text-slate-500">Versi Pelayanan 2.0</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
+      <div>
+        <h1 class="text-base font-bold tracking-tight text-white leading-tight">
+          RS Islam Bontang
+        </h1>
 
-  <!-- ================= MAIN CONTENT ================= -->
-  <main class="flex-1 min-w-0 flex flex-col bg-slate-50/70">
-    <!-- Topbar Header -->
-    <header class="bg-white/90 backdrop-blur border-b border-slate-200/90 px-6 py-4 sticky top-0 z-10">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <div class="flex items-center gap-2 text-xs font-semibold text-sky-600 tracking-wide uppercase mb-0.5">
-            <span>Pelayanan Poliklinik</span>
-            <span class="text-slate-300">•</span>
-            <span class="text-slate-500 font-normal">Real-time Sheet Data</span>
-          </div>
-          <h1 class="text-2xl font-bold tracking-tight text-slate-900">
-            Dashboard Informasi Dokter
-          </h1>
-          <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Monitoring izin, perubahan kuota, dan jadwal pelayanan dokter poliklinik
-          </p>
-        </div>
-
-        <!-- Connection & Reload Button -->
-        <div class="flex items-center gap-3 self-start sm:self-center">
-          <div class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 border border-slate-200 shadow-sm" id="statusBadgeWrapper">
-            <span class="w-2 h-2 rounded-full bg-slate-400" id="statusDot"></span>
-            <span id="connectionStatus" class="text-slate-600">
-              Belum tersambung
-            </span>
-          </div>
-
-          <button
-            onclick="loadDashboard()"
-            title="Muat data terbaru"
-            class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-sky-600 to-sky-500 hover:from-sky-700 hover:to-sky-600 px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm shadow-sky-600/25 active:scale-[0.98] transition-all">
-            <span class="material-icons-round text-base">refresh</span>
-            <span>Muat Ulang</span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Container -->
-    <section class="p-6 md:p-8 space-y-6 max-w-7xl">
-      <!-- SUMMARY METRIC CARDS -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
-        <!-- Total -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div class="absolute -right-3 -top-3 w-20 h-20 bg-slate-100 rounded-full opacity-60 group-hover:scale-110 transition-transform pointer-events-none"></div>
-          <div class="flex items-center justify-between mb-3 relative">
-            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Informasi</span>
-            <div class="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center">
-              <span class="material-icons-round text-xl">folder_shared</span>
-            </div>
-          </div>
-          <div class="flex items-baseline gap-2 relative">
-            <div id="totalCount" class="text-3xl font-extrabold text-slate-900 tracking-tight">0</div>
-            <span class="text-xs text-slate-400 font-medium">catatan aktif</span>
-          </div>
-        </div>
-
-        <!-- Berlaku Hari Ini -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div class="absolute -right-3 -top-3 w-20 h-20 bg-emerald-50 rounded-full opacity-70 group-hover:scale-110 transition-transform pointer-events-none"></div>
-          <div class="flex items-center justify-between mb-3 relative">
-            <span class="text-xs font-semibold text-emerald-700 uppercase tracking-wider">Berlaku Hari Ini</span>
-            <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
-              <span class="material-icons-round text-xl">today</span>
-            </div>
-          </div>
-          <div class="flex items-baseline gap-2 relative">
-            <div id="todayCount" class="text-3xl font-extrabold text-emerald-600 tracking-tight">0</div>
-            <span class="text-xs text-emerald-600/70 font-medium">tindakan hari ini</span>
-          </div>
-        </div>
-
-        <!-- Akan Datang -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div class="absolute -right-3 -top-3 w-20 h-20 bg-sky-50 rounded-full opacity-70 group-hover:scale-110 transition-transform pointer-events-none"></div>
-          <div class="flex items-center justify-between mb-3 relative">
-            <span class="text-xs font-semibold text-sky-700 uppercase tracking-wider">Akan Datang</span>
-            <div class="w-9 h-9 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center">
-              <span class="material-icons-round text-xl">event_upcoming</span>
-            </div>
-          </div>
-          <div class="flex items-baseline gap-2 relative">
-            <div id="upcomingCount" class="text-3xl font-extrabold text-sky-600 tracking-tight">0</div>
-            <span class="text-xs text-sky-600/70 font-medium">terjadwal</span>
-          </div>
-        </div>
-
-        <!-- Dokter Izin -->
-        <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-          <div class="absolute -right-3 -top-3 w-20 h-20 bg-rose-50 rounded-full opacity-70 group-hover:scale-110 transition-transform pointer-events-none"></div>
-          <div class="flex items-center justify-between mb-3 relative">
-            <span class="text-xs font-semibold text-rose-700 uppercase tracking-wider">Dokter Izin</span>
-            <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
-              <span class="material-icons-round text-xl">medical_services</span>
-            </div>
-          </div>
-          <div class="flex items-baseline gap-2 relative">
-            <div id="leaveCount" class="text-3xl font-extrabold text-rose-600 tracking-tight">0</div>
-            <span class="text-xs text-rose-600/70 font-medium">tidak praktik</span>
-          </div>
-        </div>
+        <p class="text-[11px] font-medium text-sky-400 tracking-wider uppercase mt-0.5">
+          SISTEM PELAYANAN
+        </p>
       </div>
 
-      <!-- FILTER & SEARCH PANEL -->
-      <div class="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-sm">
-        <div class="flex flex-col md:flex-row md:items-center gap-3">
-          <!-- Search input with icon -->
-          <div class="relative flex-1">
-            <span class="material-icons-round absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xl pointer-events-none">search</span>
-            <input
-              id="searchInput"
-              oninput="renderTable()"
-              type="search"
-              placeholder="Cari nama dokter, spesialisasi, atau poli..."
-              class="w-full bg-slate-50/70 border border-slate-200 rounded-xl pl-11 pr-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all">
-          </div>
-
-          <!-- Filter status dropdown -->
-          <div class="relative sm:w-56">
-            <select
-              id="statusFilter"
-              onchange="renderTable()"
-              class="w-full appearance-none bg-slate-50/70 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-700 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all cursor-pointer">
-              <option value="SEMUA">Semua Status</option>
-              <option value="HARI_INI">Berlaku Hari Ini</option>
-              <option value="AKAN_DATANG">Akan Datang</option>
-            </select>
-            <span class="material-icons-round absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg pointer-events-none">expand_more</span>
-          </div>
-
-          <!-- Filter kategori dropdown -->
-          <div class="relative sm:w-64">
-            <select
-              id="categoryFilter"
-              onchange="syncSidebarActive(); renderTable();"
-              class="w-full appearance-none bg-slate-50/70 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-700 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all cursor-pointer">
-              <option value="SEMUA">Semua Kategori Informasi</option>
-              <option value="DOKTER_IZIN">Dokter Izin</option>
-              <option value="PERUBAHAN_KUOTA">Perubahan Kuota</option>
-              <option value="PERUBAHAN_JAM">Perubahan Jam Praktik</option>
-            </select>
-            <span class="material-icons-round absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg pointer-events-none">expand_more</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- TABLE CARD -->
-      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-        <!-- Table Header Toolbar -->
-        <div class="px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50/50">
-          <div class="flex items-center gap-2.5">
-            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-            <h2 class="font-bold text-slate-800 text-base tracking-tight">
-              Daftar Informasi Pelayanan
-            </h2>
-            <span id="filteredBadge" class="bg-sky-50 text-sky-700 border border-sky-200 text-xs font-bold px-2 py-0.5 rounded-full ml-1">
-              0 Data
-            </span>
-          </div>
-          <span class="text-xs text-slate-400 font-medium flex items-center gap-1">
-            <span class="material-icons-round text-sm">touch_app</span>
-            Klik nama atau tombol detail untuk data lengkap
-          </span>
-        </div>
-
-        <!-- Table Container -->
-        <div class="overflow-x-auto custom-scrollbar">
-          <table class="w-full text-left text-sm border-collapse">
-            <thead>
-              <tr class="bg-slate-50 border-b border-slate-200/70 text-slate-500 text-xs font-bold tracking-wider uppercase">
-                <th class="px-6 py-3.5">Dokter</th>
-                <th class="px-5 py-3.5">Poliklinik</th>
-                <th class="px-5 py-3.5">Jenis Informasi</th>
-                <th class="px-5 py-3.5">Masa Berlaku</th>
-                <th class="px-5 py-3.5">Status</th>
-                <th class="px-6 py-3.5 text-center">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody" class="divide-y divide-slate-100">
-              <tr>
-                <td colspan="6" class="text-center px-4 py-16 text-slate-400">
-                  <div class="flex flex-col items-center justify-center gap-3">
-                    <div class="w-8 h-8 border-2 border-sky-600 border-t-transparent rounded-full animate-spin"></div>
-                    <span class="text-sm font-medium text-slate-500">Memuat data dari server...</span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Table Footnote -->
-        <div class="px-6 py-3.5 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-          <span>Menampilkan pembaruan terkini RS Islam Bontang</span>
-          <span class="flex items-center gap-1">
-            <span class="material-icons-round text-sm text-slate-400">verified</span>
-            Terverifikasi Sistem
-          </span>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- ================= DETAIL MODAL ================= -->
-  <div
-    id="detailModal"
-    class="modal fixed inset-0 hidden items-center justify-center p-4 z-50 transition-opacity">
-    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] shadow-2xl overflow-hidden flex flex-col border border-slate-100 transform transition-transform">
-      <!-- Modal Header -->
-      <div class="flex justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 text-white px-6 py-4.5 border-b border-slate-800">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center border border-sky-500/30">
-            <span class="material-icons-round text-xl">medical_information</span>
-          </div>
-          <div>
-            <h2 class="text-base font-bold text-white tracking-tight">
-              Detail Informasi Dokter
-            </h2>
-            <p class="text-xs text-slate-400 mt-0.5">Informasi lengkap jadwal & ketidakhadiran</p>
-          </div>
-        </div>
-        <button
-          onclick="closeDetail()"
-          class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-500 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
-          <span class="material-icons-round text-lg">close</span>
-        </button>
-      </div>
-
-      <!-- Modal Body -->
-      <div id="detailContent" class="p-6 overflow-y-auto custom-scrollbar flex-1 bg-slate-50/40">
-        <!-- Will be populated dynamically -->
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="border-t border-slate-200/80 px-6 py-4 bg-white flex justify-end items-center gap-2.5">
-        <button
-          onclick="closeDetail()"
-          class="rounded-xl border border-slate-300 hover:bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 transition-colors">
-          Tutup
-        </button>
-        <button
-          id="editButton"
-          class="inline-flex items-center gap-2 rounded-xl bg-sky-600 hover:bg-sky-700 px-4 py-2 text-xs font-semibold text-white shadow-sm shadow-sky-600/20 transition-colors">
-          <span class="material-icons-round text-sm">edit</span>
-          <span>Edit Informasi</span>
-        </button>
-      </div>
     </div>
   </div>
 
-  <!-- ================= LOGIKA SKRIP (FUNGSI TETAP UTUH) ================= -->
-  <script>
-    /*
-      GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
-      Contoh:
-      https://script.google.com/macros/s/XXXXXXXX/exec
-    */
-    const API_URL =
-      localStorage.getItem('rsi_appscript_url') ||
-      'https://script.google.com/macros/s/AKfycbxHNqfVkTu9onyXq3pXVMfApJRRRDOx8AmTThrHMl6TbubtSmz5b_XJxpuHzMbmdG4NKw/exec';
-    let dashboardData = [];
-    let selectedData = null;
 
-    // Tambahan helper UI untuk sidebar sync
-    function handleSidebarClick(element, category) {
-      document.querySelectorAll('#sidebarNav .menu-button').forEach(btn => {
-        btn.className = "menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/70 transition-all";
-      });
-      element.className = "menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-white bg-sky-600 shadow-md shadow-sky-600/30 transition-all";
-      setCategory(category);
+  <!-- Navigation Menu -->
+  <div class="p-4 flex-1 flex flex-col justify-between">
+
+    <div class="space-y-6">
+
+      <div>
+
+        <p class="px-3 text-[11px] font-bold text-slate-400/80 tracking-wider uppercase mb-3">
+          MENU UTAMA
+        </p>
+
+        <nav class="space-y-1.5" id="sidebarNav">
+
+          <button
+            class="menu-button w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl font-semibold text-sm transition-all text-white bg-[#0284c7] shadow-lg shadow-sky-600/30"
+            onclick="handleSidebarClick(this, 'SEMUA')">
+
+            <span class="material-symbols-outlined text-xl">
+              dashboard
+            </span>
+
+            <span>Dashboard</span>
+
+          </button>
+
+
+          <button
+            class="menu-button w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl font-medium text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all"
+            onclick="handleSidebarClick(this, 'DOKTER_IZIN')">
+
+            <span class="material-symbols-outlined text-xl text-rose-400">
+              event_busy
+            </span>
+
+            <span>Dokter Izin</span>
+
+          </button>
+
+
+          <button
+            class="menu-button w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl font-medium text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all"
+            onclick="handleSidebarClick(this, 'PERUBAHAN_KUOTA')">
+
+            <span class="material-symbols-outlined text-xl text-amber-400">
+              tune
+            </span>
+
+            <span>Perubahan Kuota</span>
+
+          </button>
+
+
+          <button
+            class="menu-button w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl font-medium text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all"
+            onclick="handleSidebarClick(this, 'PERUBAHAN_JAM')">
+
+            <span class="material-symbols-outlined text-xl text-sky-300">
+              schedule
+            </span>
+
+            <span>Perubahan Jam Praktik</span>
+
+          </button>
+
+        </nav>
+
+      </div>
+
+
+      <div>
+
+        <p class="px-3 text-[11px] font-bold text-slate-400/80 tracking-wider uppercase mb-3">
+          APLIKASI TERKAIT
+        </p>
+
+        <a
+          class="flex items-center justify-between px-4 py-3 rounded-2xl font-medium text-sm text-slate-300 hover:text-white hover:bg-white/5 group transition-all"
+          href="perawat.html">
+
+          <span class="flex items-center gap-3.5">
+
+            <span class="material-symbols-outlined text-xl text-emerald-400">
+              assignment_ind
+            </span>
+
+            <span>Portal Perawat</span>
+
+          </span>
+
+          <span class="material-symbols-outlined text-slate-500 group-hover:translate-x-1 text-base transition-transform">
+            arrow_forward
+          </span>
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- Footer Info -->
+    <div class="pt-4 border-t border-[#132a48] mt-6 px-1">
+
+      <div class="bg-[#122844] rounded-2xl p-3.5 border border-[#1b3a63] flex items-center gap-3">
+
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></div>
+
+        <div class="text-xs">
+
+          <div class="font-semibold text-slate-200">
+            Sistem Online
+          </div>
+
+          <div class="text-[10px] text-slate-400">
+            Versi Pelayanan 2.0
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="flex-1 min-w-0 flex flex-col bg-[#f8fafc]">
+
+  <!-- Topbar Header -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-6 sm:px-8 py-5 sticky top-0 z-10">
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+      <div>
+
+        <div class="flex items-center gap-2 text-xs font-bold text-[#0284c7] tracking-wider uppercase mb-1">
+
+          <span>PELAYANAN POLIKLINIK</span>
+
+          <span class="text-slate-300">•</span>
+
+          <span class="text-slate-400 font-medium">
+            REAL-TIME SHEET DATA
+          </span>
+
+        </div>
+
+
+        <h1 class="text-2xl sm:text-[26px] font-extrabold tracking-tight text-slate-900">
+          Dashboard Informasi Dokter
+        </h1>
+
+
+        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+          Monitoring izin, perubahan kuota, dan jadwal pelayanan dokter poliklinik
+        </p>
+
+      </div>
+
+
+      <!-- Connection Badge & Action Buttons -->
+      <div class="flex items-center gap-3 self-start sm:self-center">
+
+        <div
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm"
+          id="statusBadgeWrapper">
+
+          <span
+            class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+            id="statusDot">
+          </span>
+
+          <span id="connectionStatus">
+            Terhubung
+          </span>
+
+        </div>
+
+
+        <button
+          class="inline-flex items-center gap-2 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] px-4 py-2 text-xs sm:text-sm font-semibold text-white shadow-sm shadow-sky-600/25 active:scale-[0.98] transition-all"
+          onclick="loadDashboard()"
+          title="Muat data terbaru">
+
+          <span class="material-symbols-outlined text-base">
+            refresh
+          </span>
+
+          <span>Muat Ulang</span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- Main Container Body -->
+  <section class="p-6 sm:p-8 space-y-6 max-w-[1400px] w-full mx-auto">
+
+
+    <!-- =====================================================
+         SUMMARY METRIC CARDS
+    ====================================================== -->
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+
+      <!-- Total Informasi -->
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+
+        <div class="flex items-center justify-between mb-4">
+
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">
+            TOTAL INFORMASI
+          </span>
+
+          <div class="w-10 h-10 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center">
+
+            <span class="material-symbols-outlined text-xl">
+              folder_shared
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="flex items-baseline gap-2.5">
+
+          <div
+            class="text-4xl font-extrabold text-slate-900 tracking-tight"
+            id="totalCount">
+            0
+          </div>
+
+          <span class="text-xs text-slate-400 font-medium">
+            catatan aktif
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Berlaku Hari Ini -->
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+
+        <div class="flex items-center justify-between mb-4">
+
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">
+            BERLAKU HARI INI
+          </span>
+
+          <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+
+            <span class="material-symbols-outlined text-xl">
+              calendar_today
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="flex items-baseline gap-2.5">
+
+          <div
+            class="text-4xl font-extrabold text-emerald-600 tracking-tight"
+            id="todayCount">
+            0
+          </div>
+
+          <span class="text-xs text-emerald-600/70 font-medium">
+            tindakan hari ini
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Akan Datang -->
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+
+        <div class="flex items-center justify-between mb-4">
+
+          <span class="text-xs font-bold text-sky-700 uppercase tracking-wider">
+            AKAN DATANG
+          </span>
+
+          <div class="w-10 h-10 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center">
+
+            <span class="material-symbols-outlined text-xl">
+              event_upcoming
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="flex items-baseline gap-2.5">
+
+          <div
+            class="text-4xl font-extrabold text-[#0284c7] tracking-tight"
+            id="upcomingCount">
+            0
+          </div>
+
+          <span class="text-xs text-sky-600/70 font-medium">
+            terjadwal
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- Dokter Izin -->
+      <div class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+
+        <div class="flex items-center justify-between mb-4">
+
+          <span class="text-xs font-bold text-rose-700 uppercase tracking-wider">
+            DOKTER IZIN
+          </span>
+
+          <div class="w-10 h-10 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center">
+
+            <span class="material-symbols-outlined text-xl">
+              medical_services
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="flex items-baseline gap-2.5">
+
+          <div
+            class="text-4xl font-extrabold text-rose-600 tracking-tight"
+            id="leaveCount">
+            0
+          </div>
+
+          <span class="text-xs text-rose-600/70 font-medium">
+            tidak praktik
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FILTER & SEARCH PANEL
+    ====================================================== -->
+
+    <div class="bg-white rounded-3xl border border-slate-200/80 p-4 sm:p-5 shadow-sm">
+
+      <div class="flex flex-col md:flex-row md:items-center gap-3">
+
+
+        <!-- Search -->
+        <div class="relative flex-1">
+
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl pointer-events-none">
+            search
+          </span>
+
+          <input
+            class="w-full bg-slate-50/70 border border-slate-200 rounded-2xl pl-12 pr-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all"
+            id="searchInput"
+            oninput="renderTable()"
+            placeholder="Cari nama dokter, spesialisasi, atau poli..."
+            type="search"/>
+
+        </div>
+
+
+        <!-- Status -->
+        <div class="relative sm:w-56">
+
+          <select
+            class="w-full appearance-none bg-slate-50/70 border border-slate-200 rounded-2xl px-4 py-3 text-sm text-slate-700 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all cursor-pointer"
+            id="statusFilter"
+            onchange="renderTable()">
+
+            <option value="SEMUA">
+              Semua Status
+            </option>
+
+            <option value="HARI_INI">
+              Berlaku Hari Ini
+            </option>
+
+            <option value="AKAN_DATANG">
+              Akan Datang
+            </option>
+
+          </select>
+
+          <span class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg pointer-events-none">
+            expand_more
+          </span>
+
+        </div>
+
+
+        <!-- Category -->
+        <div class="relative sm:w-64">
+
+          <select
+            class="w-full appearance-none bg-slate-50/70 border border-slate-200 rounded-2xl px-4 py-3 text-sm text-slate-700 font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all cursor-pointer"
+            id="categoryFilter"
+            onchange="syncSidebarActive(); renderTable();">
+
+            <option value="SEMUA">
+              Semua Kategori Informasi
+            </option>
+
+            <option value="DOKTER_IZIN">
+              Dokter Izin
+            </option>
+
+            <option value="PERUBAHAN_KUOTA">
+              Perubahan Kuota
+            </option>
+
+            <option value="PERUBAHAN_JAM">
+              Perubahan Jam Praktik
+            </option>
+
+          </select>
+
+          <span class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg pointer-events-none">
+            expand_more
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         TABLE CARD
+    ====================================================== -->
+
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+
+      <!-- Table Header -->
+      <div class="px-6 py-4.5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50/40">
+
+        <div class="flex items-center gap-2.5">
+
+          <span class="w-2.5 h-2.5 rounded-full bg-[#0284c7]"></span>
+
+          <h2 class="font-bold text-slate-900 text-base tracking-tight">
+            Daftar Informasi Pelayanan
+          </h2>
+
+          <span
+            class="bg-sky-50 text-[#0284c7] border border-sky-200 text-xs font-bold px-2.5 py-0.5 rounded-full ml-1"
+            id="filteredBadge">
+            0 Data
+          </span>
+
+        </div>
+
+
+        <span class="text-xs text-slate-400 font-medium flex items-center gap-1.5">
+
+          <span class="material-symbols-outlined text-sm">
+            touch_app
+          </span>
+
+          Klik nama atau tombol detail untuk data lengkap
+
+        </span>
+
+      </div>
+
+
+      <!-- Table -->
+      <div class="overflow-x-auto custom-scrollbar">
+
+        <table class="w-full text-left text-sm border-collapse">
+
+          <thead>
+
+            <tr class="border-b border-slate-100 text-slate-400 text-[11px] font-bold tracking-wider uppercase bg-slate-50/60">
+
+              <th class="px-6 py-4">
+                DOKTER
+              </th>
+
+              <th class="px-6 py-4">
+                POLIKLINIK
+              </th>
+
+              <th class="px-6 py-4">
+                JENIS INFORMASI
+              </th>
+
+              <th class="px-6 py-4">
+                MASA BERLAKU
+              </th>
+
+              <th class="px-6 py-4">
+                STATUS
+              </th>
+
+              <th class="px-6 py-4 text-center">
+                AKSI
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody
+            class="divide-y divide-slate-100"
+            id="tableBody">
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- Table Footnote -->
+      <div class="px-6 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+
+        <span>
+          Menampilkan pembaruan terkini RS Islam Bontang
+        </span>
+
+        <span class="flex items-center gap-1.5 font-medium text-slate-500">
+
+          <span class="material-symbols-outlined text-sm text-slate-400">
+            verified
+          </span>
+
+          Terverifikasi Sistem
+
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =========================================================
+     DETAIL MODAL
+========================================================= -->
+
+<div
+  class="modal-backdrop fixed inset-0 hidden items-center justify-center p-4 z-50 transition-all duration-200"
+  id="detailModal">
+
+  <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] shadow-2xl overflow-hidden flex flex-col border border-slate-100 transform transition-transform">
+
+
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center bg-[#0a1f38] text-white px-6 py-5 border-b border-slate-800">
+
+      <div class="flex items-center gap-3.5">
+
+        <div class="w-10 h-10 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center border border-sky-500/30">
+
+          <span class="material-symbols-outlined text-xl">
+            medical_information
+          </span>
+
+        </div>
+
+        <div>
+
+          <h2 class="text-base font-bold text-white tracking-tight">
+            Detail Informasi Dokter
+          </h2>
+
+          <p class="text-xs text-slate-400 mt-0.5">
+            Informasi lengkap jadwal & ketidakhadiran poliklinik
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="w-9 h-9 rounded-xl bg-slate-800/80 hover:bg-rose-500/80 text-slate-400 hover:text-white flex items-center justify-center transition-colors"
+        onclick="closeDetail()">
+
+        <span class="material-symbols-outlined text-lg">
+          close
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <!-- Modal Body -->
+    <div
+      class="p-6 overflow-y-auto custom-scrollbar flex-1 bg-[#f8fafc]"
+      id="detailContent">
+    </div>
+
+
+    <!-- Modal Footer -->
+    <div class="border-t border-slate-200/80 px-6 py-4 bg-white flex justify-end items-center gap-3">
+
+      <button
+        class="rounded-xl border border-slate-300 hover:bg-slate-50 px-4 py-2.5 text-xs font-semibold text-slate-700 transition-colors"
+        onclick="closeDetail()">
+        Tutup
+      </button>
+
+
+      <button
+        class="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 px-4 py-2.5 text-xs font-semibold text-slate-700 transition-colors"
+        id="copyBtn"
+        onclick="copyDetailInfo()">
+
+        <span class="material-symbols-outlined text-sm">
+          content_copy
+        </span>
+
+        <span>Salin Info</span>
+
+      </button>
+
+
+      <button
+        class="inline-flex items-center gap-2 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] px-5 py-2.5 text-xs font-semibold text-white shadow-sm shadow-sky-600/25 transition-colors"
+        id="editButton">
+
+        <span class="material-symbols-outlined text-sm">
+          edit
+        </span>
+
+        <span>Edit Informasi</span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     FIREBASE REALTIME DATABASE
+========================================================= -->
+
+<script type="module">
+
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+
+  import {
+    getDatabase,
+    ref,
+    get,
+    onValue
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+
+  import {
+    getAuth,
+    signInAnonymously
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+
+  /*
+   * ==========================================================
+   * FIREBASE CONFIGURATION
+   *
+   * GANTI SEMUA NILAI PLACEHOLDER DENGAN CONFIG ASLI
+   * DARI FIREBASE CONSOLE.
+   * ==========================================================
+   */
+
+  const firebaseConfig = {
+
+    apiKey:
+      "GANTI_DENGAN_API_KEY_ANDA",
+
+    authDomain:
+      "rsi-bontang-portal.firebaseapp.com",
+
+    databaseURL:
+      "https://rsi-bontang-portal-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+    projectId:
+      "rsi-bontang-portal",
+
+    storageBucket:
+      "rsi-bontang-portal.appspot.com",
+
+    messagingSenderId:
+      "GANTI_DENGAN_MESSAGING_SENDER_ID",
+
+    appId:
+      "GANTI_DENGAN_APP_ID"
+  };
+
+
+  let firebaseApp = null;
+  let firebaseAuth = null;
+  let firebaseDb = null;
+
+  let firebaseReady = false;
+  let firebaseListenerStarted = false;
+
+  let firebaseInitialReadFinished = false;
+  let lastFirebaseTimestamp = null;
+
+
+  /*
+   * ==========================================================
+   * LOG FIREBASE
+   * ==========================================================
+   */
+
+  function firebaseLog(message, data = null) {
+
+    if (data !== null) {
+
+      console.log(
+        "[Firebase]",
+        message,
+        data
+      );
+
+    } else {
+
+      console.log(
+        "[Firebase]",
+        message
+      );
+
     }
 
-    function syncSidebarActive() {
-      const cat = document.getElementById('categoryFilter').value;
-      const buttons = document.querySelectorAll('#sidebarNav .menu-button');
-      buttons.forEach(btn => {
-        btn.className = "menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-300 hover:text-white hover:bg-slate-800/70 transition-all";
-      });
-      if (cat === 'SEMUA' && buttons[0]) {
-        buttons[0].className = "menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-white bg-sky-600 shadow-md shadow-sky-600/30 transition-all";
-      } else if (cat === 'DOKTER_IZIN' && buttons[1]) {
-        buttons[1].className = "menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-white bg-sky-600 shadow-md shadow-sky-600/30 transition-all";
-      } else if (cat === 'PERUBAHAN_KUOTA' && buttons[2]) {
-        buttons[2].className = "menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-white bg-sky-600 shadow-md shadow-sky-600/30 transition-all";
-      } else if (cat === 'PERUBAHAN_JAM' && buttons[3]) {
-        buttons[3].className = "menu-button w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-white bg-sky-600 shadow-md shadow-sky-600/30 transition-all";
-      }
+  }
+
+
+  /*
+   * ==========================================================
+   * GET realtime/lastUpdate
+   * ==========================================================
+   */
+
+  async function getFirebaseLastUpdate() {
+
+    if (!firebaseDb) {
+
+      throw new Error(
+        "Firebase Database belum siap."
+      );
+
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      loadDashboard();
-    });
 
-    async function loadDashboard() {
-      const status = document.getElementById('connectionStatus');
-      const dot = document.getElementById('statusDot');
-      const badge = document.getElementById('statusBadgeWrapper');
-      
-      status.textContent = 'Menghubungkan...';
-      if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-ping';
-      if (badge) badge.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-800';
+    const updateRef =
+      ref(
+        firebaseDb,
+        "realtime/lastUpdate"
+      );
 
-      try {
-        const response = await fetch(
-          API_URL + '?aksi=get_dashboard'
-        );
-        const result = await response.json();
-        if (result.status !== 'success') {
-          throw new Error(result.message || 'Gagal mengambil data.');
-        }
-        dashboardData = Array.isArray(result.data)
-          ? result.data
-          : [];
-        updateSummary();
-        renderTable();
 
-        status.textContent = 'Terhubung';
-        if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
-        if (badge) badge.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-800';
-      } catch (error) {
-        console.error(error);
-        status.textContent = 'Gagal tersambung';
-        if (dot) dot.className = 'w-2 h-2 rounded-full bg-rose-500';
-        if (badge) badge.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-rose-50 border border-rose-200 text-rose-800';
+    const snapshot =
+      await get(updateRef);
 
-        // Sediakan fallback data demo agar dashboard tetap estetik dan langsung interaktif saat di-review jika URL sheet sedang offline
-        if (dashboardData.length === 0) {
-          dashboardData = [
-            {
-              ID_INFORMASI: "INF-2026-001",
-              NAMA_DOKTER: "dr. Ahmad Fauzi, Sp.PD",
-              POLI: "Poli Penyakit Dalam",
-              JENIS_INFORMASI: "DOKTER_IZIN",
-              TGL_MULAI: "2026-05-15",
-              TGL_SELESAI: "2026-05-17",
-              STATUS_HARI_INI: "HARI_INI",
-              SESI: "Pagi & Sore",
-              DOKTER_PENGGANTI: "dr. Hendra Kurniawan, Sp.PD",
-              TGL_MULAI_PRAKTEK: "2026-05-18",
-              SESI_KEMBALI: "Pagi",
-              KETERANGAN: "Menghadiri Konferensi Nasional Penyakit Dalam di Surabaya.",
-              INPUT_OLEH: "Admin Pelayanan"
-            },
-            {
-              ID_INFORMASI: "INF-2026-002",
-              NAMA_DOKTER: "dr. Siti Nurhaliza, Sp.A",
-              POLI: "Poli Anak",
-              JENIS_INFORMASI: "PERUBAHAN_KUOTA",
-              TGL_MULAI: "2026-05-15",
-              TGL_SELESAI: "2026-05-15",
-              STATUS_HARI_INI: "HARI_INI",
-              SESI: "Pagi",
-              KUOTA_LAMA: "30",
-              KUOTA: "45",
-              KETERANGAN: "Penambahan kuota karena lonjakan pasien rawat jalan anak.",
-              INPUT_OLEH: "Poliklinik Anak"
-            },
-            {
-              ID_INFORMASI: "INF-2026-003",
-              NAMA_DOKTER: "dr. Budi Santoso, Sp.B",
-              POLI: "Poli Bedah",
-              JENIS_INFORMASI: "PERUBAHAN_JAM",
-              TGL_MULAI: "2026-05-18",
-              TGL_SELESAI: "2026-05-18",
-              STATUS_HARI_INI: "AKAN_DATANG",
-              SESI: "Siang",
-              JAM_MULAI_LAMA: "09:00",
-              JAM_SELESAI_LAMA: "12:00",
-              JAM_MULAI: "13:00",
-              JAM_SELESAI: "16:00",
-              KETERANGAN: "Pergeseran jadwal operasi elektif pagi hari.",
-              INPUT_OLEH: "Admin Bedah"
-            },
-            {
-              ID_INFORMASI: "INF-2026-004",
-              NAMA_DOKTER: "dr. Dewi Kartika, Sp.OG",
-              POLI: "Poli Kebidanan & Kandungan",
-              JENIS_INFORMASI: "DOKTER_IZIN",
-              TGL_MULAI: "2026-05-20",
-              TGL_SELESAI: "2026-05-24",
-              STATUS_HARI_INI: "AKAN_DATANG",
-              SESI: "Semua Sesi",
-              DOKTER_PENGGANTI: "dr. Maya Indah, Sp.OG",
-              TGL_MULAI_PRAKTEK: "2026-05-25",
-              SESI_KEMBALI: "Pagi",
-              KETERANGAN: "Cuti tahunan.",
-              INPUT_OLEH: "Kepegawaian"
-            }
-          ];
-          updateSummary();
-          renderTable();
-          status.textContent = 'Mode Offline Demo';
-          if (badge) badge.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 border border-slate-200 text-slate-700';
+
+    if (snapshot.exists()) {
+
+      const value =
+        snapshot.val();
+
+
+      lastFirebaseTimestamp =
+        value &&
+        value.timestamp
+          ? Number(value.timestamp)
+          : null;
+
+
+      firebaseLog(
+        "Initial lastUpdate:",
+        value
+      );
+
+
+      return value;
+
+    }
+
+
+    firebaseLog(
+      "realtime/lastUpdate belum tersedia."
+    );
+
+
+    return null;
+  }
+
+
+  /*
+   * ==========================================================
+   * FIREBASE REALTIME LISTENER
+   * ==========================================================
+   */
+
+  function startFirebaseListener() {
+
+    if (!firebaseDb) {
+
+      console.warn(
+        "[Firebase] Database belum siap."
+      );
+
+      return;
+    }
+
+
+    if (firebaseListenerStarted) {
+
+      return;
+
+    }
+
+
+    firebaseListenerStarted = true;
+
+
+    const updateRef =
+      ref(
+        firebaseDb,
+        "realtime/lastUpdate"
+      );
+
+
+    onValue(
+
+      updateRef,
+
+      snapshot => {
+
+        if (!snapshot.exists()) {
+
+          firebaseLog(
+            "Tidak ada realtime/lastUpdate."
+          );
+
           return;
         }
 
-        document.getElementById('tableBody').innerHTML = `
-          <tr>
-            <td colspan="6" class="text-center px-4 py-12">
-              <div class="inline-flex flex-col items-center gap-2 text-rose-600 max-w-md">
-                <span class="material-icons-round text-3xl">error_outline</span>
-                <span class="font-semibold text-sm">Koneksi Gagal</span>
-                <span class="text-xs text-slate-500">${escapeHtml(error.message)}</span>
-              </div>
-            </td>
-          </tr>
-        `;
+
+        const value =
+          snapshot.val();
+
+
+        const timestamp =
+          value &&
+          value.timestamp
+            ? Number(value.timestamp)
+            : null;
+
+
+        firebaseLog(
+          "Event realtime:",
+          value
+        );
+
+
+        /*
+         * Abaikan event awal.
+         */
+        if (!firebaseInitialReadFinished) {
+
+          firebaseInitialReadFinished = true;
+
+          if (timestamp) {
+
+            lastFirebaseTimestamp =
+              timestamp;
+
+          }
+
+          return;
+
+        }
+
+
+        /*
+         * Hanya reload jika timestamp berubah.
+         */
+        if (
+          timestamp &&
+          timestamp !== lastFirebaseTimestamp
+        ) {
+
+          lastFirebaseTimestamp =
+            timestamp;
+
+
+          firebaseLog(
+            "PERUBAHAN DATA TERDETEKSI."
+          );
+
+
+          if (
+            typeof window.loadDashboard ===
+            "function"
+          ) {
+
+            window.loadDashboard(true);
+
+          }
+
+        }
+
+      },
+
+      error => {
+
+        console.warn(
+          "[Firebase] Listener error:",
+          error
+        );
+
       }
+
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * INITIALIZE FIREBASE
+   * ==========================================================
+   */
+
+  async function initializeFirebaseRealtime() {
+
+    try {
+
+      firebaseLog(
+        "Memulai Firebase..."
+      );
+
+
+      firebaseApp =
+        initializeApp(
+          firebaseConfig
+        );
+
+
+      firebaseAuth =
+        getAuth(
+          firebaseApp
+        );
+
+
+      firebaseDb =
+        getDatabase(
+          firebaseApp
+        );
+
+
+      /*
+       * Anonymous Authentication
+       */
+      await signInAnonymously(
+        firebaseAuth
+      );
+
+
+      firebaseReady = true;
+
+
+      firebaseLog(
+        "Anonymous Authentication berhasil."
+      );
+
+
+      /*
+       * Baca lastUpdate awal.
+       */
+      await getFirebaseLastUpdate();
+
+
+      firebaseInitialReadFinished =
+        true;
+
+
+      /*
+       * Aktifkan realtime listener.
+       */
+      startFirebaseListener();
+
+
+      firebaseLog(
+        "Firebase Realtime aktif."
+      );
+
+
+    } catch (error) {
+
+      firebaseReady = false;
+
+
+      console.warn(
+        "[Firebase] Tidak dapat terhubung:",
+        error
+      );
+
     }
 
-    function updateSummary() {
-      const today = dashboardData.filter(
-        x => x.STATUS_HARI_INI === 'HARI_INI'
-      ).length;
-      const upcoming = dashboardData.filter(
-        x => x.STATUS_HARI_INI === 'AKAN_DATANG'
-      ).length;
-      const leave = dashboardData.filter(
-        x => x.JENIS_INFORMASI === 'DOKTER_IZIN'
-      ).length;
+  }
 
-      document.getElementById('totalCount').textContent =
-        dashboardData.length;
-      document.getElementById('todayCount').textContent = today;
-      document.getElementById('upcomingCount').textContent = upcoming;
-      document.getElementById('leaveCount').textContent = leave;
-    }
 
-    function setCategory(category) {
-      document.getElementById('categoryFilter').value = category;
-      renderTable();
-    }
+  /*
+   * ==========================================================
+   * EXPOSE FUNCTION KE SCRIPT UTAMA
+   * ==========================================================
+   */
 
-    function getInitials(name) {
-      if (!name) return "DR";
-      const clean = String(name).replace(/^(dr\.?|drs\.?|prof\.?)\s*/i, "").trim();
-      const words = clean.split(/\s+/).filter(Boolean);
-      if (!words.length) return "DR";
-      if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
-      return (words[0][0] + words[1][0]).toUpperCase();
-    }
+  window.getFirebaseLastUpdate =
+    getFirebaseLastUpdate;
 
-    function renderTable() {
-      const keyword =
-        document.getElementById('searchInput').value
-          .toLowerCase()
-          .trim();
-      const status =
-        document.getElementById('statusFilter').value;
-      const category =
-        document.getElementById('categoryFilter').value;
 
-      const filtered = dashboardData.filter(item => {
-        const searchable = [
-          item.NAMA_DOKTER,
-          item.POLI,
-          item.KETERANGAN,
-          item.JENIS_INFORMASI
-        ]
-          .join(' ')
-          .toLowerCase();
+  window.initializeFirebaseRealtime =
+    initializeFirebaseRealtime;
 
-        const matchKeyword =
-          !keyword || searchable.includes(keyword);
-        const matchStatus =
-          status === 'SEMUA' ||
-          item.STATUS_HARI_INI === status;
-        const matchCategory =
-          category === 'SEMUA' ||
-          item.JENIS_INFORMASI === category;
 
-        return matchKeyword && matchStatus && matchCategory;
+  window.firebaseIsReady =
+    () => firebaseReady;
+
+
+  /*
+   * Jalankan setelah DOM siap.
+   */
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializeFirebaseRealtime
+    );
+
+  } else {
+
+    initializeFirebaseRealtime();
+
+  }
+
+</script>
+
+
+<!-- =========================================================
+     APPLICATION LOGIC
+========================================================= -->
+
+<script>
+
+  /*
+   * ==========================================================
+   * GOOGLE APPS SCRIPT API
+   * ==========================================================
+   */
+
+  const API_URL =
+    localStorage.getItem(
+      'rsi_appscript_url'
+    ) ||
+    'https://script.google.com/macros/s/AKfycbxHNqfVkTu9onyXq3pXVMfApJRRRDOx8AmTThrHMl6TbubtSmz5b_XJxpuHzMbmdG4NKw/exec';
+
+
+  /*
+   * ==========================================================
+   * DATA
+   *
+   * Google Sheets adalah sumber data utama.
+   * Tidak menggunakan data dummy.
+   * ==========================================================
+   */
+
+  let dashboardData = [];
+
+  let selectedData = null;
+
+
+  /*
+   * ==========================================================
+   * SIDEBAR
+   * ==========================================================
+   */
+
+  function handleSidebarClick(
+    element,
+    category
+  ) {
+
+    document
+      .querySelectorAll(
+        '#sidebarNav .menu-button'
+      )
+      .forEach(btn => {
+
+        btn.className =
+          "menu-button w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl font-medium text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all";
+
       });
 
-      const badgeCount = document.getElementById('filteredBadge');
-      if (badgeCount) badgeCount.textContent = `${filtered.length} Data`;
 
-      const body = document.getElementById('tableBody');
-      if (!filtered.length) {
-        body.innerHTML = `
-          <tr>
-            <td colspan="6" class="text-center px-4 py-16 text-slate-400">
-              <div class="flex flex-col items-center justify-center gap-2">
-                <span class="material-icons-round text-4xl text-slate-300">search_off</span>
-                <span class="font-semibold text-slate-600 text-sm">Tidak ada data yang sesuai</span>
-                <span class="text-xs text-slate-400">Coba ubah kata kunci pencarian atau reset filter Anda.</span>
-              </div>
-            </td>
-          </tr>
-        `;
-        return;
-      }
+    element.className =
+      "menu-button w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl font-semibold text-sm transition-all text-white bg-[#0284c7] shadow-lg shadow-sky-600/30";
 
-      body.innerHTML = filtered.map(item => {
-        const jenis = jenisLabel(item.JENIS_INFORMASI);
-        const statusLabel =
-          item.STATUS_HARI_INI === 'HARI_INI'
-            ? 'Berlaku Hari Ini'
-            : 'Akan Datang';
-        
-        // Badge styling
-        const statusClass =
-          item.STATUS_HARI_INI === 'HARI_INI'
-            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-            : 'bg-sky-50 text-sky-700 border border-sky-200';
-        const statusDotColor =
-          item.STATUS_HARI_INI === 'HARI_INI'
-            ? 'bg-emerald-500'
-            : 'bg-sky-500';
 
-        // Icon jenis info
-        let jenisBadge = '';
-        if (item.JENIS_INFORMASI === 'DOKTER_IZIN') {
-          jenisBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200"><span class="material-icons-round text-sm">event_busy</span> Dokter Izin</span>`;
-        } else if (item.JENIS_INFORMASI === 'PERUBAHAN_KUOTA') {
-          jenisBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200"><span class="material-icons-round text-sm">tune</span> Perubahan Kuota</span>`;
-        } else if (item.JENIS_INFORMASI === 'PERUBAHAN_JAM') {
-          jenisBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-violet-50 text-violet-700 border border-violet-200"><span class="material-icons-round text-sm">schedule</span> Perubahan Jam</span>`;
-        } else {
-          jenisBadge = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">${escapeHtml(jenis)}</span>`;
-        }
+    setCategory(category);
 
-        const initials = getInitials(item.NAMA_DOKTER);
+  }
 
-        return `
-          <tr class="hover:bg-slate-50/80 transition-colors group">
-            <td class="px-6 py-4">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-100 to-slate-100 text-sky-800 font-bold text-xs flex items-center justify-center border border-sky-200/60 shadow-sm shrink-0">
-                  ${escapeHtml(initials)}
-                </div>
-                <div class="min-w-0">
-                  <button
-                    class="doctor-link text-left block truncate font-bold text-slate-900 group-hover:text-sky-600 transition-colors"
-                    onclick="openDetail('${escapeJs(item.ID_INFORMASI)}')">
-                    ${escapeHtml(item.NAMA_DOKTER || '-')}
-                  </button>
-                  <span class="text-[11px] text-slate-400 block truncate mt-0.5">ID: ${escapeHtml(item.ID_INFORMASI || '-')}</span>
-                </div>
-              </div>
-            </td>
-            <td class="px-5 py-4">
-              <span class="inline-flex items-center gap-1.5 font-medium text-slate-700">
-                <span class="material-icons-round text-sm text-slate-400">domain</span>
-                ${escapeHtml(item.POLI || '-')}
-              </span>
-            </td>
-            <td class="px-5 py-4">
-              ${jenisBadge}
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap text-slate-600">
-              <div class="flex items-center gap-1.5 text-xs font-medium">
-                <span class="material-icons-round text-sm text-slate-400">date_range</span>
-                <span>${formatDate(item.TGL_MULAI)}</span>
-                ${
-                  item.TGL_SELESAI
-                    ? `<span class="text-slate-400 mx-0.5">s/d</span> <span>${formatDate(item.TGL_SELESAI)}</span>`
-                    : ''
-                }
-              </div>
-            </td>
-            <td class="px-5 py-4 whitespace-nowrap">
-              <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${statusClass}">
-                <span class="w-1.5 h-1.5 rounded-full ${statusDotColor}"></span>
-                ${statusLabel}
-              </span>
-            </td>
-            <td class="px-6 py-4 text-center whitespace-nowrap">
-              <button
-                onclick="openDetail('${escapeJs(item.ID_INFORMASI)}')"
-                class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-sky-700 hover:bg-sky-50 hover:border-sky-300 shadow-sm active:scale-95 transition-all">
-                <span class="material-icons-round text-sm">visibility</span>
-                <span>Detail</span>
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join('');
+
+  function syncSidebarActive() {
+
+    const cat =
+      document.getElementById(
+        'categoryFilter'
+      ).value;
+
+
+    const buttons =
+      document.querySelectorAll(
+        '#sidebarNav .menu-button'
+      );
+
+
+    buttons.forEach(btn => {
+
+      btn.className =
+        "menu-button w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl font-medium text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-all";
+
+    });
+
+
+    const activeClass =
+      "menu-button w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl font-semibold text-sm transition-all text-white bg-[#0284c7] shadow-lg shadow-sky-600/30";
+
+
+    if (
+      cat === 'SEMUA' &&
+      buttons[0]
+    ) {
+
+      buttons[0].className =
+        activeClass;
+
     }
 
-    async function openDetail(id) {
-      const item = dashboardData.find(
-        x => String(x.ID_INFORMASI) === String(id)
+    else if (
+      cat === 'DOKTER_IZIN' &&
+      buttons[1]
+    ) {
+
+      buttons[1].className =
+        activeClass;
+
+    }
+
+    else if (
+      cat === 'PERUBAHAN_KUOTA' &&
+      buttons[2]
+    ) {
+
+      buttons[2].className =
+        activeClass;
+
+    }
+
+    else if (
+      cat === 'PERUBAHAN_JAM' &&
+      buttons[3]
+    ) {
+
+      buttons[3].className =
+        activeClass;
+
+    }
+
+  }
+
+
+  /*
+   * ==========================================================
+   * DOM READY
+   * ==========================================================
+   */
+
+  window.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+      updateSummary();
+
+      renderTable();
+
+      loadDashboard();
+
+    }
+  );
+
+
+  /*
+   * ==========================================================
+   * LOAD DASHBOARD
+   *
+   * GOOGLE SHEETS = DATABASE UTAMA
+   * ==========================================================
+   */
+
+  async function loadDashboard(
+    isSilent = false
+  ) {
+
+    const status =
+      document.getElementById(
+        'connectionStatus'
       );
-      if (!item) {
-        alert('Data tidak ditemukan.');
-        return;
+
+
+    const dot =
+      document.getElementById(
+        'statusDot'
+      );
+
+
+    const badge =
+      document.getElementById(
+        'statusBadgeWrapper'
+      );
+
+
+    /*
+     * Loading status hanya saat
+     * user menekan tombol refresh.
+     */
+
+    if (!isSilent) {
+
+      status.textContent =
+        'Menghubungkan...';
+
+
+      if (dot) {
+
+        dot.className =
+          'w-2 h-2 rounded-full bg-amber-500 animate-ping';
+
       }
 
-      selectedData = item;
+
+      if (badge) {
+
+        badge.className =
+          'flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200';
+
+      }
+
+    }
+
+
+    try {
+
+      const response =
+        await fetch(
+
+          API_URL +
+          '?aksi=get_dashboard&_=' +
+          Date.now(),
+
+          {
+            method: 'GET',
+            cache: 'no-store'
+          }
+
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          'HTTP ' +
+          response.status
+        );
+
+      }
+
+
+      const result =
+        await response.json();
+
+
+      if (
+        result.status !==
+        'success'
+      ) {
+
+        throw new Error(
+          result.message ||
+          'Gagal mengambil data.'
+        );
+
+      }
+
+
       /*
-        Data dashboard sudah memuat field detail.
-        Pemanggilan get_info_by_id dilakukan agar data
-        yang tampil tetap mengambil data terbaru dari Sheet.
-      */
-      let detail = item;
-      try {
-        const response = await fetch(
+       * PENTING:
+       * Array kosong tetap diterapkan.
+       */
+
+      if (
+        Array.isArray(
+          result.data
+        )
+      ) {
+
+        dashboardData =
+          result.data;
+
+      } else {
+
+        dashboardData = [];
+
+      }
+
+
+      /*
+       * Update tampilan.
+       */
+
+      updateSummary();
+
+      renderTable();
+
+
+      /*
+       * Status koneksi.
+       */
+
+      status.textContent =
+        'Terhubung';
+
+
+      if (dot) {
+
+        dot.className =
+          'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+
+      }
+
+
+      if (badge) {
+
+        badge.className =
+          'flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm';
+
+      }
+
+
+      console.log(
+        '[Dashboard] Data Google Sheets:',
+        dashboardData.length,
+        'data'
+      );
+
+
+      return true;
+
+
+    } catch (error) {
+
+      console.warn(
+        '[Dashboard] Gagal mengambil data:',
+        error
+      );
+
+
+      /*
+       * Jangan mengganti data yang
+       * sedang tampil jika API gagal.
+       */
+
+      updateSummary();
+
+      renderTable();
+
+
+      status.textContent =
+        'Mode Offline';
+
+
+      if (dot) {
+
+        dot.className =
+          'w-2 h-2 rounded-full bg-amber-500';
+
+      }
+
+
+      if (badge) {
+
+        badge.className =
+          'flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200 shadow-sm';
+
+      }
+
+
+      return false;
+
+    }
+
+  }
+
+
+  /*
+   * ==========================================================
+   * SUMMARY
+   * ==========================================================
+   */
+
+  function updateSummary() {
+
+    const today =
+      dashboardData.filter(
+        x =>
+          x.STATUS_HARI_INI ===
+          'HARI_INI'
+      ).length;
+
+
+    const upcoming =
+      dashboardData.filter(
+        x =>
+          x.STATUS_HARI_INI ===
+          'AKAN_DATANG'
+      ).length;
+
+
+    const leave =
+      dashboardData.filter(
+        x =>
+          x.JENIS_INFORMASI ===
+          'DOKTER_IZIN'
+      ).length;
+
+
+    document.getElementById(
+      'totalCount'
+    ).textContent =
+      dashboardData.length;
+
+
+    document.getElementById(
+      'todayCount'
+    ).textContent =
+      today;
+
+
+    document.getElementById(
+      'upcomingCount'
+    ).textContent =
+      upcoming;
+
+
+    document.getElementById(
+      'leaveCount'
+    ).textContent =
+      leave;
+
+  }
+
+
+  /*
+   * ==========================================================
+   * CATEGORY
+   * ==========================================================
+   */
+
+  function setCategory(
+    category
+  ) {
+
+    document.getElementById(
+      'categoryFilter'
+    ).value =
+      category;
+
+
+    renderTable();
+
+  }
+
+
+  /*
+   * ==========================================================
+   * INITIALS
+   * ==========================================================
+   */
+
+  function getInitials(
+    name
+  ) {
+
+    if (!name) {
+      return "DR";
+    }
+
+
+    const clean =
+      String(name)
+        .replace(
+          /^(dr\.?|dr|prof\.?|drs\.?)\s*/i,
+          ""
+        )
+        .trim();
+
+
+    const words =
+      clean
+        .split(/\s+/)
+        .filter(Boolean);
+
+
+    if (!words.length) {
+      return "DR";
+    }
+
+
+    if (words.length === 1) {
+
+      return words[0]
+        .substring(0, 2)
+        .toUpperCase();
+
+    }
+
+
+    return (
+      words[0][0] +
+      words[1][0]
+    ).toUpperCase();
+
+  }
+
+
+  /*
+   * ==========================================================
+   * RENDER TABLE
+   * ==========================================================
+   */
+
+  function renderTable() {
+
+    const keyword =
+      document.getElementById(
+        'searchInput'
+      ).value
+        .toLowerCase()
+        .trim();
+
+
+    const status =
+      document.getElementById(
+        'statusFilter'
+      ).value;
+
+
+    const category =
+      document.getElementById(
+        'categoryFilter'
+      ).value;
+
+
+    const filtered =
+      dashboardData.filter(
+        item => {
+
+          const searchable = [
+
+            item.NAMA_DOKTER,
+
+            item.POLI,
+
+            item.KETERANGAN,
+
+            item.JENIS_INFORMASI,
+
+            item.ID_INFORMASI
+
+          ]
+            .join(' ')
+            .toLowerCase();
+
+
+          const matchKeyword =
+            !keyword ||
+            searchable.includes(
+              keyword
+            );
+
+
+          const matchStatus =
+            status === 'SEMUA' ||
+            item.STATUS_HARI_INI ===
+              status;
+
+
+          const matchCategory =
+            category === 'SEMUA' ||
+            item.JENIS_INFORMASI ===
+              category;
+
+
+          return (
+            matchKeyword &&
+            matchStatus &&
+            matchCategory
+          );
+
+        }
+      );
+
+
+    const badgeCount =
+      document.getElementById(
+        'filteredBadge'
+      );
+
+
+    if (badgeCount) {
+
+      badgeCount.textContent =
+        `${filtered.length} Data`;
+
+    }
+
+
+    const body =
+      document.getElementById(
+        'tableBody'
+      );
+
+
+    if (!filtered.length) {
+
+      body.innerHTML = `
+
+        <tr>
+
+          <td
+            colspan="6"
+            class="text-center px-4 py-16 text-slate-400">
+
+            <div class="flex flex-col items-center justify-center gap-2">
+
+              <span class="material-symbols-outlined text-4xl text-slate-300">
+                search_off
+              </span>
+
+              <span class="font-semibold text-slate-700 text-sm">
+                Tidak ada informasi yang sesuai
+              </span>
+
+              <span class="text-xs text-slate-400">
+                Silakan sesuaikan kata kunci atau filter pencarian
+              </span>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      `;
+
+      return;
+
+    }
+
+
+    body.innerHTML =
+      filtered
+        .map(item => {
+
+          const statusIsToday =
+            item.STATUS_HARI_INI ===
+            'HARI_INI';
+
+
+          const statusLabel =
+            statusIsToday
+              ? 'Berlaku Hari Ini'
+              : 'Akan Datang';
+
+
+          const statusClass =
+            statusIsToday
+
+              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+
+              : 'bg-sky-50 text-[#0284c7] border-sky-200';
+
+
+          const statusDotColor =
+            statusIsToday
+              ? 'bg-emerald-500'
+              : 'bg-[#0284c7]';
+
+
+          let jenisBadge = '';
+
+
+          if (
+            item.JENIS_INFORMASI ===
+            'DOKTER_IZIN'
+          ) {
+
+            jenisBadge = `
+
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-rose-50 text-rose-600 border border-rose-200/80">
+
+                <span class="material-symbols-outlined text-sm">
+                  event_busy
+                </span>
+
+                Dokter Izin
+
+              </span>
+
+            `;
+
+          }
+
+          else if (
+            item.JENIS_INFORMASI ===
+            'PERUBAHAN_KUOTA'
+          ) {
+
+            jenisBadge = `
+
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200/80">
+
+                <span class="material-symbols-outlined text-sm">
+                  tune
+                </span>
+
+                Perubahan Kuota
+
+              </span>
+
+            `;
+
+          }
+
+          else if (
+            item.JENIS_INFORMASI ===
+            'PERUBAHAN_JAM'
+          ) {
+
+            jenisBadge = `
+
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200/80">
+
+                <span class="material-symbols-outlined text-sm">
+                  schedule
+                </span>
+
+                Perubahan Jam
+
+              </span>
+
+            `;
+
+          }
+
+          else {
+
+            jenisBadge = `
+
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+
+                ${escapeHtml(
+                  jenisLabel(
+                    item.JENIS_INFORMASI
+                  )
+                )}
+
+              </span>
+
+            `;
+
+          }
+
+
+          const initials =
+            getInitials(
+              item.NAMA_DOKTER
+            );
+
+
+          const id =
+            escapeJs(
+              item.ID_INFORMASI
+            );
+
+
+          return `
+
+            <tr class="hover:bg-slate-50/70 transition-colors group">
+
+              <td class="px-6 py-4.5">
+
+                <div class="flex items-center gap-3.5">
+
+                  <div class="w-10 h-10 rounded-2xl bg-sky-50 text-[#0284c7] font-bold text-xs flex items-center justify-center border border-sky-100 shrink-0">
+
+                    ${escapeHtml(
+                      initials
+                    )}
+
+                  </div>
+
+
+                  <div class="min-w-0">
+
+                    <button
+                      class="text-left block truncate font-bold text-[13.5px] text-slate-900 group-hover:text-[#0284c7] transition-colors"
+                      onclick="openDetail('${id}')">
+
+                      ${escapeHtml(
+                        item.NAMA_DOKTER ||
+                        '-'
+                      )}
+
+                    </button>
+
+
+                    <span class="text-[11px] text-slate-400 font-mono block truncate mt-0.5">
+
+                      ID:
+                      ${escapeHtml(
+                        item.ID_INFORMASI ||
+                        '-'
+                      )}
+
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td class="px-6 py-4.5">
+
+                <span class="inline-flex items-center gap-1.5 font-medium text-slate-600 text-xs">
+
+                  <span class="material-symbols-outlined text-sm text-slate-400">
+                    domain
+                  </span>
+
+                  ${escapeHtml(
+                    item.POLI ||
+                    '-'
+                  )}
+
+                </span>
+
+              </td>
+
+
+              <td class="px-6 py-4.5">
+
+                ${jenisBadge}
+
+              </td>
+
+
+              <td class="px-6 py-4.5 whitespace-nowrap text-slate-600">
+
+                <div class="flex items-center gap-1.5 text-xs font-medium">
+
+                  <span class="material-symbols-outlined text-sm text-slate-400">
+                    calendar_today
+                  </span>
+
+                  <span>
+                    ${formatDate(
+                      item.TGL_MULAI
+                    )}
+                  </span>
+
+                  ${
+                    item.TGL_SELESAI
+                      ? `
+                        <span class="text-slate-400 mx-0.5">
+                          s/d
+                        </span>
+
+                        <span>
+                          ${formatDate(
+                            item.TGL_SELESAI
+                          )}
+                        </span>
+                      `
+                      : ''
+                  }
+
+                </div>
+
+              </td>
+
+
+              <td class="px-6 py-4.5 whitespace-nowrap">
+
+                <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold border ${statusClass}">
+
+                  <span class="w-1.5 h-1.5 rounded-full ${statusDotColor}">
+                  </span>
+
+                  ${statusLabel}
+
+                </span>
+
+              </td>
+
+
+              <td class="px-6 py-4.5 text-center whitespace-nowrap">
+
+                <button
+                  onclick="openDetail('${id}')"
+                  class="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-[#0284c7] hover:bg-sky-50 hover:border-sky-300 shadow-sm active:scale-95 transition-all">
+
+                  <span class="material-symbols-outlined text-sm">
+                    visibility
+                  </span>
+
+                  <span>Detail</span>
+
+                </button>
+
+              </td>
+
+            </tr>
+
+          `;
+
+        })
+        .join('');
+
+  }
+
+
+  /*
+   * ==========================================================
+   * OPEN DETAIL
+   * ==========================================================
+   */
+
+  async function openDetail(
+    id
+  ) {
+
+    const item =
+      dashboardData.find(
+        x =>
+          String(
+            x.ID_INFORMASI
+          ) ===
+          String(id)
+      );
+
+
+    if (!item) {
+
+      alert(
+        'Data tidak ditemukan.'
+      );
+
+      return;
+
+    }
+
+
+    selectedData =
+      item;
+
+
+    let detail =
+      item;
+
+
+    try {
+
+      const response =
+        await fetch(
+
           API_URL +
           '?aksi=get_info_by_id&id=' +
-          encodeURIComponent(id)
+          encodeURIComponent(id) +
+          '&_=' +
+          Date.now(),
+
+          {
+            cache: 'no-store'
+          }
+
         );
-        const result = await response.json();
-        if (result.status === 'success' && result.data) {
-          detail = {
-            ...item,
-            ...result.data
-          };
-        }
-      } catch (error) {
-        console.warn('Detail menggunakan data dashboard.', error);
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          'HTTP ' +
+          response.status
+        );
+
       }
 
-      selectedData = detail;
-      document.getElementById('detailContent').innerHTML =
-        createDetailHtml(detail);
 
-      document.getElementById('editButton').onclick = () => {
-        editInformation(detail.ID_INFORMASI);
+      const result =
+        await response.json();
+
+
+      if (
+        result.status ===
+          'success' &&
+        result.data
+      ) {
+
+        detail = {
+          ...item,
+          ...result.data
+        };
+
+      }
+
+    } catch (error) {
+
+      console.warn(
+        'Menggunakan cache modal detail:',
+        error
+      );
+
+    }
+
+
+    selectedData =
+      detail;
+
+
+    document.getElementById(
+      'detailContent'
+    ).innerHTML =
+      createDetailHtml(
+        detail
+      );
+
+
+    document.getElementById(
+      'editButton'
+    ).onclick =
+      () => {
+
+        editInformation(
+          detail.ID_INFORMASI
+        );
+
       };
 
-      const modal = document.getElementById('detailModal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+
+    const modal =
+      document.getElementById(
+        'detailModal'
+      );
+
+
+    modal.classList.remove(
+      'hidden'
+    );
+
+
+    modal.classList.add(
+      'flex'
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * CLOSE DETAIL
+   * ==========================================================
+   */
+
+  function closeDetail() {
+
+    const modal =
+      document.getElementById(
+        'detailModal'
+      );
+
+
+    modal.classList.add(
+      'hidden'
+    );
+
+
+    modal.classList.remove(
+      'flex'
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * CREATE DETAIL HTML
+   * ==========================================================
+   */
+
+  function createDetailHtml(
+    item
+  ) {
+
+    let extra = '';
+
+
+    if (
+      item.JENIS_INFORMASI ===
+      'DOKTER_IZIN'
+    ) {
+
+      extra = `
+
+        ${detailRow(
+          'Dokter Pengganti',
+          item.DOKTER_PENGGANTI ||
+            '-'
+        )}
+
+        ${detailRow(
+          'Mulai Praktik Kembali',
+          formatDate(
+            item.TGL_MULAI_PRAKTEK
+          )
+        )}
+
+        ${detailRow(
+          'Sesi Kembali',
+          item.SESI_KEMBALI ||
+            '-'
+        )}
+
+      `;
+
     }
 
-    function closeDetail() {
-      const modal = document.getElementById('detailModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
+
+    if (
+      item.JENIS_INFORMASI ===
+      'PERUBAHAN_KUOTA'
+    ) {
+
+      extra = `
+
+        ${detailRow(
+          'Kuota Lama',
+          item.KUOTA_LAMA ||
+            '-'
+        )}
+
+        ${detailRow(
+          'Kuota Baru',
+          item.KUOTA ||
+            '-'
+        )}
+
+      `;
+
     }
 
-    function createDetailHtml(item) {
-      let extra = '';
-      if (item.JENIS_INFORMASI === 'DOKTER_IZIN') {
-        extra = `
-          ${detailRow('Dokter Pengganti', item.DOKTER_PENGGANTI || '-')}
-          ${detailRow('Mulai Praktik Kembali', formatDate(item.TGL_MULAI_PRAKTEK))}
-          ${detailRow('Sesi Kembali', item.SESI_KEMBALI || '-')}
-        `;
-      }
-      if (item.JENIS_INFORMASI === 'PERUBAHAN_KUOTA') {
-        extra = `
-          ${detailRow('Kuota Lama', item.KUOTA_LAMA || '-')}
-          ${detailRow('Kuota Baru', item.KUOTA || '-')}
-        `;
-      }
-      if (item.JENIS_INFORMASI === 'PERUBAHAN_JAM') {
-        extra = `
-          ${detailRow(
-            'Jam Lama',
-            joinText(item.JAM_MULAI_LAMA, item.JAM_SELESAI_LAMA)
-          )}
-          ${detailRow(
-            'Jam Baru',
-            joinText(item.JAM_MULAI, item.JAM_SELESAI)
-          )}
-        `;
-      }
 
-      const initials = getInitials(item.NAMA_DOKTER);
+    if (
+      item.JENIS_INFORMASI ===
+      'PERUBAHAN_JAM'
+    ) {
 
-      return `
-        <div class="space-y-4">
-          <!-- Doctor banner preview -->
-          <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm flex items-center gap-4">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-600 to-teal-400 text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">
-              ${escapeHtml(initials)}
-            </div>
-            <div>
-              <div class="text-xs font-semibold text-sky-600 uppercase tracking-wide">
-                ${escapeHtml(jenisLabel(item.JENIS_INFORMASI))}
-              </div>
-              <h3 class="text-base font-bold text-slate-900">
-                ${escapeHtml(item.NAMA_DOKTER || '-')}
-              </h3>
-              <p class="text-xs text-slate-500 mt-0.5">
-                ${escapeHtml(item.POLI || '-')}
-              </p>
-            </div>
-          </div>
+      extra = `
 
-          <!-- Key Value Grid Details -->
-          <div class="bg-white rounded-xl border border-slate-200/80 divide-y divide-slate-100 overflow-hidden text-xs sm:text-sm">
-            ${detailRow('ID Informasi', item.ID_INFORMASI)}
-            ${detailRow('Jenis Informasi', jenisLabel(item.JENIS_INFORMASI))}
-            ${detailRow('Tanggal Mulai', formatDate(item.TGL_MULAI))}
-            ${detailRow(
-              'Tanggal Selesai',
-              item.IZIN_SAMPAI_INFO === 'YA'
-                ? 'Sampai informasi lebih lanjut'
-                : formatDate(item.TGL_SELESAI)
+        ${detailRow(
+          'Jam Lama',
+          joinText(
+            item.JAM_MULAI_LAMA,
+            item.JAM_SELESAI_LAMA
+          )
+        )}
+
+        ${detailRow(
+          'Jam Baru',
+          joinText(
+            item.JAM_MULAI,
+            item.JAM_SELESAI
+          )
+        )}
+
+      `;
+
+    }
+
+
+    const initials =
+      getInitials(
+        item.NAMA_DOKTER
+      );
+
+
+    return `
+
+      <div class="space-y-4">
+
+
+        <!-- Doctor Banner -->
+        <div class="bg-white rounded-2xl p-4.5 border border-slate-200/80 shadow-sm flex items-center gap-4">
+
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#0284c7] to-teal-400 text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">
+
+            ${escapeHtml(
+              initials
             )}
-            ${detailRow('Sesi Pelayanan', item.SESI || 'Semua Sesi')}
-            ${extra}
-            ${detailRow('Keterangan', item.KETERANGAN || '-')}
-            ${detailRow('Diinput Oleh', item.DIINPUT_OLEH || item.INPUT_OLEH || 'Admin')}
+
           </div>
+
+
+          <div>
+
+            <div class="text-[11px] font-bold text-[#0284c7] uppercase tracking-wide">
+
+              ${escapeHtml(
+                jenisLabel(
+                  item.JENIS_INFORMASI
+                )
+              )}
+
+            </div>
+
+
+            <h3 class="text-base font-extrabold text-slate-900 mt-0.5">
+
+              ${escapeHtml(
+                item.NAMA_DOKTER ||
+                '-'
+              )}
+
+            </h3>
+
+
+            <p class="text-xs text-slate-500 font-medium">
+
+              ${escapeHtml(
+                item.POLI ||
+                'Poliklinik RS Islam Bontang'
+              )}
+
+            </p>
+
+          </div>
+
         </div>
-      `;
-    }
 
-    function detailRow(label, value) {
-      return `
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 px-4 py-3 hover:bg-slate-50/50 transition-colors">
-          <div class="font-semibold text-slate-500">
-            ${escapeHtml(label)}
-          </div>
-          <div class="sm:col-span-2 font-medium text-slate-900 break-words">
-            ${escapeHtml(value || '-')}
-          </div>
+
+        <!-- Key Value Grid Details -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 divide-y divide-slate-100 overflow-hidden text-xs sm:text-sm">
+
+          ${detailRow(
+            'ID Informasi',
+            `<span class="font-mono text-slate-600">
+              ${escapeHtml(
+                item.ID_INFORMASI
+              )}
+            </span>`
+          )}
+
+
+          ${detailRow(
+            'Jenis Informasi',
+            jenisLabel(
+              item.JENIS_INFORMASI
+            )
+          )}
+
+
+          ${detailRow(
+            'Tanggal Mulai',
+            formatDate(
+              item.TGL_MULAI
+            )
+          )}
+
+
+          ${detailRow(
+            'Tanggal Selesai',
+
+            item.IZIN_SAMPAI_INFO ===
+            'YA'
+
+              ? `
+                <span class="text-rose-600 font-semibold">
+                  Sampai informasi lebih lanjut
+                </span>
+              `
+
+              : formatDate(
+                  item.TGL_SELESAI
+                )
+          )}
+
+
+          ${detailRow(
+            'Sesi Pelayanan',
+            item.SESI ||
+              'Semua Sesi'
+          )}
+
+
+          ${extra}
+
+
+          ${detailRow(
+            'Keterangan',
+            item.KETERANGAN ||
+              '-'
+          )}
+
+
+          ${detailRow(
+            'Diinput Oleh',
+            item.DIINPUT_OLEH ||
+              item.INPUT_OLEH ||
+              'Admin'
+          )}
+
         </div>
-      `;
+
+      </div>
+
+    `;
+
+  }
+
+
+  /*
+   * ==========================================================
+   * DETAIL ROW
+   * ==========================================================
+   */
+
+  function detailRow(
+    label,
+    value
+  ) {
+
+    return `
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 px-5 py-3 hover:bg-slate-50/60 transition-colors">
+
+        <div class="font-bold text-slate-500 text-xs">
+
+          ${escapeHtml(
+            label
+          )}
+
+        </div>
+
+
+        <div class="sm:col-span-2 font-medium text-slate-800 break-words text-xs sm:text-sm">
+
+          ${value || '-'}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /*
+   * ==========================================================
+   * COPY DETAIL
+   * ==========================================================
+   */
+
+  function copyDetailInfo() {
+
+    if (!selectedData) {
+      return;
     }
 
-    function editInformation(id) {
-      window.location.href =
-        'perawat.html?id=' + encodeURIComponent(id);
+
+    const text =
+
+      `RS ISLAM BONTANG - INFORMASI DOKTER\n` +
+
+      `ID: ${selectedData.ID_INFORMASI}\n` +
+
+      `Dokter: ${selectedData.NAMA_DOKTER}\n` +
+
+      `Status: ${jenisLabel(selectedData.JENIS_INFORMASI)}\n` +
+
+      `Periode: ${formatDate(selectedData.TGL_MULAI)} s/d ${formatDate(selectedData.TGL_SELESAI)}\n` +
+
+      `Keterangan: ${selectedData.KETERANGAN || '-'}`;
+
+
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+
+        const btn =
+          document.getElementById(
+            'copyBtn'
+          );
+
+
+        const originalText =
+          btn.innerHTML;
+
+
+        btn.innerHTML = `
+
+          <span class="material-symbols-outlined text-sm text-emerald-600">
+            done
+          </span>
+
+          <span class="text-emerald-600">
+            Tersalin!
+          </span>
+
+        `;
+
+
+        setTimeout(
+          () => {
+
+            btn.innerHTML =
+              originalText;
+
+          },
+          2000
+        );
+
+      })
+
+      .catch(error => {
+
+        console.warn(
+          'Gagal menyalin:',
+          error
+        );
+
+        alert(
+          'Informasi gagal disalin.'
+        );
+
+      });
+
+  }
+
+
+  /*
+   * ==========================================================
+   * EDIT INFORMATION
+   * ==========================================================
+   */
+
+  function editInformation(
+    id
+  ) {
+
+    if (!id) {
+
+      alert(
+        'ID informasi tidak ditemukan.'
+      );
+
+      return;
+
     }
 
-    function jenisLabel(jenis) {
-      const labels = {
-        DOKTER_IZIN: 'Dokter Izin',
-        PERUBAHAN_KUOTA: 'Perubahan Kuota',
-        PERUBAHAN_JAM: 'Perubahan Jam Praktik'
-      };
-      return labels[jenis] || jenis || '-';
+
+    window.location.href =
+      'perawat.html?id=' +
+      encodeURIComponent(id);
+
+  }
+
+
+  /*
+   * ==========================================================
+   * JENIS LABEL
+   * ==========================================================
+   */
+
+  function jenisLabel(
+    jenis
+  ) {
+
+    const labels = {
+
+      DOKTER_IZIN:
+        'Dokter Izin',
+
+      PERUBAHAN_KUOTA:
+        'Perubahan Kuota',
+
+      PERUBAHAN_JAM:
+        'Perubahan Jam Praktik'
+
+    };
+
+
+    return (
+      labels[jenis] ||
+      jenis ||
+      '-'
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * FORMAT DATE
+   * ==========================================================
+   */
+
+  function formatDate(
+    value
+  ) {
+
+    if (!value) {
+      return '-';
     }
 
-    function formatDate(value) {
-      if (!value) return '-';
-      const text = String(value);
-      if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
-        const [year, month, day] = text.split('-');
-        return `${day}-${month}-${year}`;
-      }
-      return text;
+
+    const text =
+      String(value);
+
+
+    if (
+      /^\d{4}-\d{2}-\d{2}$/.test(
+        text
+      )
+    ) {
+
+      const [
+        year,
+        month,
+        day
+      ] =
+        text.split('-');
+
+
+      return (
+        `${day}-${month}-${year}`
+      );
+
     }
 
-    function joinText(start, end) {
-      if (!start && !end) return '-';
-      return `${start || '-'} sampai ${end || '-'}`;
+
+    return text;
+
+  }
+
+
+  /*
+   * ==========================================================
+   * JOIN TEXT
+   * ==========================================================
+   */
+
+  function joinText(
+    start,
+    end
+  ) {
+
+    if (!start && !end) {
+      return '-';
     }
 
-    function escapeHtml(value) {
-      return String(value ?? '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
 
-    function escapeJs(value) {
-      return String(value ?? '')
-        .replaceAll('\\', '\\\\')
-        .replaceAll("'", "\\'");
-    }
-  </script>
+    return (
+      `${start || '-'} sampai ${end || '-'}`
+    );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * ESCAPE HTML
+   * ==========================================================
+   */
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(
+      value ?? ''
+    )
+
+      .replaceAll(
+        '&',
+        '&amp;'
+      )
+
+      .replaceAll(
+        '<',
+        '&lt;'
+      )
+
+      .replaceAll(
+        '>',
+        '&gt;'
+      )
+
+      .replaceAll(
+        '"',
+        '&quot;'
+      )
+
+      .replaceAll(
+        "'",
+        '&#039;'
+      );
+
+  }
+
+
+  /*
+   * ==========================================================
+   * ESCAPE JAVASCRIPT
+   * ==========================================================
+   */
+
+  function escapeJs(
+    value
+  ) {
+
+    return String(
+      value ?? ''
+    )
+
+      .replaceAll(
+        '\\',
+        '\\\\'
+      )
+
+      .replaceAll(
+        "'",
+        "\\'"
+      );
+
+  }
+
+</script>
+
 </body>
 </html>
