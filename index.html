@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="id"><head>
 <base target="_top"/>
 <meta charset="utf-8"/>
@@ -363,7 +364,6 @@
 </div>
 </section>
 </main>
-
 <!-- Detail Modal with integrated Delete / Batalkan button -->
 <div class="modal-backdrop fixed inset-0 hidden items-center justify-center p-4 z-50 transition-all duration-200" id="detailModal">
 <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] shadow-2xl overflow-hidden flex flex-col border border-slate-100 transform transition-transform">
@@ -418,31 +418,29 @@
 </div>
 </div>
 </div>
-
 <!-- Modal Konfirmasi Hapus -->
 <div class="modal-backdrop fixed inset-0 hidden items-center justify-center p-4 z-50" id="confirmDeleteModal">
-  <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4">
-    <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto">
-      <span class="material-symbols-outlined text-3xl">warning</span>
-    </div>
-    <div>
-      <h3 class="text-base font-bold text-slate-900">Batalkan / Hapus Informasi Ini?</h3>
-      <p class="text-xs text-slate-500 mt-1 leading-relaxed" id="confirmDeleteText">
+<div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 text-center space-y-4">
+<div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto">
+<span class="material-symbols-outlined text-3xl">warning</span>
+</div>
+<div>
+<h3 class="text-base font-bold text-slate-900">Batalkan / Hapus Informasi Ini?</h3>
+<p class="text-xs text-slate-500 mt-1 leading-relaxed" id="confirmDeleteText">
         Data informasi dokter ini akan dihapus dari sistem Google Sheets dan tidak akan ditampilkan lagi di Dashboard.
       </p>
-    </div>
-    <div class="flex gap-3 pt-2">
-      <button class="flex-1 py-2.5 text-xs font-semibold border border-slate-300 rounded-xl hover:bg-slate-50 text-slate-700 transition-colors" onclick="closeConfirmDeleteModal()">
+</div>
+<div class="flex gap-3 pt-2">
+<button class="flex-1 py-2.5 text-xs font-semibold border border-slate-300 rounded-xl hover:bg-slate-50 text-slate-700 transition-colors" onclick="closeConfirmDeleteModal()">
         Kembali
       </button>
-      <button class="flex-1 py-2.5 text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white rounded-xl shadow-md shadow-rose-600/25 transition-colors inline-flex items-center justify-center gap-1.5" id="btnDoDelete" onclick="executeDelete()">
-        <span class="material-symbols-outlined text-sm">delete</span>
-        <span id="btnDeleteLabel">Ya, Hapus</span>
-      </button>
-    </div>
-  </div>
+<button class="flex-1 py-2.5 text-xs font-semibold bg-rose-600 hover:bg-rose-700 text-white rounded-xl shadow-md shadow-rose-600/25 transition-colors inline-flex items-center justify-center gap-1.5" id="btnDoDelete" onclick="executeDelete()">
+<span class="material-symbols-outlined text-sm">delete</span>
+<span id="btnDeleteLabel">Ya, Hapus</span>
+</button>
 </div>
-
+</div>
+</div>
 <script type="module">
   import {
     initializeApp
@@ -663,37 +661,40 @@
     return (words[0][0] + words[1][0]).toUpperCase();
   }
   function formatTimeCleaner(timeStr) {
-    if (!timeStr) return '';
+    if (timeStr === undefined || timeStr === null) return '';
     let s = String(timeStr).trim();
-    if (/^(sampai selesai|selesai)$/i.test(s)) {
+    if (!s || s === '-') return '';
+    if (/(sampai selesai|selesai)/i.test(s)) {
       return 'Selesai';
     }
     s = s.replace(/GMT[+-]\d{2,4}/gi, '').replace(/\([^)]+\)/g, '').trim();
-    const timeMatch = s.match(/(\d{1,2})[:.](\d{2})(?:[:.]\d{2})?/);
-    if (timeMatch) {
-      const hours = timeMatch[1].padStart(2, '0');
-      const mins = timeMatch[2];
+    s = s.replace(/\b\d{4}-\d{2}-\d{2}[T\s]?/gi, '');
+    s = s.replace(/\s*(WITA|WIB|WIT)\s*$/i, '').trim();
+
+    const match = s.match(/(?:T|\s|^)(\d{1,2})[:.](\d{2})(?:[:.]\d{2})?/) || s.match(/(\d{1,2})[:.](\d{2})/);
+    if (match) {
+      const hours = match[1].padStart(2, '0');
+      const mins = match[2];
       return `${hours}.${mins} WITA`;
     }
-    s = s.replace(/\s*(WITA|WIB|WIT)\s*$/i, '').trim();
     if (s.length > 0 && s !== '-') {
       return `${s} WITA`;
     }
-    return s || '-';
+    return '';
   }
   function formatScheduleRange(start, end, isSampaiSelesai) {
     const cleanStart = formatTimeCleaner(start);
-    if (isSampaiSelesai || /^(sampai selesai|selesai)$/i.test(String(end).trim())) {
-      if (!cleanStart || cleanStart === '-') return 'Sampai Selesai';
-      const bareStart = cleanStart.replace(' WITA', '');
+    const cleanEnd = formatTimeCleaner(end);
+    const bareStart = cleanStart ? cleanStart.replace(/\s*WITA$/i, '').trim() : '';
+    const bareEnd = cleanEnd ? cleanEnd.replace(/\s*WITA$/i, '').trim() : '';
+
+    if (isSampaiSelesai || cleanEnd === 'Selesai' || /^(sampai selesai|selesai)$/i.test(String(end || '').trim())) {
+      if (!bareStart || bareStart === '-') return 'Sampai Selesai';
       return `${bareStart} - Selesai WITA`;
     }
-    const cleanEnd = formatTimeCleaner(end);
-    if (!cleanStart && !cleanEnd) return '-';
-    if (cleanStart && !cleanEnd) return cleanStart;
-    if (!cleanStart && cleanEnd) return cleanEnd;
-    const bareStart = cleanStart.replace(' WITA', '');
-    const bareEnd = cleanEnd.replace(' WITA', '');
+    if (!bareStart && !bareEnd) return '-';
+    if (bareStart && !bareEnd) return `${bareStart} WITA`;
+    if (!bareStart && bareEnd) return `${bareEnd} WITA`;
     return `${bareStart} - ${bareEnd} WITA`;
   }
   function renderTable() {
@@ -917,7 +918,7 @@
       const jamBaruFormatted = formatScheduleRange(item.JAM_MULAI, item.JAM_SELESAI, isSampaiSelesaiBaru);
       extra = `
         ${detailRow('Jam Praktik Lama', `<span class="text-slate-600 font-mono">${escapeHtml(jamLamaFormatted)}</span>`)}
-        ${detailRow('Jam Praktik Baru', `<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-50 text-sky-700 font-bold rounded-lg border border-sky-200 font-mono text-xs sm:text-sm"><span class="material-symbols-outlined text-sm">schedule</span>${escapeHtml(jamBaruFormatted)}</span>`)}`;
+        ${detailRow('Jam Praktik Baru', `<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-50 text-sky-700 font-bold rounded-lg border border-sky-200 font-mono text-xs sm:text-sm"><span class="material-symbols-outlined text-sm">schedule</span><span>${escapeHtml(jamBaruFormatted)}</span></span>`)}`;
     }
     const initials = getInitials(item.NAMA_DOKTER);
     return `
