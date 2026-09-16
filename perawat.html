@@ -122,11 +122,15 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+    .modal-backdrop {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+    }
   </style>
 </head>
 <body class="antialiased selection:bg-sky-500 selection:text-white pb-16">
   <!-- HEADER -->
-  <header class="sticky top-0 z-30 border-b border-slate-200/80 glass shadow-xs">
+  <header class="sticky top-0 z-30 border-b border-slate-200/80 glass shadow-sm">
     <div class="max-w-6xl mx-auto px-5 py-3.5 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3.5">
         <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0284c7] to-[#0ea5e9] text-white flex items-center justify-center shadow-md shadow-sky-600/20">
@@ -158,7 +162,7 @@
   <!-- MAIN CONTAINER -->
   <main class="max-w-4xl mx-auto px-5 pt-8">
     <!-- PAGE TITLE BANNER -->
-    <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+    <div class="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 text-[#0284c7] text-xs font-bold mb-2.5 border border-sky-100">
           <span class="w-2 h-2 rounded-full bg-[#0284c7] animate-pulse"></span>
@@ -182,7 +186,7 @@
     <!-- FORM START -->
     <form id="informationForm" class="space-y-6">
       <!-- 1. PILIH JENIS INFORMASI -->
-      <section class="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-5 sm:p-7">
+      <section class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-7">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-base sm:text-lg font-extrabold text-slate-900">
@@ -194,7 +198,6 @@
           </div>
           <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-100">Langkah 1/4</span>
         </div>
-
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
           <!-- Dokter Izin -->
           <button
@@ -211,7 +214,6 @@
               Ketidakhadiran, cuti tahunan, sakit, seminar
             </p>
           </button>
-
           <!-- Perubahan Kuota -->
           <button
             type="button"
@@ -227,7 +229,6 @@
               Penambahan atau pembatasan kapasitas antrean
             </p>
           </button>
-
           <!-- Perubahan Jam -->
           <button
             type="button"
@@ -248,7 +249,7 @@
       </section>
 
       <!-- 2. DATA DOKTER & POLIKLINIK -->
-      <section class="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-5 sm:p-7">
+      <section class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-7">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-base sm:text-lg font-extrabold text-slate-900">
@@ -260,7 +261,6 @@
           </div>
           <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-100">Langkah 2/4</span>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label class="field-label" for="dokterSelect">
@@ -276,7 +276,6 @@
               </span>
             </div>
           </div>
-
           <div>
             <label class="field-label" for="poli">
               <span>Poliklinik Terdaftar</span>
@@ -292,7 +291,7 @@
       </section>
 
       <!-- 3A. DETAIL SECTION: DOKTER IZIN -->
-      <section id="sectionDokterIzin" class="section-tab bg-white rounded-3xl border border-slate-200/80 shadow-xs p-5 sm:p-7">
+      <section id="sectionDokterIzin" class="section-tab bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-7">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
@@ -305,7 +304,6 @@
           </div>
           <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100">Dokter Izin</span>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label class="field-label" for="tglMulaiIzin">
@@ -314,7 +312,6 @@
             </label>
             <input type="date" id="tglMulaiIzin" class="input-field">
           </div>
-
           <div>
             <label class="field-label" for="tglSelesaiIzin">
               <span>Tanggal Selesai Izin</span>
@@ -326,7 +323,6 @@
               <span class="text-xs font-semibold text-slate-600">Sampai informasi lebih lanjut</span>
             </label>
           </div>
-
           <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-100 md:col-span-2">
             <h4 class="text-xs font-bold text-[#0284c7] uppercase tracking-wider mb-3">
               Informasi Kembali Praktik
@@ -353,7 +349,6 @@
               </div>
             </div>
           </div>
-
           <div class="md:col-span-2">
             <label class="field-label" for="sesiIzin">
               <span>Sesi Waktu Izin</span>
@@ -370,7 +365,7 @@
       </section>
 
       <!-- 3B. DETAIL SECTION: PERUBAHAN KUOTA -->
-      <section id="sectionKuota" class="section-tab bg-white rounded-3xl border border-slate-200/80 shadow-xs p-5 sm:p-7">
+      <section id="sectionKuota" class="section-tab bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-7">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
@@ -383,7 +378,6 @@
           </div>
           <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-100">Perubahan Kuota</span>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label class="field-label" for="tglMulaiKuota">
@@ -392,14 +386,12 @@
             </label>
             <input type="date" id="tglMulaiKuota" class="input-field">
           </div>
-
           <div>
             <label class="field-label" for="tglSelesaiKuota">
               <span>Tanggal Selesai (Opsional)</span>
             </label>
             <input type="date" id="tglSelesaiKuota" class="input-field">
           </div>
-
           <div>
             <label class="field-label" for="kuotaLama">
               <span>Kuota Pasien Lama</span>
@@ -417,7 +409,6 @@
             </div>
             <span class="text-[11px] text-slate-500 mt-1 block">Tampil pada kolom Kuota Lama dashboard</span>
           </div>
-
           <div>
             <label class="field-label" for="kuota">
               <span>Kuota Pasien Baru</span>
@@ -436,7 +427,6 @@
             </div>
             <span class="text-[11px] text-slate-500 mt-1 block">Tampil pada kolom Kuota Baru dashboard</span>
           </div>
-
           <div class="md:col-span-2">
             <label class="field-label" for="sesiKuota">
               <span>Sesi Berlaku</span>
@@ -453,7 +443,7 @@
       </section>
 
       <!-- 3C. DETAIL SECTION: PERUBAHAN JAM PRAKTIK -->
-      <section id="sectionJam" class="section-tab bg-white rounded-3xl border border-slate-200/80 shadow-xs p-5 sm:p-7">
+      <section id="sectionJam" class="section-tab bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-7">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
@@ -466,7 +456,6 @@
           </div>
           <span class="text-xs font-bold text-[#0284c7] bg-sky-50 px-2.5 py-1 rounded-full border border-sky-100">Perubahan Jam</span>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label class="field-label" for="tglMulaiJam">
@@ -475,14 +464,12 @@
             </label>
             <input type="date" id="tglMulaiJam" class="input-field">
           </div>
-
           <div>
             <label class="field-label" for="tglSelesaiJam">
               <span>Tanggal Selesai (Opsional)</span>
             </label>
             <input type="date" id="tglSelesaiJam" class="input-field">
           </div>
-
           <div class="md:col-span-2">
             <label class="field-label" for="sesiJam">
               <span>Sesi Pelayanan</span>
@@ -495,7 +482,6 @@
               <option value="MALAM">Sesi Malam</option>
             </select>
           </div>
-
           <!-- Jam Praktik Lama -->
           <div class="md:col-span-2 rounded-2xl bg-slate-50 border border-slate-200/80 p-4.5">
             <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-1.5">
@@ -513,7 +499,6 @@
               </div>
             </div>
           </div>
-
           <!-- Jam Praktik Baru (DENGAN OPSI SAMPAI SELESAI) -->
           <div class="md:col-span-2 rounded-2xl bg-sky-50/70 border border-sky-100 p-4.5">
             <div class="flex items-center justify-between mb-3">
@@ -525,17 +510,15 @@
                 Tampil di Kolom Jam Baru Dashboard
               </span>
             </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="field-label" for="jamMulai">
                   <span>Jam Mulai Baru</span>
                   <span class="required">*</span>
                 </label>
-                <input type="time" id="jamMulai" class="input-field bg-white" required>
+                <input type="time" id="jamMulai" class="input-field bg-white">
                 <span class="text-[11px] text-slate-500 mt-1 block">Format bersih otomatis (cth: 14.00 WITA)</span>
               </div>
-
               <div>
                 <div class="flex items-center justify-between mb-1">
                   <label class="field-label !mb-0" for="jamSelesai">
@@ -573,7 +556,7 @@
       </section>
 
       <!-- 4. INFORMASI TAMBAHAN & PETUGAS -->
-      <section class="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-5 sm:p-7">
+      <section class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-7">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-base sm:text-lg font-extrabold text-slate-900">
@@ -585,7 +568,6 @@
           </div>
           <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-100">Langkah 4/4</span>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <label class="field-label" for="dokterPengganti">
@@ -600,7 +582,6 @@
               </span>
             </div>
           </div>
-
           <div>
             <label class="field-label" for="diinputOleh">
               <span>Diinput Oleh (Nama Petugas Perawat)</span>
@@ -613,7 +594,6 @@
               required
               placeholder="Contoh: Ns. Siti Aminah / Tim Poli">
           </div>
-
           <div class="md:col-span-2">
             <label class="field-label" for="keterangan">
               <span>Keterangan Tambahan / Alasan</span>
@@ -628,22 +608,70 @@
       </section>
 
       <!-- ACTION BUTTONS -->
-      <section class="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-2">
-        <a
-          href="index.html"
-          class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 active:scale-95 transition text-center text-sm shadow-xs">
-          Batalkan & Kembali
-        </a>
-        <button
-          id="submitButton"
-          type="submit"
-          class="w-full sm:w-auto px-8 py-3 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-extrabold shadow-md shadow-sky-600/25 active:scale-98 transition inline-flex items-center justify-center gap-2 text-sm">
-          <span id="submitText">Simpan Informasi Dokter</span>
-          <span id="submitSpinner" class="spinner hidden"></span>
-        </button>
+      <section class="flex flex-col-reverse sm:flex-row items-center justify-between gap-3 pt-2">
+        <!-- Tombol Hapus / Batalkan (Hanya aktif dalam Mode Edit) -->
+        <div>
+          <button
+            type="button"
+            id="deleteBtn"
+            onclick="openDeleteModal()"
+            class="hidden w-full sm:w-auto px-5 py-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold border border-rose-200 transition active:scale-95 inline-flex items-center justify-center gap-2 text-sm shadow-sm">
+            <span class="material-symbols-outlined text-base text-rose-600">delete</span>
+            <span>Hapus / Batalkan Informasi</span>
+          </button>
+        </div>
+        
+        <div class="flex flex-col-reverse sm:flex-row items-center gap-3 w-full sm:w-auto">
+          <a
+            href="index.html"
+            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 active:scale-95 transition text-center text-sm shadow-sm">
+            Batalkan & Kembali
+          </a>
+          <button
+            id="submitButton"
+            type="submit"
+            class="w-full sm:w-auto px-8 py-3 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-extrabold shadow-md shadow-sky-600/25 active:scale-98 transition inline-flex items-center justify-center gap-2 text-sm">
+            <span id="submitText">Simpan Informasi Dokter</span>
+            <span id="submitSpinner" class="spinner hidden"></span>
+          </button>
+        </div>
       </section>
     </form>
   </main>
+
+  <!-- MODAL KONFIRMASI HAPUS -->
+  <div id="deleteModal" class="modal-backdrop fixed inset-0 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 transform transition-all">
+      <div class="flex items-center gap-3.5 mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-2xl">warning</span>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-900 text-base">Hapus Informasi Dokter?</h3>
+          <p class="text-xs text-slate-500">Tindakan ini akan membatalkan status dokter dan menghapusnya dari dashboard.</p>
+        </div>
+      </div>
+      <p class="text-xs text-slate-600 bg-slate-50 p-3.5 rounded-xl border border-slate-200/70 mb-5 leading-relaxed">
+        Apakah Anda yakin ingin menghapus data informasi ini? Data pada Google Sheets akan dibersihkan dan perubahan akan disinkronkan secara realtime ke seluruh sistem.
+      </p>
+      <div class="flex items-center justify-end gap-3">
+        <button
+          type="button"
+          onclick="closeDeleteModal()"
+          class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition">
+          Batal
+        </button>
+        <button
+          type="button"
+          id="confirmDeleteBtn"
+          onclick="executeDelete()"
+          class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-sm shadow-rose-600/25 transition inline-flex items-center gap-1.5">
+          <span id="deleteBtnText">Ya, Hapus Data</span>
+          <span id="deleteSpinner" class="spinner hidden"></span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- TOAST NOTIFICATION -->
   <div id="toast" class="toast fixed top-5 right-5 z-50 max-w-sm w-full">
@@ -661,7 +689,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
     const firebaseConfig = {
       apiKey: "AIzaSyBAZrQZUx98T4rxazaVQELJwHUimHp6P20",
       authDomain: "database-8a4fc.firebaseapp.com",
@@ -671,9 +698,7 @@
       messagingSenderId: "159085690400",
       appId: "1:159085690400:web:c9f6fe8fe58c89688f0645"
     };
-
     let firebaseReady = false;
-
     try {
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
@@ -690,7 +715,6 @@
       window.firebaseReady = false;
       console.warn("[Firebase] perawat tidak aktif:", error);
     }
-
     window.notifyRealtimeUpdate = async function () {
       if (!firebaseReady || !window.rsiFirebaseDb) {
         console.warn("[Firebase] belum siap. Data Sheets tetap tersimpan.");
@@ -717,7 +741,6 @@
     const API_URL =
       localStorage.getItem('rsi_appscript_url') ||
       'https://script.google.com/macros/s/AKfycbxHNqfVkTu9onyXq3pXVMfApJRRRDOx8AmTThrHMl6TbubtSmz5b_XJxpuHzMbmdG4NKw/exec';
-
     let dokterData = [];
     let editId = null;
     let isSampaiSelesaiSelected = false;
@@ -732,6 +755,7 @@
     const submitButton = document.getElementById("submitButton");
     const submitText = document.getElementById("submitText");
     const submitSpinner = document.getElementById("submitSpinner");
+    const deleteBtn = document.getElementById("deleteBtn");
 
     // Init
     document.addEventListener("DOMContentLoaded", async () => {
@@ -746,7 +770,6 @@
       const inputContainer = document.getElementById("containerJamSelesaiInput");
       const noticeContainer = document.getElementById("containerSampaiSelesaiNotice");
       const jamInput = document.getElementById("jamSelesai");
-
       if (checked) {
         inputContainer.classList.add("hidden");
         noticeContainer.classList.remove("hidden");
@@ -774,11 +797,9 @@
       document.querySelectorAll(".type-card").forEach(card => {
         card.classList.toggle("active", card.dataset.type === type);
       });
-
       document.querySelectorAll(".section-tab").forEach(section => {
         section.classList.remove("active");
       });
-
       if (type === "DOKTER_IZIN") {
         document.getElementById("sectionDokterIzin").classList.add("active");
       } else if (type === "PERUBAHAN_KUOTA") {
@@ -811,7 +832,6 @@
     function renderDokterSelect() {
       dokterSelect.innerHTML = `<option value="">-- Pilih Dokter Poliklinik --</option>`;
       dokterPengganti.innerHTML = `<option value="">Tidak ada dokter pengganti</option>`;
-
       dokterData.forEach(dokter => {
         const opt = document.createElement("option");
         opt.value = dokter.id || "";
@@ -837,15 +857,86 @@
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
       if (!id) return;
-
       editId = id;
       pageTitle.textContent = "Edit Informasi Dokter";
       submitText.textContent = "Simpan Perubahan";
       document.getElementById("modeBadge").classList.remove("hidden");
       document.getElementById("modeBadge").classList.add("flex");
       document.getElementById("editIdLabel").textContent = `ID: ${id}`;
-
+      
+      // Tampilkan tombol hapus dalam mode edit
+      if (deleteBtn) {
+        deleteBtn.classList.remove("hidden");
+      }
+      
       await loadInformationById(id);
+    }
+
+    // Modal Hapus Handler
+    function openDeleteModal() {
+      const modal = document.getElementById("deleteModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeDeleteModal() {
+      const modal = document.getElementById("deleteModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    // Eksekusi Hapus / Batalkan Informasi
+    async function executeDelete() {
+      if (!editId) {
+        showToast("Gagal", "ID informasi tidak ditemukan.", "error");
+        return;
+      }
+      const petugas = document.getElementById("diinputOleh").value.trim() || "Perawat";
+      const confirmBtn = document.getElementById("confirmDeleteBtn");
+      const btnText = document.getElementById("deleteBtnText");
+      const spinner = document.getElementById("deleteSpinner");
+
+      confirmBtn.disabled = true;
+      btnText.textContent = "Menghapus...";
+      spinner.classList.remove("hidden");
+
+      try {
+        const payload = {
+          aksi: "hapus_info",
+          ID_INFORMASI: editId,
+          DIHAPUS_OLEH: petugas
+        };
+
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (result.status !== "success") {
+          throw new Error(result.message || "Gagal menghapus informasi.");
+        }
+
+        // Trigger realtime update via Firebase
+        if (typeof window.notifyRealtimeUpdate === "function") {
+          await window.notifyRealtimeUpdate();
+        }
+
+        closeDeleteModal();
+        showToast("Berhasil Dihapus", "Informasi dokter berhasil dibatalkan.", "success");
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1200);
+      } catch (error) {
+        console.error(error);
+        showToast("Gagal Menghapus", error.message || "Terjadi kendala saat menghapus data.", "error");
+        confirmBtn.disabled = false;
+        btnText.textContent = "Ya, Hapus Data";
+        spinner.classList.add("hidden");
+      }
     }
 
     // Ambil Data Info by ID
@@ -870,7 +961,6 @@
     // Pengisian Form Edit
     function fillForm(data) {
       selectJenis(data.JENIS_INFORMASI || "DOKTER_IZIN");
-
       // Dokter
       if (data.ID_DOKTER) {
         dokterSelect.value = data.ID_DOKTER;
@@ -879,31 +969,26 @@
       if (data.POLI) {
         poliInput.value = data.POLI;
       }
-
       if (data.DOKTER_PENGGANTI) {
         dokterPengganti.value = data.DOKTER_PENGGANTI;
       }
       document.getElementById("diinputOleh").value = data.DIINPUT_OLEH || data.INPUT_OLEH || "";
       document.getElementById("keterangan").value = data.KETERANGAN || "";
-
       // Dokter Izin
       document.getElementById("tglMulaiIzin").value = normalizeDate(data.TGL_MULAI);
       document.getElementById("tglSelesaiIzin").value = normalizeDate(data.TGL_SELESAI);
       document.getElementById("tglMulaiPraktek").value = normalizeDate(data.TGL_MULAI_PRAKTEK);
       document.getElementById("sesiKembali").value = data.SESI_KEMBALI || "SEMUA";
       document.getElementById("sesiIzin").value = data.SESI || "SEMUA";
-
       if (data.IZIN_SAMPAI_INFO === "YA") {
         document.getElementById("izinSampaiInfoCheck").checked = true;
       }
-
       // Kuota
       document.getElementById("tglMulaiKuota").value = normalizeDate(data.TGL_MULAI);
       document.getElementById("tglSelesaiKuota").value = normalizeDate(data.TGL_SELESAI);
       document.getElementById("kuotaLama").value = data.KUOTA_LAMA ?? "";
       document.getElementById("kuota").value = data.KUOTA ?? "";
       document.getElementById("sesiKuota").value = data.SESI || "SEMUA";
-
       // Jam
       document.getElementById("tglMulaiJam").value = normalizeDate(data.TGL_MULAI);
       document.getElementById("tglSelesaiJam").value = normalizeDate(data.TGL_SELESAI);
@@ -911,7 +996,6 @@
       document.getElementById("jamMulaiLama").value = normalizeTime(data.JAM_MULAI_LAMA);
       document.getElementById("jamSelesaiLama").value = normalizeTime(data.JAM_SELESAI_LAMA);
       document.getElementById("jamMulai").value = normalizeTime(data.JAM_MULAI);
-
       // Cek apakah jam selesai bernilai "Sampai Selesai"
       const rawSelesai = String(data.JAM_SELESAI || "").toLowerCase();
       if (rawSelesai.includes("sampai") || rawSelesai.includes("selesai")) {
@@ -927,7 +1011,6 @@
     // Submit Handler
     form.addEventListener("submit", async event => {
       event.preventDefault();
-
       if (!jenisInformasi.value) {
         showToast("Perhatian", "Pilih jenis informasi terlebih dahulu.", "error");
         return;
@@ -936,10 +1019,8 @@
         showToast("Perhatian", "Pilih dokter terlebih dahulu.", "error");
         return;
       }
-
       const payload = buildPayload();
       if (!payload) return;
-
       setLoading(true);
       try {
         const aksi = editId ? "update_info" : "simpan_info";
@@ -947,7 +1028,6 @@
         if (editId) {
           payload.ID_INFORMASI = editId;
         }
-
         const response = await fetch(API_URL, {
           method: "POST",
           headers: {
@@ -955,23 +1035,19 @@
           },
           body: JSON.stringify(payload)
         });
-
         const result = await response.json();
         if (result.status !== "success") {
           throw new Error(result.message || "Data gagal disimpan.");
         }
-
         // Trigger realtime Firebase jika terhubung
         if (typeof window.notifyRealtimeUpdate === "function") {
           await window.notifyRealtimeUpdate();
         }
-
         showToast(
           "Berhasil Disimpan",
           editId ? "Perubahan data berhasil diperbarui." : "Informasi pelayanan dokter berhasil dicatat.",
           "success"
         );
-
         setTimeout(() => {
           window.location.href = "index.html";
         }, 1000);
@@ -990,7 +1066,6 @@
         showToast("Perhatian", "Pilih dokter yang valid dari daftar.", "error");
         return null;
       }
-
       const type = jenisInformasi.value;
       let tglMulai = "";
       let tglSelesai = "";
@@ -1039,13 +1114,11 @@
         jamMulai = val("jamMulai");
         jamMulaiLama = val("jamMulaiLama");
         jamSelesaiLama = val("jamSelesaiLama");
-
         if (isSampaiSelesaiSelected || document.getElementById("optSampaiSelesai")?.checked) {
           jamSelesai = "Sampai Selesai";
         } else {
           jamSelesai = val("jamSelesai");
         }
-
         if (!tglMulai) {
           showToast("Perhatian", "Tanggal mulai perubahan jam praktik wajib diisi.", "error");
           return null;
