@@ -639,6 +639,9 @@
       return false;
     }
   }
+  // Firebase listener (module) memanggil window.loadDashboard
+  window.loadDashboard = loadDashboard;
+
   function updateSummary() {
     const today = dashboardData.filter(x => x.STATUS_HARI_INI === 'HARI_INI').length;
     const upcoming = dashboardData.filter(x => x.STATUS_HARI_INI === 'AKAN_DATANG').length;
@@ -660,6 +663,21 @@
     if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
     return (words[0][0] + words[1][0]).toUpperCase();
   }
+
+  /* ===== Helper kuota & jam (versi final) ===== */
+
+  // Kuota 0 tetap tampil sebagai "0", hanya kosong yang jadi "-"
+  function kuotaText(v) {
+    return (v === '' || v === null || v === undefined) ? '-' : String(v);
+  }
+
+  // Tahan terhadap perbedaan nama field jam dari backend
+  function pickJam(item) {
+    const mulai = item.JAM_MULAI ?? item.JAM_MULAI_BARU ?? item.JAM_BARU_MULAI ?? '';
+    const selesai = item.JAM_SELESAI ?? item.JAM_SELESAI_BARU ?? item.JAM_BARU_SELESAI ?? '';
+    return { mulai, selesai };
+  }
+
   function formatTimeCleaner(timeStr) {
     if (timeStr === undefined || timeStr === null) return '';
     let s = String(timeStr).trim();
@@ -767,12 +785,13 @@
       } else if (item.JENIS_INFORMASI === 'PERUBAHAN_KUOTA') {
         dynamicDetailCell = `
           <div class="flex items-center gap-2 text-xs">
-            <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded-lg line-through font-mono font-medium" title="Kuota Lama">${escapeHtml(item.KUOTA_LAMA || '-')}</span>
+            <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded-lg line-through font-mono font-medium" title="Kuota Lama">${escapeHtml(kuotaText(item.KUOTA_LAMA))}</span>
             <span class="material-symbols-outlined text-xs text-slate-400">arrow_forward</span>
-            <span class="px-2.5 py-1 bg-amber-50 text-amber-800 border border-amber-200/80 rounded-lg font-bold font-mono" title="Kuota Baru">${escapeHtml(item.KUOTA || '-')}</span>
+            <span class="px-2.5 py-1 bg-amber-50 text-amber-800 border border-amber-200/80 rounded-lg font-bold font-mono" title="Kuota Baru">${escapeHtml(kuotaText(item.KUOTA))}</span>
           </div>`;
       } else if (item.JENIS_INFORMASI === 'PERUBAHAN_JAM') {
-        const jamFormatted = formatScheduleRange(item.JAM_MULAI, item.JAM_SELESAI, item.JAM_SELESAI_SAMPAI_SELESAI === 'YA');
+        const j = pickJam(item);
+        const jamFormatted = formatScheduleRange(j.mulai, j.selesai, item.JAM_SELESAI_SAMPAI_SELESAI === 'YA');
         dynamicDetailCell = `
           <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-700 bg-sky-50 px-2.5 py-1.5 rounded-xl border border-sky-200/80">
             <span class="material-symbols-outlined text-sm text-sky-600">schedule</span>
@@ -909,13 +928,14 @@
     }
     if (item.JENIS_INFORMASI === 'PERUBAHAN_KUOTA') {
       extra = `
-        ${detailRow('Kuota Lama', `<span class="font-mono text-slate-500 line-through bg-slate-100 px-2 py-0.5 rounded">${escapeHtml(item.KUOTA_LAMA || '-')}</span>`)}
-        ${detailRow('Kuota Baru', `<span class="font-mono font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-lg text-sm">${escapeHtml(item.KUOTA || '-')}</span>`)}`;
+        ${detailRow('Kuota Lama', `<span class="font-mono text-slate-500 line-through bg-slate-100 px-2 py-0.5 rounded">${escapeHtml(kuotaText(item.KUOTA_LAMA))}</span>`)}
+        ${detailRow('Kuota Baru', `<span class="font-mono font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-lg text-sm">${escapeHtml(kuotaText(item.KUOTA))}</span>`)}`;
     }
     if (item.JENIS_INFORMASI === 'PERUBAHAN_JAM') {
+      const j = pickJam(item);
       const jamLamaFormatted = formatScheduleRange(item.JAM_MULAI_LAMA, item.JAM_SELESAI_LAMA, false);
-      const isSampaiSelesaiBaru = item.JAM_SELESAI_SAMPAI_SELESAI === 'YA' || /sampai selesai|selesai/i.test(String(item.JAM_SELESAI || ''));
-      const jamBaruFormatted = formatScheduleRange(item.JAM_MULAI, item.JAM_SELESAI, isSampaiSelesaiBaru);
+      const isSampaiSelesaiBaru = item.JAM_SELESAI_SAMPAI_SELESAI === 'YA' || /sampai selesai|selesai/i.test(String(j.selesai || ''));
+      const jamBaruFormatted = formatScheduleRange(j.mulai, j.selesai, isSampaiSelesaiBaru);
       extra = `
         ${detailRow('Jam Praktik Lama', `<span class="text-slate-600 font-mono">${escapeHtml(jamLamaFormatted)}</span>`)}
         ${detailRow('Jam Praktik Baru', `<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-50 text-sky-700 font-bold rounded-lg border border-sky-200 font-mono text-xs sm:text-sm"><span class="material-symbols-outlined text-sm">schedule</span><span>${escapeHtml(jamBaruFormatted)}</span></span>`)}`;
@@ -936,7 +956,7 @@
           ${detailRow('Jenis Informasi', jenisLabel(item.JENIS_INFORMASI))}
           ${detailRow('Tanggal Mulai', formatDate(item.TGL_MULAI))}
           ${detailRow('Tanggal Selesai', item.IZIN_SAMPAI_INFO === 'YA' ? `<span class="text-rose-600 font-semibold inline-flex items-center gap-1"><span class="material-symbols-outlined text-xs">all_inclusive</span>Sampai informasi lebih lanjut</span>` : formatDate(item.TGL_SELESAI))}
-          ${detailRow('Sesi Pelayanan', item.SESI || 'Semua Sesi')}
+          ${detailRow('Sesi Pelayanan', item.SESI || item.SESI_IZIN || 'Semua Sesi')}
           ${extra}
           ${detailRow('Keterangan', item.KETERANGAN || '-')}
           ${detailRow('Diinput Oleh', item.DIINPUT_OLEH || item.INPUT_OLEH || 'Admin')}
@@ -959,9 +979,10 @@
       if (selectedData.DOKTER_PENGGANTI) extraText += `\nDokter Pengganti: ${selectedData.DOKTER_PENGGANTI}`;
       if (selectedData.TGL_MULAI_PRAKTEK) extraText += `\nMulai Praktik Kembali: ${formatDate(selectedData.TGL_MULAI_PRAKTEK)}`;
     } else if (selectedData.JENIS_INFORMASI === 'PERUBAHAN_KUOTA') {
-      extraText += `\nKuota Lama: ${selectedData.KUOTA_LAMA || '-'}\nKuota Baru: ${selectedData.KUOTA || '-'}`;
+      extraText += `\nKuota Lama: ${kuotaText(selectedData.KUOTA_LAMA)}\nKuota Baru: ${kuotaText(selectedData.KUOTA)}`;
     } else if (selectedData.JENIS_INFORMASI === 'PERUBAHAN_JAM') {
-      const jamBaruFormatted = formatScheduleRange(selectedData.JAM_MULAI, selectedData.JAM_SELESAI, selectedData.JAM_SELESAI_SAMPAI_SELESAI === 'YA');
+      const j = pickJam(selectedData);
+      const jamBaruFormatted = formatScheduleRange(j.mulai, j.selesai, selectedData.JAM_SELESAI_SAMPAI_SELESAI === 'YA');
       extraText += `\nJam Praktik Baru: ${jamBaruFormatted}`;
     }
     const text = `RS ISLAM BONTANG - INFORMASI DOKTER\nID: ${selectedData.ID_INFORMASI}\nDokter: ${selectedData.NAMA_DOKTER}\nPoli: ${selectedData.POLI || '-'}\nStatus: ${jenisLabel(selectedData.JENIS_INFORMASI)}\nPeriode: ${formatDate(selectedData.TGL_MULAI)} s/d ${formatDate(selectedData.TGL_SELESAI)}${extraText}\nKeterangan: ${selectedData.KETERANGAN || '-'}`;
