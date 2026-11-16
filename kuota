@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kuota Pasien - RS. Islam Bontang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<style>
+body{font-family:'Plus Jakarta Sans',sans-serif}.day{display:inline-flex;align-items:center;border-radius:999px;padding:3px 9px;background:#dcfce7;color:#166534;font-size:10px;font-weight:700;margin:1px 3px 1px 0}.table-wrap{overflow-x:auto}tbody tr:hover{background:#f8fffb}
+</style>
+</head>
+<body class="min-h-screen bg-[#f7faf8] text-slate-800">
+<header class="max-w-7xl mx-auto px-5 pt-5 pb-4 flex flex-wrap items-center justify-between gap-3">
+ <div><h1 class="text-xl font-extrabold text-slate-900">Kuota Pasien</h1><p class="text-[11px] text-slate-500 mt-1">Pantau ketersediaan kuota pasien per poli</p></div>
+ <div class="flex items-center gap-2">
+  <a href="perawat.html" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold shadow-sm"><span class="material-symbols-outlined text-sm">medical_services</span>Izin Pelayanan</a>
+  <a href="index.html" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-[11px] font-semibold"><span class="material-symbols-outlined text-sm">undo</span>Kembali</a>
+ </div>
+</header>
+<main class="max-w-7xl mx-auto px-5 pb-10">
+ <section class="bg-white rounded-xl border border-slate-200/80 shadow-sm p-3 mb-4 flex flex-wrap items-center justify-between gap-3">
+  <div class="relative w-full sm:max-w-xs"><span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-base">search</span><input id="search" type="search" placeholder="Cari pelayanan..." class="w-full rounded-lg border-slate-200 pl-9 pr-3 py-2 text-[11px] focus:border-emerald-500 focus:ring-emerald-500"></div>
+  <div class="flex items-center gap-3"><span id="count" class="text-[10px] text-slate-500">Memuat data...</span><button id="refresh" class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 hover:text-emerald-900"><span class="material-symbols-outlined text-sm">refresh</span>Segarkan</button></div>
+ </section>
+ <section class="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+  <div class="table-wrap"><table class="w-full min-w-[850px] text-left border-collapse">
+   <thead class="bg-slate-50 text-[9px] uppercase tracking-wide text-slate-600"><tr><th class="px-4 py-3 w-12">No</th><th class="px-4 py-3">Nama</th><th class="px-4 py-3">Poli</th><th class="px-4 py-3">Waktu Praktik</th><th class="px-4 py-3 text-center">Kuota</th></tr></thead>
+   <tbody id="rows" class="divide-y divide-slate-100 text-[10px]"><tr><td colspan="5" class="px-4 py-10 text-center text-slate-400">Memuat data kuota pasien...</td></tr></tbody>
+  </table></div>
+ </section>
+ <p class="text-[9px] text-slate-400 mt-3">Data bersumber dari sheet DOKTER dan INFORMASI_DOKTER. Jadwal yang belum tersedia di master dokter akan ditandai “Jadwal belum tersedia”.</p>
+</main>
+<div id="error" class="hidden fixed bottom-4 right-4 max-w-sm bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl p-4 shadow-lg"></div>
+<script>
+const API_URL = localStorage.getItem('rsi_appscript_url') || 'https://script.google.com/macros/s/AKfycbxHNqfVkTu9onyXq3pXVMfApJRRRDOx8AmTThrHMl6TbubtSmz5b_XJxpuHzMbmdG4NKw/exec';
+let allRows=[];
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function render(){
+ const q=(document.getElementById('search').value||'').toLocaleLowerCase('id');
+ const data=allRows.filter(x=>[x.NAMA_DOKTER,x.POLI,x.KETERANGAN,x.HARI_PRAKTEK,x.WAKTU_PRAKTEK].join(' ').toLocaleLowerCase('id').includes(q));
+ document.getElementById('count').textContent=data.length+' dokter/pelayanan';
+ const tbody=document.getElementById('rows');
+ if(!data.length){tbody.innerHTML='<tr><td colspan="5" class="px-4 py-10 text-center text-slate-400">Tidak ada data yang cocok.</td></tr>';return;}
+ tbody.innerHTML=data.map((d,i)=>{
+  const days=String(d.HARI_PRAKTEK||'Jadwal belum tersedia').split(/[,;|]+/).map(s=>s.trim()).filter(Boolean);
+  const dayHtml=days.map(s=>'<span class="day">'+esc(s)+'</span>').join('');
+  const waktu=esc(d.WAKTU_PRAKTEK||'Jam belum tersedia');
+  const quota=Number(d.KUOTA);
+  const quotaText=Number.isFinite(quota)?quota:esc(d.KUOTA||0);
+  return `<tr><td class="px-4 py-3.5 text-slate-500 align-top">${i+1}</td><td class="px-4 py-3.5 align-top"><div class="font-bold text-slate-800">${esc(d.NAMA_DOKTER||'-')}</div><div class="text-[9px] text-slate-500 mt-1 leading-relaxed">${esc(d.KETERANGAN||'')}</div></td><td class="px-4 py-3.5 font-medium text-slate-700 align-top">${esc(d.POLI||'-')}</td><td class="px-4 py-3.5 align-top"><div>${dayHtml}</div><div class="mt-1 text-[9px] text-slate-600">${waktu}</div></td><td class="px-4 py-3.5 text-center align-top"><div class="font-bold text-slate-700">${quotaText}</div><div class="text-[9px] text-slate-500">Pasien</div></td></tr>`;
+ }).join('');
+}
+async function load(){
+ const tbody=document.getElementById('rows');
+ document.getElementById('error').classList.add('hidden');
+ if(!API_URL){tbody.innerHTML='<tr><td colspan="5" class="px-4 py-10 text-center text-rose-600">Endpoint API belum diatur. Buka Dashboard, pilih Endpoint API, lalu simpan URL Web App Apps Script.</td></tr>';return;}
+ tbody.innerHTML='<tr><td colspan="5" class="px-4 py-10 text-center text-slate-400">Memuat data kuota pasien...</td></tr>';
+ try{
+  const res=await fetch(API_URL+'?aksi=get_kuota_pasien&_='+Date.now(),{cache:'no-store'});
+  const json=await res.json();
+  if(json.status!=='success')throw new Error(json.message||'Gagal mengambil data.');
+  allRows=Array.isArray(json.data)?json.data:[];render();
+ }catch(e){tbody.innerHTML='<tr><td colspan="5" class="px-4 py-10 text-center text-rose-600">Gagal memuat data kuota pasien.</td></tr>';const box=document.getElementById('error');box.textContent=e.message;box.classList.remove('hidden');}
+}
+document.getElementById('search').addEventListener('input',render);
+document.getElementById('refresh').addEventListener('click',load);
+load();
+</script>
+</body></html>
